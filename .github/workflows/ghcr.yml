@@ -40,10 +40,12 @@ jobs:
           APP=$(grep -oP '(?<=<application>)[^<]+' version.xml | head -1)
           REL=$(grep -oP '(?<=<release>)[^<]+' version.xml | head -1)
           OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO_LC=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           echo "line=${LINE}" >> "$GITHUB_OUTPUT"
           echo "app=${APP}" >> "$GITHUB_OUTPUT"
           echo "rel=${REL}" >> "$GITHUB_OUTPUT"
           echo "owner_lc=${OWNER_LC}" >> "$GITHUB_OUTPUT"
+          echo "repo_lc=${REPO_LC}" >> "$GITHUB_OUTPUT"
 
       - name: Build tarball
         run: |
@@ -60,7 +62,7 @@ jobs:
 
       - name: Publish to GHCR
         env:
-          IMAGE: ghcr.io/${{ steps.meta.outputs.owner_lc }}/${{ github.event.repository.name }}
+          IMAGE: ghcr.io/${{ steps.meta.outputs.owner_lc }}/${{ steps.meta.outputs.repo_lc }}
           REPO_URL: https://github.com/${{ github.repository }}
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | oras login ghcr.io \
@@ -81,5 +83,5 @@ jobs:
           GH_TOKEN: ${{ secrets.OJSBR_PACKAGES_ADMIN_TOKEN }}
         run: |
           gh api --method PUT \
-            "/orgs/${{ github.repository_owner }}/packages/container/${{ github.event.repository.name }}/visibility" \
+            "/orgs/${{ github.repository_owner }}/packages/container/${{ steps.meta.outputs.repo_lc }}/visibility" \
             -f visibility=public
