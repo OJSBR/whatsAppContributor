@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28T00:00:00+00:00\n"
+"PO-Revision-Date: 2026-04-28T00:00:00+00:00\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp Contributor Plugin"
+
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Adds a phone/WhatsApp field (E.164 format) to the contributor (author) form. Configurable as optional or required per journal. Developed by OJSBR (https://ojsbr.com.br)."
+
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Phone / WhatsApp"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International phone number in E.164 format, starting with + and country code. Example: +5511999999999. This number will be used only for contact by the journal editors and will not be publicly disclosed."
+
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Use E.164 format: + followed by country code and number, no spaces or hyphens. Example: +5511999999999."
+
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Set whether the Phone / WhatsApp field is required when registering a contributor for an article in this journal."
+
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Make the Phone / WhatsApp field required for all contributors."
