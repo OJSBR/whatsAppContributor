@@ -4,6 +4,8 @@
 [![Version](https://img.shields.io/badge/version-1.1.0.0-blue)](version.xml)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 
+**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.1.0.0/whatsAppContributor-1.1.0.0.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.0.0.0/whatsAppContributor-1.0.0.0.tar.gz) — or browse all [Releases](../../releases).
+
 A generic plugin for **Open Journal Systems (OJS)** that adds a **Phone / WhatsApp** field
 (E.164 format) to the contributor (author) form. It can be configured as optional or
 required per journal. The number is stored in `author_settings` under the `whatsapp` setting
