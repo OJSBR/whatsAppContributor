@@ -9,12 +9,13 @@
 
 A generic plugin for **Open Journal Systems (OJS)** that adds a **Phone / WhatsApp** field
 (E.164 format) to the contributor (author) form. It can be configured as optional or
-required per journal. The number is stored in `author_settings` under the `whatsapp`
-setting and is shown **only in the editorial forms** — it is not disclosed publicly.
+required per journal. The number is stored in `author_settings` under the `whatsapp` setting
+and is shown **only in the editorial forms** — it is not disclosed publicly.
 
-> Developed and maintained by **[OJSBR](https://ojsbr.com.br)**.
+> **Developed and maintained by [OJSBR](https://ojsbr.com.br).** See the
+> [Credits & authorship](#credits--authorship) section below.
 
-## Compatibility / branches
+## Compatibility & branches
 
 | OJS version | Branch | Plugin release |
 |-------------|--------|----------------|
@@ -33,9 +34,19 @@ In the plugin settings, choose whether the **Phone / WhatsApp** field is **requi
 registering a contributor. Validation: **E.164** (e.g. `+5511999999999`); visible in
 editorial forms only; stored in `author_settings` as `whatsapp`.
 
+## Credits & authorship
+
+- **Developed and maintained by** [OJSBR](https://ojsbr.com.br) — original plugin.
+- Distributed under the **GNU GPL v3**.
+
+## Contributing
+
+Issues and pull requests are welcome. Please target the branch matching the OJS version you
+are working against.
+
 ## License
 
-Distributed under the **GNU GPL v3**. See [`LICENSE`](LICENSE).
+Distributed under the **GNU GPL v3**. See [`LICENSE`](LICENSE) and `docs/COPYING`.
 
 ---
 
@@ -45,18 +56,24 @@ Distributed under the **GNU GPL v3**. See [`LICENSE`](LICENSE).
 > [`stable-3_5_0`](../../tree/stable-3_5_0).
 
 Plugin genérico para o **Open Journal Systems (OJS)** que adiciona um campo
-**Telefone / WhatsApp** (formato E.164) ao formulário de contribuidor (autor).
-Configurável como opcional ou obrigatório por revista. O número é gravado em
-`author_settings` sob a chave `whatsapp` e aparece **apenas nos formulários editoriais**.
+**Telefone / WhatsApp** (formato E.164) ao formulário de contribuidor (autor). Configurável
+como opcional ou obrigatório por revista. O número é gravado em `author_settings` sob a
+chave `whatsapp` e aparece **apenas nos formulários editoriais**.
 
-> Desenvolvido e mantido pela **[OJSBR](https://ojsbr.com.br)**.
+> **Desenvolvido e mantido pela [OJSBR](https://ojsbr.com.br).** Veja a seção
+> [Créditos e autoria](#créditos-e-autoria) abaixo.
 
 ### Instalação
 
 Instale em **Configurações → Website → Plugins → Enviar um novo plugin**, ou extraia a
-pasta em `plugins/generic/` (ficando `plugins/generic/whatsAppContributor/`). Depois ative
-o **WhatsApp Contributor Plugin** na lista de plugins *Genéricos*.
+pasta em `plugins/generic/` (ficando `plugins/generic/whatsAppContributor/`). Depois ative o
+**WhatsApp Contributor Plugin** na lista de plugins *Genéricos*.
+
+### Créditos e autoria
+
+- **Desenvolvido e mantido pela** [OJSBR](https://ojsbr.com.br) — plugin autoral.
+- Distribuído sob a **GNU GPL v3**.
 
 ### Licença
 
-Distribuído sob a **GNU GPL v3**. Veja [`LICENSE`](LICENSE).
+Distribuído sob a **GNU GPL v3**. Veja [`LICENSE`](LICENSE) e `docs/COPYING`.
