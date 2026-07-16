@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: OJSBR <eder@sotto.com.br>\n"
+"Language-Team: OJSBR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-16T00:00:00+00:00\n"
+"PO-Revision-Date: 2026-07-16T00:00:00+00:00\n"
+"Language: it\n"
+
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "Plugin WhatsApp per i collaboratori"
+
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Aggiunge un campo telefono/WhatsApp (formato E.164) al modulo del collaboratore (autore). Configurabile come facoltativo o obbligatorio per ciascuna rivista. Sviluppato da OJSBR (https://ojsbr.com.br)."
+
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefono / WhatsApp"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Numero di telefono internazionale in formato E.164, che inizia con + e il prefisso del paese. Esempio: +5511999999999. Questo numero sarà usato solo per il contatto da parte dei redattori della rivista e non sarà divulgato pubblicamente."
+
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Usa il formato E.164: + seguito dal prefisso del paese e dal numero, senza spazi o trattini. Esempio: +5511999999999."
+
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Stabilisci se il campo Telefono / WhatsApp è obbligatorio durante la registrazione di un collaboratore per un articolo in questa rivista."
+
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Rendere obbligatorio il campo Telefono / WhatsApp per tutti i collaboratori."
