@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: tr\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp Katkıda Bulunan Eklentisi"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Katkıda bulunan (yazar) formuna telefon/WhatsApp alanı (E.164 biçimi) ekler. Her dergi için isteğe bağlı veya zorunlu olarak ayarlanabilir. OJSBR tarafından geliştirilmiştir (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefon / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "E.164 biçiminde, + işareti ve ülke koduyla başlayan uluslararası telefon numarası. Örnek: +5511999999999. Bu numara yalnızca dergi editörlerinin iletişimi için kullanılacak ve herkese açık olarak yayımlanmayacaktır."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "E.164 biçimini kullanın: + işareti, ardından ülke kodu ve numara; boşluk veya tire olmadan. Örnek: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Bu dergideki bir makale için katkıda bulunan kaydedilirken Telefon / WhatsApp alanının zorunlu olup olmadığını belirleyin."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Telefon / WhatsApp alanını tüm katkıda bulunanlar için zorunlu yap."

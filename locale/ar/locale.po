@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: ar\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "ملحق WhatsApp للمساهمين"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "يضيف حقل هاتف/واتساب (بصيغة E.164) إلى نموذج المساهم (المؤلف). ويمكن ضبطه اختيارياً أو إلزامياً لكل مجلة. طوّرته OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "الهاتف / واتساب"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "رقم هاتف دولي بصيغة E.164، يبدأ بعلامة + ورمز الدولة. مثال: ‎+5511999999999. لن يُستخدم هذا الرقم إلا لتواصل محرري المجلة، ولن يُنشر علناً."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "استخدم صيغة E.164: علامة + متبوعة برمز الدولة والرقم، دون مسافات أو شرطات. مثال: ‎+5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "حدّد ما إذا كان حقل الهاتف / واتساب إلزامياً عند تسجيل مساهم في مقال بهذه المجلة."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "جعل حقل الهاتف / واتساب إلزامياً لجميع المساهمين."

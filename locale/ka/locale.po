@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: ka\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp თანაავტორების დანამატი"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "თანაავტორის (ავტორის) ფორმას ამატებს ტელეფონის/WhatsApp-ის ველს (E.164 ფორმატი). თითოეული ჟურნალისთვის შეიძლება იყოს არჩევითი ან სავალდებულო. შემუშავებულია OJSBR-ის მიერ (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "ტელეფონი / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "საერთაშორისო ტელეფონის ნომერი E.164 ფორმატში, იწყება + ნიშნითა და ქვეყნის კოდით. მაგალითი: +5511999999999. ეს ნომერი გამოყენებული იქნება მხოლოდ ჟურნალის რედაქტორების კავშირისთვის და საჯაროდ არ გამოქვეყნდება."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "გამოიყენეთ E.164 ფორმატი: + შემდეგ ქვეყნის კოდი და ნომერი, ჰარეებისა და დეფისების გარეშე. მაგალითი: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "განსაზღვრეთ, სავალდებულოა თუ არა ველი ტელეფონი / WhatsApp ამ ჟურნალის სტატიისთვის თანაავტორის რეგისტრაციისას."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "ველი ტელეფონი / WhatsApp სავალდებულო გახდეს ყველა თანაავტორისთვის."

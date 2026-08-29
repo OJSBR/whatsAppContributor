@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: fa\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "افزونهٔ واتساپ برای مشارکت‌کنندگان"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "فیلد تلفن/واتساپ (قالب E.164) را به فرم مشارکت‌کننده (نویسنده) می‌افزاید. برای هر نشریه می‌توان آن را اختیاری یا الزامی کرد. ساختهٔ OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "تلفن / واتساپ"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "شمارهٔ تلفن بین‌المللی با قالب E.164 که با + و کد کشور آغاز می‌شود. نمونه: +5511999999999. این شماره فقط برای تماس سردبیران نشریه استفاده می‌شود و به‌صورت عمومی منتشر نمی‌شود."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "از قالب E.164 استفاده کنید: علامت + به‌همراه کد کشور و شماره، بدون فاصله یا خط تیره. نمونه: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "تعیین کنید که آیا فیلد تلفن / واتساپ هنگام ثبت مشارکت‌کننده برای مقاله‌ای در این نشریه الزامی است."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "فیلد تلفن / واتساپ برای همهٔ مشارکت‌کنندگان الزامی شود."

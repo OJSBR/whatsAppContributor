@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: az\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp İştirakçı plagini"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "İştirakçı (müəllif) formasına telefon/WhatsApp sahəsi (E.164 formatı) əlavə edir. Hər jurnal üçün ixtiyari və ya məcburi olaraq tənzimlənə bilər. OJSBR tərəfindən hazırlanıb (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefon / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "E.164 formatında beynəlxalq telefon nömrəsi, + işarəsi və ölkə kodu ilə başlayır. Məsələn: +5511999999999. Bu nömrə yalnız jurnal redaktorlarının əlaqəsi üçün istifadə olunacaq və açıq şəkildə yayımlanmayacaq."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "E.164 formatından istifadə edin: + işarəsi, sonra ölkə kodu və nömrə, boşluq və defis olmadan. Məsələn: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Bu jurnalda məqaləyə iştirakçı qeyd edilərkən Telefon / WhatsApp sahəsinin məcburi olub-olmadığını təyin edin."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Telefon / WhatsApp sahəsini bütün iştirakçılar üçün məcburi et."

@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: sv\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp-tillägg för bidragsgivare"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Lägger till ett telefon-/WhatsApp-fält (E.164-format) i formuläret för bidragsgivare (författare). Kan ställas in som frivilligt eller obligatoriskt per tidskrift. Utvecklat av OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefon / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Internationellt telefonnummer i E.164-format som börjar med + och landsnummer. Exempel: +5511999999999. Numret används endast för kontakt från tidskriftens redaktörer och offentliggörs inte."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Använd formatet E.164: + följt av landsnummer och nummer, utan mellanslag eller bindestreck. Exempel: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Ange om fältet Telefon / WhatsApp är obligatoriskt när en bidragsgivare registreras för en artikel i den här tidskriften."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Gör fältet Telefon / WhatsApp obligatoriskt för alla bidragsgivare."

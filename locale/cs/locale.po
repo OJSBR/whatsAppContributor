@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: cs\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "Zásuvný modul WhatsApp pro přispěvatele"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Přidává do formuláře přispěvatele (autora) pole telefon/WhatsApp ve formátu E.164. Lze je nastavit jako volitelné, nebo povinné pro každý časopis. Vyvinuto OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefon / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Mezinárodní telefonní číslo ve formátu E.164, začínající znakem + a předvolbou země. Příklad: +5511999999999. Číslo použijí pouze editoři časopisu pro kontakt a nebude zveřejněno."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Použijte formát E.164: + následované předvolbou země a číslem, bez mezer a pomlček. Příklad: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Nastavte, zda je pole Telefon / WhatsApp povinné při zadávání přispěvatele k článku v tomto časopise."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Nastavit pole Telefon / WhatsApp jako povinné pro všechny přispěvatele."

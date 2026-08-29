@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: fi\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp-tekijälisäosa"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Lisää tekijän (kirjoittajan) lomakkeelle puhelin-/WhatsApp-kentän E.164-muodossa. Sen voi määrittää lehtikohtaisesti valinnaiseksi tai pakolliseksi. Kehittänyt OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Puhelin / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Kansainvälinen puhelinnumero E.164-muodossa, alkaen +-merkillä ja maatunnuksella. Esimerkki: +5511999999999. Numeroa käytetään vain lehden toimittajien yhteydenottoihin, eikä sitä julkaista."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Käytä E.164-muotoa: + sekä maatunnus ja numero, ilman välilyöntejä tai väliviivoja. Esimerkki: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Määritä, onko Puhelin / WhatsApp -kenttä pakollinen, kun tähän lehteen lisätään artikkelin tekijä."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Tee Puhelin / WhatsApp -kentästä pakollinen kaikille tekijöille."

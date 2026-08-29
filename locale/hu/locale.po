@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: hu\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp közreműködő bővítmény"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Telefon/WhatsApp mezőt (E.164 formátum) ad a közreműködői (szerzői) űrlaphoz. Folyóiratonként beállítható választhatóként vagy kötelezőként. Fejlesztette az OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefon / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Nemzetközi telefonszám E.164 formátumban, + jellel és országhívószámmal kezdve. Példa: +5511999999999. A számot kizárólag a folyóirat szerkesztői használják kapcsolatfelvételre, és nem lesz nyilvános."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Használja az E.164 formátumot: + jel, országhívószám és a szám, szóközök és kötőjelek nélkül. Példa: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Adja meg, kötelező-e a Telefon / WhatsApp mező, amikor közreműködőt rögzítenek e folyóirat egy cikkéhez."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "A Telefon / WhatsApp mező kötelezővé tétele minden közreműködő számára."

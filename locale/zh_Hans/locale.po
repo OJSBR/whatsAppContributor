@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: zh_Hans\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "WhatsApp 贡献者插件"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "在贡献者（作者）表单中添加电话/WhatsApp 字段（E.164 格式）。可按期刊设置为可选或必填。由 OJSBR 开发（https://ojsbr.com.br）。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "电话 / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "E.164 格式的国际电话号码，以 + 和国家/地区代码开头。例如：+5511999999999。该号码仅供期刊编辑联系使用，不会公开。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "请使用 E.164 格式：+ 号后接国家/地区代码和号码，不加空格或连字符。例如：+5511999999999。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "设置在本期刊为文章登记贡献者时，“电话 / WhatsApp”字段是否必填。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "将“电话 / WhatsApp”字段设为所有贡献者必填。"

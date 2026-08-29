@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: vi\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "Trình cắm WhatsApp cho người đóng góp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Thêm trường điện thoại/WhatsApp (định dạng E.164) vào biểu mẫu người đóng góp (tác giả). Có thể đặt là tùy chọn hoặc bắt buộc cho từng tạp chí. Do OJSBR phát triển (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Điện thoại / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Số điện thoại quốc tế theo định dạng E.164, bắt đầu bằng dấu + và mã quốc gia. Ví dụ: +5511999999999. Số này chỉ được biên tập viên tạp chí dùng để liên hệ và sẽ không được công bố."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Dùng định dạng E.164: dấu + kèm mã quốc gia và số, không dấu cách hay gạch nối. Ví dụ: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Xác định xem trường Điện thoại / WhatsApp có bắt buộc khi đăng ký người đóng góp cho một bài báo trong tạp chí này hay không."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Bắt buộc trường Điện thoại / WhatsApp cho mọi người đóng góp."

@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: el\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "Πρόσθετο WhatsApp για συνεισφέροντες"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Προσθέτει πεδίο τηλεφώνου/WhatsApp (μορφή E.164) στη φόρμα συνεισφέροντα (συγγραφέα). Ρυθμίζεται ως προαιρετικό ή υποχρεωτικό ανά περιοδικό. Αναπτύχθηκε από την OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Τηλέφωνο / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Διεθνής αριθμός τηλεφώνου σε μορφή E.164, που αρχίζει με + και τον κωδικό χώρας. Παράδειγμα: +5511999999999. Ο αριθμός θα χρησιμοποιηθεί μόνο για επικοινωνία από τους επιμελητές του περιοδικού και δεν θα δημοσιοποιηθεί."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Χρησιμοποιήστε τη μορφή E.164: + ακολουθούμενο από τον κωδικό χώρας και τον αριθμό, χωρίς κενά ή παύλες. Παράδειγμα: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Ορίστε αν το πεδίο Τηλέφωνο / WhatsApp είναι υποχρεωτικό κατά την καταχώριση συνεισφέροντα σε άρθρο αυτού του περιοδικού."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Να είναι υποχρεωτικό το πεδίο Τηλέφωνο / WhatsApp για όλους τους συνεισφέροντες."

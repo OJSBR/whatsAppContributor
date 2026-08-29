@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: uk\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "Модуль WhatsApp для учасників"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Додає поле телефону/WhatsApp (формат E.164) до форми учасника (автора). Налаштовується як необов'язкове або обов'язкове для кожного журналу. Розроблено OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Телефон / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Міжнародний номер телефону у форматі E.164, що починається з + і коду країни. Приклад: +5511999999999. Номер використовуватимуть лише редактори журналу для зв'язку, і його не буде оприлюднено."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Використовуйте формат E.164: + і далі код країни та номер, без пробілів і дефісів. Приклад: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Визначте, чи є поле «Телефон / WhatsApp» обов'язковим під час додавання учасника до статті в цьому журналі."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Зробити поле «Телефон / WhatsApp» обов'язковим для всіх учасників."

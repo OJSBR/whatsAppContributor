@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: ro\n"
+
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.displayName"
+msgstr "Modul WhatsApp pentru contribuitori"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.description"
+msgstr "Adaugă un câmp telefon/WhatsApp (format E.164) în formularul de contribuitor (autor). Poate fi configurat ca opțional sau obligatoriu pentru fiecare revistă. Dezvoltat de OJSBR (https://ojsbr.com.br)."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.label"
+msgstr "Telefon / WhatsApp"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Număr de telefon internațional în format E.164, începând cu + și prefixul țării. Exemplu: +5511999999999. Numărul va fi folosit doar pentru contactul din partea editorilor revistei și nu va fi făcut public."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
+msgstr "Folosiți formatul E.164: + urmat de prefixul țării și numărul, fără spații sau cratime. Exemplu: +5511999999999."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.description"
+msgstr "Stabiliți dacă câmpul Telefon / WhatsApp este obligatoriu la înregistrarea unui contribuitor pentru un articol din această revistă."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.required.label"
+msgstr "Fă obligatoriu câmpul Telefon / WhatsApp pentru toți contribuitorii."
