@@ -323,7 +323,9 @@ class WhatsAppContributorPlugin extends GenericPlugin
 
         $required = $this->isRequiredForCurrentContext();
         $templateMgr = PKPTemplateManager::getManager(Application::get()->getRequest());
-        $templateMgr->registerFilter('output', fn (string $output): string => self::insertRegistrationField($output, self::renderRegistrationField($form, $required)));
+        // Named: Smarty calls every closure filter "closure", so an unnamed one would replace, or be
+        // replaced by, the output filter of another plugin in the same request.
+        $templateMgr->registerFilter('output', fn (string $output): string => self::insertRegistrationField($output, self::renderRegistrationField($form, $required)), 'whatsAppContributorRegistrationField');
 
         return Hook::CONTINUE;
     }
