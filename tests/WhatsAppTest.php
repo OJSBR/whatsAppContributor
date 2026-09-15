@@ -14,9 +14,14 @@
 namespace APP\plugins\generic\whatsAppContributor\tests;
 
 use APP\plugins\generic\whatsAppContributor\WhatsAppContributorPlugin;
+use APP\plugins\generic\whatsAppContributor\WhatsAppSettingsForm;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PKP\form\Form;
+use PKP\tests\PKPTestCase;
 
-class WhatsAppTest extends TestCase
+#[CoversClass(WhatsAppContributorPlugin::class)]
+#[CoversClass(WhatsAppSettingsForm::class)]
+class WhatsAppTest extends PKPTestCase
 {
     public function testNumbersAreNormalizedToE164(): void
     {
@@ -89,5 +94,35 @@ class WhatsAppTest extends TestCase
             $router->setApplication(\APP\core\Application::get());
             $request->setRouter($router);
         }
+    }
+
+    public function testTheSiteLevelHasNoSettingsToOpen(): void
+    {
+        $request = new class () {
+            public function getContext()
+            {
+                return null;
+            }
+
+            public function getUserVar($name)
+            {
+                return $name === 'verb' ? 'settings' : null;
+            }
+
+            public function getRouter()
+            {
+                throw new \RuntimeException('The site level must not build a settings URL.');
+            }
+        };
+        $plugin = new class () extends WhatsAppContributorPlugin {
+            public function getEnabled($contextId = null)
+            {
+                return true;
+            }
+        };
+
+        $this->assertSame([], array_filter($plugin->getActions($request, []), fn ($action) => $action->getId() === 'settings'));
+        $this->expectExceptionMessage('Unhandled management action!');
+        $plugin->manage([], $request);
     }
 }
