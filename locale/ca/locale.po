@@ -12,7 +12,7 @@ msgid "plugins.generic.whatsAppContributor.displayName"
 msgstr "Connector WhatsApp per a col·laboradors"
 
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Afegeix un camp de telèfon/WhatsApp (format E.164) al formulari de col·laborador (autor). Es pot configurar com a opcional o obligatori per a cada revista. Desenvolupat per OJSBR (https://ojsbr.com.br)."
+msgstr "Afegeix un camp de telèfon/WhatsApp (format E.164) al formulari de col·laborador (autor). Es pot configurar com a opcional o obligatori per a cada revista."
 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telèfon / WhatsApp"
@@ -28,3 +28,6 @@ msgstr "Definiu si el camp Telèfon / WhatsApp és obligatori en registrar un co
 
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Fes que el camp Telèfon / WhatsApp sigui obligatori per a tots els col·laboradors."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Demanar també el Telèfon / WhatsApp al formulari de registre d'usuari. El número es desa com a telèfon del compte i s'omple automàticament quan l'usuari passa a ser autor del seu propi enviament."

@@ -14,7 +14,7 @@ msgstr "Πρόσθετο WhatsApp για συνεισφέροντες"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Προσθέτει πεδίο τηλεφώνου/WhatsApp (μορφή E.164) στη φόρμα συνεισφέροντα (συγγραφέα). Ρυθμίζεται ως προαιρετικό ή υποχρεωτικό ανά περιοδικό. Αναπτύχθηκε από την OJSBR (https://ojsbr.com.br)."
+msgstr "Προσθέτει πεδίο τηλεφώνου/WhatsApp (μορφή E.164) στη φόρμα συνεισφέροντα (συγγραφέα). Ρυθμίζεται ως προαιρετικό ή υποχρεωτικό ανά περιοδικό."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Ορίστε αν το πεδίο Τηλέφωνο / WhatsApp είναι
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Να είναι υποχρεωτικό το πεδίο Τηλέφωνο / WhatsApp για όλους τους συνεισφέροντες."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Να ζητείται και το Τηλέφωνο / WhatsApp στη φόρμα εγγραφής. Ο αριθμός αποθηκεύεται ως τηλέφωνο του λογαριασμού και συμπληρώνεται αυτόματα όταν ο χρήστης γίνει συγγραφέας της δικής του υποβολής."

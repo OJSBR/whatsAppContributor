@@ -1,20 +1,18 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-28T00:00:00+00:00\n"
-"PO-Revision-Date: 2026-04-28T00:00:00+00:00\n"
-"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
+"Language: pt_BR\n"
 
 
 msgid "plugins.generic.whatsAppContributor.displayName"
 msgstr "Plugin Telefone/WhatsApp do Contribuidor"
 
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Adiciona um campo Telefone/WhatsApp (formato E.164) ao formulário de cadastro de contribuidor do artigo. Configurável como opcional ou obrigatório por revista. Desenvolvido pela OJSBR (https://ojsbr.com.br)."
+msgstr "Adiciona um campo Telefone/WhatsApp (formato E.164) ao formulário de cadastro de contribuidor do artigo. Configurável como opcional ou obrigatório por revista."
 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefone / WhatsApp"
@@ -30,3 +28,6 @@ msgstr "Defina se o campo Telefone/WhatsApp é obrigatório no cadastro de contr
 
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Tornar o campo Telefone/WhatsApp obrigatório para todos os contribuidores."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Pedir também o Telefone / WhatsApp no formulário de cadastro de usuário. O número fica salvo como telefone da conta e é preenchido automaticamente quando o usuário vira autor da própria submissão."

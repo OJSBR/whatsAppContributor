@@ -14,7 +14,7 @@ msgstr "Dodatak WhatsApp za saradnike"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Dodaje polje telefon/WhatsApp (format E.164) u formular saradnika (autora). Može se podesiti kao opciono ili obavezno po časopisu. Razvio OJSBR (https://ojsbr.com.br)."
+msgstr "Dodaje polje telefon/WhatsApp (format E.164) u formular saradnika (autora). Može se podesiti kao opciono ili obavezno po časopisu."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Odredite da li je polje Telefon / WhatsApp obavezno pri unosu saradnika 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Učini polje Telefon / WhatsApp obaveznim za sve saradnike."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Traži Telefon / WhatsApp i u formularu za registraciju. Broj se čuva kao telefon naloga i automatski popunjava kada korisnik postane autor sopstvenog rada."

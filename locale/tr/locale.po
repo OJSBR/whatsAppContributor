@@ -14,7 +14,7 @@ msgstr "WhatsApp Katkıda Bulunan Eklentisi"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Katkıda bulunan (yazar) formuna telefon/WhatsApp alanı (E.164 biçimi) ekler. Her dergi için isteğe bağlı veya zorunlu olarak ayarlanabilir. OJSBR tarafından geliştirilmiştir (https://ojsbr.com.br)."
+msgstr "Katkıda bulunan (yazar) formuna telefon/WhatsApp alanı (E.164 biçimi) ekler. Her dergi için isteğe bağlı veya zorunlu olarak ayarlanabilir."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Bu dergideki bir makale için katkıda bulunan kaydedilirken Telefon / W
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Telefon / WhatsApp alanını tüm katkıda bulunanlar için zorunlu yap."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Kullanıcı kayıt formunda da Telefon / WhatsApp istensin. Numara hesabın telefonu olarak kaydedilir ve kullanıcı kendi gönderisinin yazarı olduğunda otomatik doldurulur."

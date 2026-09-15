@@ -14,7 +14,7 @@ msgstr "Trình cắm WhatsApp cho người đóng góp"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Thêm trường điện thoại/WhatsApp (định dạng E.164) vào biểu mẫu người đóng góp (tác giả). Có thể đặt là tùy chọn hoặc bắt buộc cho từng tạp chí. Do OJSBR phát triển (https://ojsbr.com.br)."
+msgstr "Thêm trường điện thoại/WhatsApp (định dạng E.164) vào biểu mẫu người đóng góp (tác giả). Có thể đặt là tùy chọn hoặc bắt buộc cho từng tạp chí."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Xác định xem trường Điện thoại / WhatsApp có bắt buộc k
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Bắt buộc trường Điện thoại / WhatsApp cho mọi người đóng góp."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Hỏi cả Điện thoại / WhatsApp trong biểu mẫu đăng ký người dùng. Số được lưu làm điện thoại của tài khoản và tự điền khi người dùng trở thành tác giả bài gửi của mình."

@@ -14,7 +14,7 @@ msgstr "Pemalam WhatsApp Penyumbang"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Menambah medan telefon/WhatsApp (format E.164) pada borang penyumbang (penulis). Boleh ditetapkan sebagai pilihan atau wajib bagi setiap jurnal. Dibangunkan oleh OJSBR (https://ojsbr.com.br)."
+msgstr "Menambah medan telefon/WhatsApp (format E.164) pada borang penyumbang (penulis). Boleh ditetapkan sebagai pilihan atau wajib bagi setiap jurnal."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Tetapkan sama ada medan Telefon / WhatsApp wajib semasa mendaftarkan pen
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Jadikan medan Telefon / WhatsApp wajib bagi semua penyumbang."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Minta juga Telefon / WhatsApp dalam borang pendaftaran pengguna. Nombor disimpan sebagai telefon akaun dan diisi secara automatik apabila pengguna menjadi pengarang serahannya sendiri."

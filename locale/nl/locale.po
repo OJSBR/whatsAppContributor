@@ -12,7 +12,7 @@ msgid "plugins.generic.whatsAppContributor.displayName"
 msgstr "WhatsApp-bijdragerplug-in"
 
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Voegt een telefoon-/WhatsApp-veld (E.164-notatie) toe aan het formulier voor bijdragers (auteurs). Per tijdschrift in te stellen als optioneel of verplicht. Ontwikkeld door OJSBR (https://ojsbr.com.br)."
+msgstr "Voegt een telefoon-/WhatsApp-veld (E.164-notatie) toe aan het formulier voor bijdragers (auteurs). Per tijdschrift in te stellen als optioneel of verplicht."
 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefoon / WhatsApp"
@@ -28,3 +28,6 @@ msgstr "Bepaal of het veld Telefoon / WhatsApp verplicht is bij het registreren 
 
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Maak het veld Telefoon / WhatsApp verplicht voor alle bijdragers."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Vraag ook naar Telefoon / WhatsApp op het registratieformulier. Het nummer wordt opgeslagen als telefoonnummer van het account en automatisch ingevuld wanneer de gebruiker auteur wordt van de eigen inzending."

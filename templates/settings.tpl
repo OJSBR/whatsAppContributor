@@ -1,5 +1,10 @@
 {**
  * plugins/generic/whatsAppContributor/templates/settings.tpl
+ *
+ * Copyright (c) 2026 OJSBR (https://ojsbr.com)
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
+ * Per-journal settings of the WhatsApp Contributor plugin.
  *}
 <script>
 	$(function() {ldelim}
@@ -8,8 +13,8 @@
 </script>
 
 <form class="pkp_form" id="whatsAppContributorSettings"
-	method="POST"
-	action="{url router=$smarty.const.ROUTE_COMPONENT op="manage" category="generic" plugin=$pluginName verb="settings" save=true}">
+	method="post"
+	action="{url router=PKP\core\PKPApplication::ROUTE_COMPONENT op="manage" category="generic" plugin=$pluginName verb="settings" save=true}">
 
 	{csrf}
 
@@ -24,6 +29,11 @@
 				value="1"
 				checked=$whatsappRequired
 				label="plugins.generic.whatsAppContributor.settings.required.label"}
+			{fbvElement type="checkbox"
+				id="showOnRegistration"
+				value="1"
+				checked=$showOnRegistration
+				label="plugins.generic.whatsAppContributor.settings.showOnRegistration.label"}
 		{/fbvFormSection}
 	{/fbvFormArea}
 

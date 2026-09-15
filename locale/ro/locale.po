@@ -14,7 +14,7 @@ msgstr "Modul WhatsApp pentru contribuitori"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Adaugă un câmp telefon/WhatsApp (format E.164) în formularul de contribuitor (autor). Poate fi configurat ca opțional sau obligatoriu pentru fiecare revistă. Dezvoltat de OJSBR (https://ojsbr.com.br)."
+msgstr "Adaugă un câmp telefon/WhatsApp (format E.164) în formularul de contribuitor (autor). Poate fi configurat ca opțional sau obligatoriu pentru fiecare revistă."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Stabiliți dacă câmpul Telefon / WhatsApp este obligatoriu la înregis
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Fă obligatoriu câmpul Telefon / WhatsApp pentru toți contribuitorii."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Solicită și Telefonul / WhatsApp în formularul de înregistrare. Numărul este salvat ca telefon al contului și completat automat când utilizatorul devine autor al propriei trimiteri."

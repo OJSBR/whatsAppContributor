@@ -12,7 +12,7 @@ msgid "plugins.generic.whatsAppContributor.displayName"
 msgstr "Complemento WhatsApp para colaboradores"
 
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Engade un campo de teléfono/WhatsApp (formato E.164) ao formulario de colaborador (autoría). Pódese configurar como opcional ou obrigatorio en cada revista. Desenvolvido por OJSBR (https://ojsbr.com.br)."
+msgstr "Engade un campo de teléfono/WhatsApp (formato E.164) ao formulario de colaborador (autoría). Pódese configurar como opcional ou obrigatorio en cada revista."
 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Teléfono / WhatsApp"
@@ -28,3 +28,6 @@ msgstr "Defina se o campo Teléfono / WhatsApp é obrigatorio ao rexistrar unha 
 
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Facer obrigatorio o campo Teléfono / WhatsApp para todas as persoas colaboradoras."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Pedir tamén o Teléfono / WhatsApp no formulario de rexistro de usuario. O número gárdase como teléfono da conta e énchese automaticamente cando o usuario pasa a ser autor do seu propio envío."

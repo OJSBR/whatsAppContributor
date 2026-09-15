@@ -14,7 +14,7 @@ msgstr "Vtičnik WhatsApp za sodelujoče"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Obrazcu sodelujočega (avtorja) doda polje telefon/WhatsApp (oblika E.164). Za vsako revijo ga je mogoče nastaviti kot izbirno ali obvezno. Razvil OJSBR (https://ojsbr.com.br)."
+msgstr "Obrazcu sodelujočega (avtorja) doda polje telefon/WhatsApp (oblika E.164). Za vsako revijo ga je mogoče nastaviti kot izbirno ali obvezno."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Določite, ali je polje Telefon / WhatsApp obvezno pri vnosu sodelujoče
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Polje Telefon / WhatsApp naj bo obvezno za vse sodelujoče."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Telefon / WhatsApp zahtevaj tudi v obrazcu za registracijo. Številka se shrani kot telefon računa in se samodejno izpolni, ko uporabnik postane avtor lastnega prispevka."

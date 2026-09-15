@@ -12,7 +12,7 @@ msgid "plugins.generic.whatsAppContributor.displayName"
 msgstr "Module WhatsApp pour contributeurs"
 
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Ajoute un champ téléphone/WhatsApp (format E.164) au formulaire de contributeur (auteur). Configurable comme facultatif ou obligatoire pour chaque revue. Développé par OJSBR (https://ojsbr.com.br)."
+msgstr "Ajoute un champ téléphone/WhatsApp (format E.164) au formulaire de contributeur (auteur). Configurable comme facultatif ou obligatoire pour chaque revue."
 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Téléphone / WhatsApp"
@@ -28,3 +28,6 @@ msgstr "Déterminez si le champ Téléphone / WhatsApp est obligatoire lors de l
 
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Rendre le champ Téléphone / WhatsApp obligatoire pour tous les contributeurs."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Demander aussi le Téléphone / WhatsApp dans le formulaire d'inscription. Le numéro est enregistré comme téléphone du compte et rempli automatiquement lorsque l'utilisateur devient auteur de sa propre soumission."

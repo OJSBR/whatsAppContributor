@@ -14,7 +14,7 @@ msgstr "افزونهٔ واتساپ برای مشارکت‌کنندگان"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "فیلد تلفن/واتساپ (قالب E.164) را به فرم مشارکت‌کننده (نویسنده) می‌افزاید. برای هر نشریه می‌توان آن را اختیاری یا الزامی کرد. ساختهٔ OJSBR (https://ojsbr.com.br)."
+msgstr "فیلد تلفن/واتساپ (قالب E.164) را به فرم مشارکت‌کننده (نویسنده) می‌افزاید. برای هر نشریه می‌توان آن را اختیاری یا الزامی کرد."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "تعیین کنید که آیا فیلد تلفن / واتساپ هنگ�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "فیلد تلفن / واتساپ برای همهٔ مشارکت‌کنندگان الزامی شود."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "تلفن / واتس‌اپ در فرم ثبت‌نام کاربر هم خواسته شود. شماره به‌عنوان تلفن حساب ذخیره می‌شود و وقتی کاربر نویسندهٔ ارسال خود می‌شود، خودکار پر می‌شود."

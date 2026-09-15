@@ -14,7 +14,7 @@ msgstr "Wtyczka WhatsApp dla współtwórców"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Dodaje pole telefon/WhatsApp (format E.164) do formularza współtwórcy (autora). Można je ustawić jako opcjonalne lub wymagane w każdym czasopiśmie. Opracowane przez OJSBR (https://ojsbr.com.br)."
+msgstr "Dodaje pole telefon/WhatsApp (format E.164) do formularza współtwórcy (autora). Można je ustawić jako opcjonalne lub wymagane w każdym czasopiśmie."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Określ, czy pole Telefon / WhatsApp jest wymagane przy dodawaniu wspó�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Ustaw pole Telefon / WhatsApp jako wymagane dla wszystkich współtwórców."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Pytaj o Telefon / WhatsApp także w formularzu rejestracji. Numer zapisuje się jako telefon konta i uzupełnia automatycznie, gdy użytkownik zostaje autorem własnego zgłoszenia."

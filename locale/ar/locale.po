@@ -14,7 +14,7 @@ msgstr "ملحق WhatsApp للمساهمين"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "يضيف حقل هاتف/واتساب (بصيغة E.164) إلى نموذج المساهم (المؤلف). ويمكن ضبطه اختيارياً أو إلزامياً لكل مجلة. طوّرته OJSBR (https://ojsbr.com.br)."
+msgstr "يضيف حقل هاتف/واتساب (بصيغة E.164) إلى نموذج المساهم (المؤلف). ويمكن ضبطه اختيارياً أو إلزامياً لكل مجلة."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "حدّد ما إذا كان حقل الهاتف / واتساب إلزا�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "جعل حقل الهاتف / واتساب إلزامياً لجميع المساهمين."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "اطلب أيضًا الهاتف / واتساب في نموذج تسجيل المستخدم. يُحفظ الرقم كهاتف الحساب ويُملأ تلقائيًا عندما يصبح المستخدم مؤلفًا لإرساله."

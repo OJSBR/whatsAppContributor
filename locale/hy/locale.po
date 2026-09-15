@@ -14,7 +14,7 @@ msgstr "WhatsApp ներդրողների հավելված"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Ներդրողի (հեղինակի) ձևին ավելացնում է հեռախոսի/WhatsApp-ի դաշտ (E.164 ձևաչափ)։ Յուրաքանչյուր ամսագրի համար կարող է լինել ընտրովի կամ պարտադիր։ Մշակվել է OJSBR-ի կողմից (https://ojsbr.com.br)։"
+msgstr "Ներդրողի (հեղինակի) ձևին ավելացնում է հեռախոսի/WhatsApp-ի դաշտ (E.164 ձևաչափ)։ Յուրաքանչյուր ամսագրի համար կարող է լինել ընտրովի կամ պարտադիր։"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Սահմանեք՝ արդյոք Հեռախոս / WhatsApp դաշտը պ�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Դարձնել Հեռախոս / WhatsApp դաշտը պարտադիր բոլոր ներդրողների համար։"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Հեռախոս / WhatsApp-ը պահանջել նաև օգտատիրոջ գրանցման ձևում։ Համարը պահվում է որպես հաշվի հեռախոս և ինքնաշխատ լրացվում է, երբ օգտատերը դառնում է իր ներկայացման հեղինակ։"

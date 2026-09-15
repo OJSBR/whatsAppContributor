@@ -14,7 +14,7 @@ msgstr "Plugin WhatsApp Kontributor"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Menambahkan bidang telepon/WhatsApp (format E.164) pada formulir kontributor (penulis). Dapat diatur sebagai opsional atau wajib untuk tiap jurnal. Dikembangkan oleh OJSBR (https://ojsbr.com.br)."
+msgstr "Menambahkan bidang telepon/WhatsApp (format E.164) pada formulir kontributor (penulis). Dapat diatur sebagai opsional atau wajib untuk tiap jurnal."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Tentukan apakah bidang Telepon / WhatsApp wajib diisi saat mendaftarkan 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Jadikan bidang Telepon / WhatsApp wajib untuk semua kontributor."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Minta juga Telepon / WhatsApp di formulir pendaftaran pengguna. Nomor disimpan sebagai telepon akun dan diisi otomatis saat pengguna menjadi penulis naskahnya sendiri."

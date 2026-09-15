@@ -14,7 +14,7 @@ msgstr "WhatsApp İştirakçı plagini"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "İştirakçı (müəllif) formasına telefon/WhatsApp sahəsi (E.164 formatı) əlavə edir. Hər jurnal üçün ixtiyari və ya məcburi olaraq tənzimlənə bilər. OJSBR tərəfindən hazırlanıb (https://ojsbr.com.br)."
+msgstr "İştirakçı (müəllif) formasına telefon/WhatsApp sahəsi (E.164 formatı) əlavə edir. Hər jurnal üçün ixtiyari və ya məcburi olaraq tənzimlənə bilər."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Bu jurnalda məqaləyə iştirakçı qeyd edilərkən Telefon / WhatsApp
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Telefon / WhatsApp sahəsini bütün iştirakçılar üçün məcburi et."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "İstifadəçi qeydiyyatı formasında da Telefon / WhatsApp soruşulsun. Nömrə hesabın telefonu kimi saxlanılır və istifadəçi öz göndərişinin müəllifi olanda avtomatik doldurulur."

@@ -14,7 +14,7 @@ msgstr "WhatsApp თანაავტორების დანამატ�
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "თანაავტორის (ავტორის) ფორმას ამატებს ტელეფონის/WhatsApp-ის ველს (E.164 ფორმატი). თითოეული ჟურნალისთვის შეიძლება იყოს არჩევითი ან სავალდებულო. შემუშავებულია OJSBR-ის მიერ (https://ojsbr.com.br)."
+msgstr "თანაავტორის (ავტორის) ფორმას ამატებს ტელეფონის/WhatsApp-ის ველს (E.164 ფორმატი). თითოეული ჟურნალისთვის შეიძლება იყოს არჩევითი ან სავალდებულო."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "განსაზღვრეთ, სავალდებულოა 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "ველი ტელეფონი / WhatsApp სავალდებულო გახდეს ყველა თანაავტორისთვის."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "ტელეფონი / WhatsApp მოითხოვეთ მომხმარებლის რეგისტრაციის ფორმაშიც. ნომერი ინახება ანგარიშის ტელეფონად და ავტომატურად ივსება, როცა მომხმარებელი საკუთარი წარდგენის ავტორი ხდება."

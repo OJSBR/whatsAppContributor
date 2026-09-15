@@ -14,7 +14,7 @@ msgstr "WhatsApp laguntzaileen plugina"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Telefono/WhatsApp eremua (E.164 formatua) gehitzen dio laguntzailearen (egilearen) inprimakiari. Aldizkari bakoitzean aukerakoa edo nahitaezkoa izan daiteke. OJSBRk garatua (https://ojsbr.com.br)."
+msgstr "Telefono/WhatsApp eremua (E.164 formatua) gehitzen dio laguntzailearen (egilearen) inprimakiari. Aldizkari bakoitzean aukerakoa edo nahitaezkoa izan daiteke."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Zehaztu Telefonoa / WhatsApp eremua nahitaezkoa den aldizkari honetako a
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Egin Telefonoa / WhatsApp eremua nahitaezko laguntzaile guztientzat."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Eskatu Telefonoa / WhatsApp erabiltzailearen erregistro-inprimakian ere. Zenbakia kontuaren telefono gisa gordetzen da eta automatikoki betetzen da erabiltzailea bere bidalketaren egile bihurtzen denean."

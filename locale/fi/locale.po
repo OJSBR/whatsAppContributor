@@ -14,7 +14,7 @@ msgstr "WhatsApp-tekijälisäosa"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Lisää tekijän (kirjoittajan) lomakkeelle puhelin-/WhatsApp-kentän E.164-muodossa. Sen voi määrittää lehtikohtaisesti valinnaiseksi tai pakolliseksi. Kehittänyt OJSBR (https://ojsbr.com.br)."
+msgstr "Lisää tekijän (kirjoittajan) lomakkeelle puhelin-/WhatsApp-kentän E.164-muodossa. Sen voi määrittää lehtikohtaisesti valinnaiseksi tai pakolliseksi."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Määritä, onko Puhelin / WhatsApp -kenttä pakollinen, kun tähän leh
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Tee Puhelin / WhatsApp -kentästä pakollinen kaikille tekijöille."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Kysy puhelin / WhatsApp myös rekisteröitymislomakkeella. Numero tallennetaan tilin puhelinnumeroksi ja täytetään automaattisesti, kun käyttäjästä tulee oman käsikirjoituksensa kirjoittaja."

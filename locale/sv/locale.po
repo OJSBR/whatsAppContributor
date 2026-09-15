@@ -14,7 +14,7 @@ msgstr "WhatsApp-tillägg för bidragsgivare"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Lägger till ett telefon-/WhatsApp-fält (E.164-format) i formuläret för bidragsgivare (författare). Kan ställas in som frivilligt eller obligatoriskt per tidskrift. Utvecklat av OJSBR (https://ojsbr.com.br)."
+msgstr "Lägger till ett telefon-/WhatsApp-fält (E.164-format) i formuläret för bidragsgivare (författare). Kan ställas in som frivilligt eller obligatoriskt per tidskrift."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Ange om fältet Telefon / WhatsApp är obligatoriskt när en bidragsgiva
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Gör fältet Telefon / WhatsApp obligatoriskt för alla bidragsgivare."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Fråga även efter Telefon / WhatsApp i registreringsformuläret. Numret sparas som kontots telefon och fylls i automatiskt när användaren blir författare till sitt eget bidrag."

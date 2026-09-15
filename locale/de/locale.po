@@ -1,14 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"Last-Translator: OJSBR <eder@sotto.com.br>\n"
-"Language-Team: OJSBR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-16T00:00:00+00:00\n"
-"PO-Revision-Date: 2026-07-16T00:00:00+00:00\n"
+"Last-Translator: OJSBR\n"
+"Language-Team: OJSBR\n"
 "Language: de\n"
 
 
@@ -16,7 +12,7 @@ msgid "plugins.generic.whatsAppContributor.displayName"
 msgstr "WhatsApp-Plugin für Mitwirkende"
 
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Fügt dem Mitwirkenden-Formular (Autor) ein Telefon-/WhatsApp-Feld (E.164-Format) hinzu. Pro Zeitschrift als optional oder erforderlich konfigurierbar. Entwickelt von OJSBR (https://ojsbr.com.br)."
+msgstr "Fügt dem Mitwirkenden-Formular (Autor) ein Telefon-/WhatsApp-Feld (E.164-Format) hinzu. Pro Zeitschrift als optional oder erforderlich konfigurierbar."
 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefon / WhatsApp"
@@ -32,3 +28,6 @@ msgstr "Legen Sie fest, ob das Feld Telefon / WhatsApp beim Registrieren eines M
 
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Das Feld Telefon / WhatsApp für alle Mitwirkenden verpflichtend machen."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Telefon / WhatsApp auch im Registrierungsformular abfragen. Die Nummer wird als Telefonnummer des Kontos gespeichert und automatisch übernommen, wenn die Person Autor ihrer eigenen Einreichung wird."

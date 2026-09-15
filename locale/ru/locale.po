@@ -14,7 +14,7 @@ msgstr "Модуль WhatsApp для участников"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Добавляет поле телефона/WhatsApp (формат E.164) в форму участника (автора). Настраивается как необязательное или обязательное для каждого журнала. Разработано OJSBR (https://ojsbr.com.br)."
+msgstr "Добавляет поле телефона/WhatsApp (формат E.164) в форму участника (автора). Настраивается как необязательное или обязательное для каждого журнала."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Определите, обязательно ли поле «Телеф�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Сделать поле «Телефон / WhatsApp» обязательным для всех участников."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Запрашивать Телефон / WhatsApp и в форме регистрации. Номер сохраняется как телефон учётной записи и заполняется автоматически, когда пользователь становится автором собственной рукописи."

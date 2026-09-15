@@ -14,7 +14,7 @@ msgstr "WhatsApp közreműködő bővítmény"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Telefon/WhatsApp mezőt (E.164 formátum) ad a közreműködői (szerzői) űrlaphoz. Folyóiratonként beállítható választhatóként vagy kötelezőként. Fejlesztette az OJSBR (https://ojsbr.com.br)."
+msgstr "Telefon/WhatsApp mezőt (E.164 formátum) ad a közreműködői (szerzői) űrlaphoz. Folyóiratonként beállítható választhatóként vagy kötelezőként."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Adja meg, kötelező-e a Telefon / WhatsApp mező, amikor közreműköd�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "A Telefon / WhatsApp mező kötelezővé tétele minden közreműködő számára."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "A Telefon / WhatsApp a regisztrációs űrlapon is legyen megadható. A szám a fiók telefonszámaként tárolódik, és automatikusan kitöltődik, amikor a felhasználó saját beküldése szerzője lesz."

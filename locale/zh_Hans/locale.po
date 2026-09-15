@@ -14,7 +14,7 @@ msgstr "WhatsApp 贡献者插件"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "在贡献者（作者）表单中添加电话/WhatsApp 字段（E.164 格式）。可按期刊设置为可选或必填。由 OJSBR 开发（https://ojsbr.com.br）。"
+msgstr "在贡献者（作者）表单中添加电话/WhatsApp 字段（E.164 格式）。可按期刊设置为可选或必填。"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "设置在本期刊为文章登记贡献者时，“电话 / WhatsApp”�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "将“电话 / WhatsApp”字段设为所有贡献者必填。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "在用户注册表单中也询问电话 / WhatsApp。该号码保存为账户电话，并在用户成为自己投稿的作者时自动填入。"

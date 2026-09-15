@@ -14,7 +14,7 @@ msgstr "Zásuvný modul WhatsApp pro přispěvatele"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Přidává do formuláře přispěvatele (autora) pole telefon/WhatsApp ve formátu E.164. Lze je nastavit jako volitelné, nebo povinné pro každý časopis. Vyvinuto OJSBR (https://ojsbr.com.br)."
+msgstr "Přidává do formuláře přispěvatele (autora) pole telefon/WhatsApp ve formátu E.164. Lze je nastavit jako volitelné, nebo povinné pro každý časopis."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Nastavte, zda je pole Telefon / WhatsApp povinné při zadávání přis
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Nastavit pole Telefon / WhatsApp jako povinné pro všechny přispěvatele."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Požadovat Telefon / WhatsApp i v registračním formuláři. Číslo se uloží jako telefon účtu a automaticky se vyplní, když se uživatel stane autorem vlastního příspěvku."

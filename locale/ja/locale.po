@@ -14,7 +14,7 @@ msgstr "WhatsApp 寄稿者プラグイン"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "寄稿者（著者）フォームに電話／WhatsApp 項目（E.164 形式）を追加します。ジャーナルごとに任意・必須を設定できます。開発: OJSBR (https://ojsbr.com.br)。"
+msgstr "寄稿者（著者）フォームに電話／WhatsApp 項目（E.164 形式）を追加します。ジャーナルごとに任意・必須を設定できます。"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "このジャーナルの論文に寄稿者を登録する際、「電話
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "すべての寄稿者に対して「電話 / WhatsApp」項目を必須にする。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "ユーザー登録フォームでも電話番号 / WhatsApp を尋ねます。番号はアカウントの電話番号として保存され、ユーザーが自分の投稿の著者になるときに自動入力されます。"

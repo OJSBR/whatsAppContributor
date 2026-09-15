@@ -14,7 +14,7 @@ msgstr "Приклучок WhatsApp за соработници"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.description"
-msgstr "Додава поле за телефон/WhatsApp (формат E.164) во формуларот за соработник (автор). Може да се постави како изборно или задолжително по списание. Развиено од OJSBR (https://ojsbr.com.br)."
+msgstr "Додава поле за телефон/WhatsApp (формат E.164) во формуларот за соработник (автор). Може да се постави како изборно или задолжително по списание."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.label"
@@ -35,3 +35,7 @@ msgstr "Одредете дали полето Телефон / WhatsApp е за
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.required.label"
 msgstr "Полето Телефон / WhatsApp да биде задолжително за сите соработници."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
+msgstr "Барај Телефон / WhatsApp и во формуларот за регистрација. Бројот се зачувува како телефон на сметката и автоматски се пополнува кога корисникот ќе стане автор на сопственото поднесување."
