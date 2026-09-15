@@ -7,144 +7,218 @@
  * Functional tests: the settings, the registration field, and the number of a
  * contributor saved through the REST endpoints the contributor form uses.
  *
- * Parameters (--env): contextPath; adminUser, adminPassword (a journal manager;
- * captcha on login must be off for the run); submissionId, publicationId and
- * authorUserGroupId for the contributor test, skipped without them. The plugin
- * must be enabled. Settings touched and contributors added are restored or
- * deleted at the end. Assertions use names, ids and API data, never labels.
+ * Parameters (--env): contextPath, adminUser, adminPassword (captcha on login
+ * must be off for the run). The defaults match the data set of PKP's continuous
+ * integration; the first test enables the plugin when it is off. The contributor
+ * test uses the first submission in progress of the journal. Settings touched
+ * are put back and contributors added are deleted. Assertions use names, ids
+ * and API data, never labels.
  */
 
 describe('WhatsApp Contributor plugin', function() {
 	const contextPath = Cypress.env('contextPath') || 'publicknowledge';
 	const adminUser = Cypress.env('adminUser') || 'admin';
 	const adminPassword = Cypress.env('adminPassword') || 'admin';
-	const submissionId = Cypress.env('submissionId');
-	const publicationId = Cypress.env('publicationId');
-	const authorUserGroupId = Cypress.env('authorUserGroupId');
 
-	const url = (path) => '/index.php/' + contextPath + '/' + path;
+	const rowName = 'whatsappcontributorplugin';
 	const settingsForm = 'form[id="whatsAppContributorSettings"]';
 	let original = null;
-	let csrfToken = null;
+	// Contributors created by the contributor test, deleted in after() even when an assertion fails.
+	const created = [];
 
-	const login = () => {
+	// ---- OJSBR spec helpers (padrão v2): work on OJS/OMP 3.3, 3.4 and 3.5 and in PKP's CI ----
+
+	const pageUrl = (path) => '/index.php/' + contextPath + (path ? '/' + path : '');
+
+	// Same as PKP's cy.waitJQuery(), which the support files of OJS 3.3 test sites may lack.
+	// The Plugins tab can keep requests open for a while (the plugin gallery), hence the timeout.
+	const waitJQuery = () => cy.window().its('jQuery.active', {timeout: 60000}).should('eq', 0);
+
+	// Requests carry the browser's User-Agent: OJS 3.3 drops a session whose agent changes.
+	const request = (options) => cy.window({log: false}).then((win) => cy.request(Object.assign(
+		typeof options === 'string' ? {url: options} : options,
+		{headers: Object.assign({'User-Agent': win.navigator.userAgent}, (typeof options === 'string' ? {} : options.headers) || {})}
+	)));
+
+	// Signs in through requests (the login page can re-render while it is typed into), then
+	// falls back to the form when the session did not stick (OJS 3.3 cookie handling).
+	const login = (username, password) => {
 		cy.clearCookies();
-		cy.visit(url('login'));
-		cy.get('input[id=username]').clear().type(adminUser, {delay: 0});
-		cy.get('input[id=password]').clear().type(adminPassword, {delay: 0, log: false});
-		cy.get('form[id=login] button').click();
-		cy.get('form[id=login]', {timeout: 30000}).should('not.exist');
+		request(pageUrl('login')).then((response) => {
+			const token = /name="csrfToken" value="([^"]+)"/.exec(response.body)[1];
+			// The form posts to the URL with the language: a redirect would turn the POST into a GET.
+			const action = /<form[^>]*id="login"[^>]*action="([^"]+)"/.exec(response.body)[1];
+			request({method: 'POST', url: action, form: true, body: {csrfToken: token, username: username, password: password}, log: false});
+		});
+		cy.visit(pageUrl('submissions') + '?reload=' + Date.now());
+		cy.get('body').then(($body) => {
+			if ($body.find('form#login').length) {
+				cy.get('form#login input[name="username"]').type(username, {delay: 0});
+				cy.get('form#login input[name="password"]').type(password, {delay: 0, log: false});
+				cy.get('form#login').submit();
+				cy.get('form#login', {timeout: 30000}).should('not.exist');
+			}
+		});
 	};
 
-	const openSettings = () => {
-		cy.visit(url('management/settings/website'));
+	// REST API calls made from the page itself, so they carry the browser's own session.
+	const api = (path, options = {}) => cy.window({log: false}).then((win) => cy.wrap(
+		win.fetch(path, Object.assign({credentials: 'same-origin'}, options)).then((response) => {
+			if (!response.ok) {
+				return response.text().then((text) => {
+					throw new Error(path + ' answered ' + response.status + ': ' + text.slice(0, 300));
+				});
+			}
+			return response.json();
+		}),
+		{log: false, timeout: 30000}
+	));
+
+	// The website settings page on its Plugins tab (a new query string forces a load). Load it
+	// once per test: loading it again while its plugin gallery request is pending stalls the
+	// web server of PKP's CI; API calls and settings modals work on the page already open.
+	const openPluginsTab = () => {
+		cy.visit(pageUrl('management/settings/website') + '?reload=' + Date.now() + '#plugins');
 		cy.get('button[id="plugins-button"]', {timeout: 60000}).click();
-		cy.waitJQuery();
-		cy.get('tr[id*="whatsappcontributorplugin"] a.show_extras', {timeout: 30000}).click();
-		cy.get('a[id*="whatsappcontributorplugin-settings"]', {timeout: 30000}).click();
-		cy.waitJQuery();
-		cy.get(settingsForm, {timeout: 30000}).should('exist');
+		cy.get('button[id="plugins-button"]').should('have.attr', 'aria-selected', 'true');
+		waitJQuery();
 	};
 
-	const save = (required, registration) => {
+	// Enables the plugin in the grid when it is off (never turns it off).
+	const enablePlugin = (rowName) => {
+		cy.get('input[id^="select-cell-' + rowName + '-enabled"]', {timeout: 30000}).then(($checkbox) => {
+			if (!$checkbox.is(':checked')) {
+				cy.wrap($checkbox).click();
+				waitJQuery();
+			}
+		});
+		cy.get('input[id^="select-cell-' + rowName + '-enabled"]').should('be.checked');
+	};
+
+	// Opens the settings modal from the grid, without reloading the page: a reload right
+	// after saving can stall the web server of PKP's CI. The form is fetched each time.
+	const openPluginSettings = (rowName, formSelector) => {
+		cy.get('a[id*="-row-' + rowName + '-settings-button-"]', {timeout: 30000}).then(($link) => {
+			if (!$link.is(':visible')) {
+				cy.get('tr[id$="-row-' + rowName + '"] a.show_extras').first().click();
+			}
+		});
+		// The grid may still be animating the extras row: the link is clicked once it exists.
+		cy.get('a[id*="-row-' + rowName + '-settings-button-"]').first().click({force: true});
+		waitJQuery();
+		cy.window().should((win) => {
+			expect(win.jQuery(formSelector).data('pkp.handler')).to.exist;
+		});
+	};
+
+	// ---- end of helpers ----
+
+	const openSettings = () => openPluginSettings(rowName, settingsForm);
+
+	// Loads the website settings page once and saves the two settings.
+	const configure = (required, registration) => {
+		login(adminUser, adminPassword);
+		openPluginsTab();
+		openSettings();
 		cy.get(settingsForm + ' input[name="whatsappRequired"]')[required ? 'check' : 'uncheck']({force: true});
 		cy.get(settingsForm + ' input[name="showOnRegistration"]')[registration ? 'check' : 'uncheck']({force: true});
 		cy.get(settingsForm + ' button[id^="submitFormButton-"]').click({force: true});
-		cy.waitJQuery();
-		cy.get(settingsForm, {timeout: 15000}).should('not.exist');
+		waitJQuery();
+		cy.get(settingsForm).should('not.exist');
 	};
 
-	const registration = () => cy.visit(url('user/register'), {headers: {Cookie: 'OJSSID=cypress' + Date.now()}});
+	const registrationForm = () => {
+		cy.clearCookies();
+		cy.visit(pageUrl('user/register') + '?reload=' + Date.now());
+		cy.get('form#register', {timeout: 30000}).should('exist');
+	};
 
-	describe('Registration', function() {
-		it('Asks for the number on the registration form only when configured, required when required', function() {
-			login();
-			openSettings();
-			cy.get(settingsForm + ' input[name="whatsappRequired"]').then(($required) => {
-				cy.get(settingsForm + ' input[name="showOnRegistration"]').then(($registration) => {
-					original = {required: $required.is(':checked'), registration: $registration.is(':checked')};
-				});
+	const withToken = (method, body) => cy.window({log: false}).then((win) => ({
+		method,
+		headers: {'Content-Type': 'application/json', 'X-Csrf-Token': win.pkp.currentUser.csrfToken},
+		body: body ? JSON.stringify(body) : undefined,
+	}));
+
+	it('Enables the plugin', function() {
+		login(adminUser, adminPassword);
+		openPluginsTab();
+		enablePlugin(rowName);
+		openSettings();
+		cy.get(settingsForm + ' input[name="whatsappRequired"]').then(($required) => {
+			cy.get(settingsForm + ' input[name="showOnRegistration"]').then(($registration) => {
+				original = {required: $required.is(':checked'), registration: $registration.is(':checked')};
 			});
-
-			save(false, false);
-			cy.clearCookies();
-			registration();
-			cy.get('form#register input[name="whatsapp"]').should('not.exist');
-
-			login();
-			openSettings();
-			save(true, true);
-			cy.clearCookies();
-			registration();
-			cy.get('form#register fieldset.identity input[type="tel"][name="whatsapp"]').should('have.attr', 'required');
-			cy.get('form#register #whatsAppContributorDescription').invoke('text').should('match', /\S/).and('not.contain', '##');
-
-			login();
-			openSettings();
-			save(false, true);
-			cy.clearCookies();
-			registration();
-			cy.get('form#register input[name="whatsapp"]').should('not.have.attr', 'required');
-		});
-
-		after(function() {
-			if (original) {
-				login();
-				openSettings();
-				save(original.required, original.registration);
-			}
 		});
 	});
 
-	describe('Contributors', function() {
-		const added = [];
-		const api = () => url('api/v1/submissions/' + submissionId + '/publications/' + publicationId + '/contributors');
-		const request = (method, path, body) => cy.request({method, url: api() + path, body, headers: {'X-Csrf-Token': csrfToken}, failOnStatusCode: false});
-		const contributor = (givenName, whatsapp) => ({
-			givenName: {en: givenName},
-			familyName: {en: 'Cypress'},
-			email: givenName.toLowerCase() + '.' + Date.now() + '@example.invalid',
-			userGroupId: Number(authorUserGroupId),
-			includeInBrowse: true,
-			whatsapp,
-		});
+	it('Leaves the registration form alone when it is not configured', function() {
+		configure(false, false);
+		registrationForm();
+		cy.get('form#register input[name="whatsapp"]').should('not.exist');
+	});
 
-		before(function() {
-			if (!submissionId || !publicationId || !authorUserGroupId) {
-				this.skip();
-			}
-		});
+	it('Asks for the number on the registration form, required when required', function() {
+		configure(true, true);
+		registrationForm();
+		cy.get('form#register fieldset.identity input[type="tel"][name="whatsapp"]').should('have.attr', 'required');
+		cy.get('form#register #whatsAppContributorDescription').invoke('text').should('match', /\S/).and('not.contain', '##');
+	});
 
-		beforeEach(function() {
-			login();
-			cy.visit(url('submissions'));
-			cy.window().then((win) => { csrfToken = win.pkp.currentUser.csrfToken; });
-		});
+	it('Makes the registration number optional when it is not required', function() {
+		configure(false, true);
+		registrationForm();
+		cy.get('form#register input[name="whatsapp"]').should('exist').and('not.have.attr', 'required');
+	});
 
-		it('Stores an E.164 number and explains the format when it is not', function() {
-			request('POST', '', contributor('Invalid', '11 99999-9999')).then((invalid) => {
-				expect(invalid.status).to.eq(400);
-				expect(invalid.body.whatsapp[0]).to.contain('+5511999999999');
-			});
+	it('Stores an E.164 number for a contributor and explains the format when it is not', function() {
+		login(adminUser, adminPassword);
+		api(pageUrl('api/v1/submissions?status=1&count=20')).then((submissions) => {
+			const submission = submissions.items.find((item) => item.currentPublicationId);
+			expect(submission, 'a submission in progress').to.exist;
+			const base = pageUrl('api/v1/submissions/' + submission.id + '/publications/' + submission.currentPublicationId);
+			api(base).then((publication) => {
+				const userGroupId = publication.authors.length ? publication.authors[0].userGroupId : null;
+				expect(userGroupId, 'an author user group').to.exist;
+				// Names in the language of the submission, which the schema requires.
+				const contributor = (givenName, whatsapp) => ({
+					givenName: {[submission.locale]: givenName},
+					familyName: {[submission.locale]: 'Cypress'},
+					email: givenName.toLowerCase() + '.' + Date.now() + '@example.invalid',
+					userGroupId,
+					includeInBrowse: true,
+					whatsapp,
+				});
 
-			request('POST', '', contributor('Valid', '+5511999999999')).then((valid) => {
-				expect(valid.status, JSON.stringify(valid.body)).to.eq(200);
-				added.push(valid.body.id);
-				request('GET', '/' + valid.body.id).then((stored) => {
-					expect(stored.body.whatsapp).to.eq('+5511999999999');
+				// An invalid number is refused with the expected format in the message.
+				withToken('POST', contributor('Invalid', '11 99999-9999')).then((options) => cy.window({log: false}).then((win) => cy.wrap(
+					win.fetch(base + '/contributors', Object.assign({credentials: 'same-origin'}, options)).then((response) => response.json().then((body) => ({status: response.status, body})))
+				))).then((invalid) => {
+					if (invalid.body && invalid.body.id) {
+						created.push({base, id: invalid.body.id});
+					}
+					expect(invalid.status).to.eq(400);
+					expect(invalid.body.whatsapp[0]).to.contain('+5511999999999');
+				});
+
+				withToken('POST', contributor('Valid', '+5511999999999')).then((options) => api(base + '/contributors', options)).then((valid) => {
+					created.push({base, id: valid.id});
+					api(base + '/contributors/' + valid.id).then((stored) => expect(stored.whatsapp).to.eq('+5511999999999'));
 				});
 			});
 		});
+	});
 
-		after(function() {
-			if (added.length) {
-				login();
-				cy.visit(url('submissions'));
-				cy.window().then((win) => {
-					csrfToken = win.pkp.currentUser.csrfToken;
-					added.forEach((id) => request('DELETE', '/' + id));
-				});
-			}
-		});
+	after(function() {
+		if (created.length) {
+			login(adminUser, adminPassword);
+			created.forEach(({base, id}) => withToken('DELETE').then((options) => api(base + '/contributors/' + id, options)));
+		}
+	});
+
+	it('Puts the settings back', function() {
+		if (!original) {
+			return;
+		}
+		configure(original.required, original.registration);
 	});
 });

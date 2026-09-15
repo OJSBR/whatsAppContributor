@@ -43,7 +43,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
     public const SETTING_REGISTRATION = 'showOnRegistration';
 
     /**
-     * @copydoc Plugin::register()
+     * Register the plugin and its hooks.
      *
      * The author schema is extended on every request, whether or not the plugin
      * is enabled in the context being served: the schema DAO drops properties
@@ -51,61 +51,53 @@ class WhatsAppContributorPlugin extends GenericPlugin
      * where the plugin is enabled would silently lose stored numbers. Every
      * other hook checks the context itself.
      *
-     * @param null|mixed $mainContextId
+     * @param string $category
+     * @param string $path
+     * @param null|int $mainContextId
      */
-    public function register($category, $path, $mainContextId = null)
+    public function register($category, $path, $mainContextId = null): bool
     {
         $success = parent::register($category, $path, $mainContextId);
         if (!$success || Application::isUnderMaintenance()) {
             return $success;
         }
 
-        Hook::add('Schema::get::author', [$this, 'addWhatsAppToSchema']);
-        Hook::add('Form::config::before', [$this, 'addWhatsAppToForm']);
-        Hook::add('Author::validate', [$this, 'explainInvalidNumber']);
-        Hook::add('Author::newAuthorFromUser', [$this, 'copyPhoneToAuthor']);
+        Hook::add('Schema::get::author', $this->addWhatsAppToSchema(...));
+        Hook::add('Form::config::before', $this->addWhatsAppToForm(...));
+        Hook::add('Author::validate', $this->explainInvalidNumber(...));
+        Hook::add('Author::newAuthorFromUser', $this->copyPhoneToAuthor(...));
 
-        Hook::add('registrationform::Constructor', [$this, 'addRegistrationCheck']);
-        Hook::add('registrationform::readUserVars', [$this, 'readRegistrationNumber']);
-        Hook::add('registrationform::display', [$this, 'addRegistrationField']);
-        Hook::add('registrationform::execute', [$this, 'saveRegistrationNumber']);
+        Hook::add('registrationform::Constructor', $this->addRegistrationCheck(...));
+        Hook::add('registrationform::readUserVars', $this->readRegistrationNumber(...));
+        Hook::add('registrationform::display', $this->addRegistrationField(...));
+        Hook::add('registrationform::execute', $this->saveRegistrationNumber(...));
 
         return $success;
     }
 
     /**
-     * @copydoc Plugin::getName()
-     *
-     * The short, stable registry name used in the plugin manager URLs.
+     * Name shown in the plugins list.
      */
-    public function getName()
-    {
-        return 'whatsappcontributorplugin';
-    }
-
-    /**
-     * @copydoc Plugin::getDisplayName()
-     */
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return __('plugins.generic.whatsAppContributor.displayName');
     }
 
     /**
-     * @copydoc Plugin::getDescription()
+     * Description shown in the plugins list.
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return __('plugins.generic.whatsAppContributor.description');
     }
 
     /**
-     * @copydoc Plugin::getActions()
+     * Add the settings action to the plugin entry in the plugins list.
      */
-    public function getActions($request, $actionArgs)
+    public function getActions($request, $actionArgs): array
     {
         $actions = parent::getActions($request, $actionArgs);
-        if (!$this->getEnabled()) {
+        if (!$request->getContext() || !$this->getEnabled()) {
             return $actions;
         }
 
@@ -124,17 +116,14 @@ class WhatsAppContributorPlugin extends GenericPlugin
     }
 
     /**
-     * @copydoc Plugin::manage()
+     * Show and save the settings form.
      */
-    public function manage($args, $request)
+    public function manage($args, $request): JSONMessage
     {
-        if ($request->getUserVar('verb') !== 'settings') {
-            return parent::manage($args, $request);
-        }
-
+        // The settings belong to a journal; there is nothing to configure site-wide.
         $context = $request->getContext();
-        if (!$context) {
-            return new JSONMessage(false);
+        if ($request->getUserVar('verb') !== 'settings' || !$context) {
+            return parent::manage($args, $request);
         }
 
         $form = new WhatsAppSettingsForm($this, (int) $context->getId());
@@ -170,6 +159,9 @@ class WhatsAppContributorPlugin extends GenericPlugin
         return $value;
     }
 
+    /**
+     * Whether a normalized number is a valid E.164 number.
+     */
     public static function isValidNumber(?string $value): bool
     {
         return $value !== null && preg_match(self::E164_PATTERN, $value) === 1;
@@ -184,7 +176,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [&$schema]
      */
-    public function addWhatsAppToSchema(string $hookName, array $args): bool
+    public function addWhatsAppToSchema($hookName, $args): bool
     {
         $schema = &$args[0];
 
@@ -201,17 +193,17 @@ class WhatsAppContributorPlugin extends GenericPlugin
             ],
         ];
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     /**
      * Hook: Form::config::before (fired through Hook::run, so the form comes as
      * the second argument).
      */
-    public function addWhatsAppToForm(string $hookName, $form): bool
+    public function addWhatsAppToForm($hookName, $form): bool
     {
         if (!$form || ($form->id ?? null) !== 'contributor' || !$this->isEnabledInCurrentContext()) {
-            return false;
+            return Hook::CONTINUE;
         }
 
         $form->addField(new FieldText('whatsapp', [
@@ -221,7 +213,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
             'size' => 'normal',
         ]));
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     /**
@@ -230,14 +222,14 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [&$errors, $author, $props, ...]
      */
-    public function explainInvalidNumber(string $hookName, array $args): bool
+    public function explainInvalidNumber($hookName, $args): bool
     {
         $errors = &$args[0];
         if (!empty($errors['whatsapp'])) {
             $errors['whatsapp'] = [__('plugins.generic.whatsAppContributor.field.invalidFormat')];
         }
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     /**
@@ -247,11 +239,11 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [$author, $user]
      */
-    public function copyPhoneToAuthor(string $hookName, array $args): bool
+    public function copyPhoneToAuthor($hookName, $args): bool
     {
         [$author, $user] = $args;
         if (!$author || !$user || !$this->isEnabledInCurrentContext() || $author->getData('whatsapp')) {
-            return false;
+            return Hook::CONTINUE;
         }
 
         $number = self::normalizeNumber($user->getPhone());
@@ -259,7 +251,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
             $author->setData('whatsapp', $number);
         }
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     //
@@ -282,11 +274,11 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [$form, &$template]
      */
-    public function addRegistrationCheck(string $hookName, array $args): bool
+    public function addRegistrationCheck($hookName, $args): bool
     {
         $form = $args[0];
         if (!$form instanceof Form || !$this->isOnRegistrationForCurrentContext()) {
-            return false;
+            return Hook::CONTINUE;
         }
 
         $form->addCheck(new FormValidatorCustom(
@@ -297,7 +289,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
             fn ($value) => self::isValidNumber(self::normalizeNumber($value))
         ));
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     /**
@@ -305,14 +297,14 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [$form, &$vars]
      */
-    public function readRegistrationNumber(string $hookName, array $args): bool
+    public function readRegistrationNumber($hookName, $args): bool
     {
         if ($this->isOnRegistrationForCurrentContext()) {
             $vars = &$args[1];
             $vars[] = 'whatsapp';
         }
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     /**
@@ -322,18 +314,18 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [$form, &$output]
      */
-    public function addRegistrationField(string $hookName, array $args): bool
+    public function addRegistrationField($hookName, $args): bool
     {
         $form = $args[0];
         if (!$form instanceof Form || !$this->isOnRegistrationForCurrentContext()) {
-            return false;
+            return Hook::CONTINUE;
         }
 
         $required = $this->isRequiredForCurrentContext();
         $templateMgr = PKPTemplateManager::getManager(Application::get()->getRequest());
         $templateMgr->registerFilter('output', fn (string $output): string => self::insertRegistrationField($output, self::renderRegistrationField($form, $required)));
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     /**
@@ -381,11 +373,11 @@ class WhatsAppContributorPlugin extends GenericPlugin
      *
      * @param array $args [$form, ...]
      */
-    public function saveRegistrationNumber(string $hookName, array $args): bool
+    public function saveRegistrationNumber($hookName, $args): bool
     {
         $form = $args[0];
         if (!$form instanceof Form || !isset($form->user) || !$this->isOnRegistrationForCurrentContext()) {
-            return false;
+            return Hook::CONTINUE;
         }
 
         $number = self::normalizeNumber($form->getData('whatsapp'));
@@ -393,13 +385,16 @@ class WhatsAppContributorPlugin extends GenericPlugin
             $form->user->setPhone($number);
         }
 
-        return false;
+        return Hook::CONTINUE;
     }
 
     //
     // Context
     //
 
+    /**
+     * Whether the plugin is enabled in the journal of the request.
+     */
     public function isEnabledInCurrentContext(): bool
     {
         $context = Application::get()->getRequest()->getContext();
@@ -407,6 +402,9 @@ class WhatsAppContributorPlugin extends GenericPlugin
         return $context && (bool) $this->getEnabled($context->getId());
     }
 
+    /**
+     * Whether the journal of the request requires the number.
+     */
     public function isRequiredForCurrentContext(): bool
     {
         $context = Application::get()->getRequest()->getContext();

@@ -41,7 +41,7 @@ class WhatsAppSettingsForm extends Form
     }
 
     /**
-     * @copydoc Form::initData()
+     * Load the current settings of the journal.
      */
     public function initData()
     {
@@ -52,7 +52,7 @@ class WhatsAppSettingsForm extends Form
     }
 
     /**
-     * @copydoc Form::readInputData()
+     * Read the submitted settings.
      */
     public function readInputData()
     {
@@ -61,7 +61,7 @@ class WhatsAppSettingsForm extends Form
     }
 
     /**
-     * @copydoc Form::fetch()
+     * Render the form.
      *
      * @param null|mixed $template
      */
@@ -73,7 +73,7 @@ class WhatsAppSettingsForm extends Form
     }
 
     /**
-     * @copydoc Form::execute()
+     * Save the settings of the journal.
      */
     public function execute(...$functionArgs)
     {

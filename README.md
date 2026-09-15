@@ -1,10 +1,10 @@
 # WhatsApp Contributor — OJS plugin
 
 [![OJS](https://img.shields.io/badge/OJS-3.4%20%7C%203.5-brightgreen)](https://pkp.sfu.ca/ojs/)
-[![Version](https://img.shields.io/badge/version-1.2.0.0-blue)](version.xml)
+[![Version](https://img.shields.io/badge/version-1.2.0.1-blue)](version.xml)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 
-**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.2.0.0/whatsAppContributor-1.2.0.0.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.2.0.0-ojs3.4/whatsAppContributor-1.2.0.0-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
+**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.2.0.1/whatsAppContributor-1.2.0.1.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.2.0.1-ojs3.4/whatsAppContributor-1.2.0.1-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
 
 A generic plugin for **Open Journal Systems (OJS)** that adds a **Phone / WhatsApp** field
 (E.164 format) to the contributor (author) form and, if the journal wants, to the user
@@ -19,8 +19,8 @@ publicly.
 
 | OJS version | Branch | Plugin release |
 |-------------|--------|----------------|
-| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.2.0.0 |
-| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.2.0.0 |
+| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.2.0.1 |
+| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.2.0.1 |
 
 Both branches ship the same code; the locale folders follow each OJS line (38 languages).
 
@@ -69,27 +69,35 @@ In the plugin **Settings**:
 
 ## Tests
 
-- **PHP suite** (`tests/`, 20 tests): the classes against the installed PKP, E.164
-  normalization and validation, the schema property, the registration field (placement,
-  escaping, required marker) and the 38 translations. Run either way from the OJS root:
+- **PHPUnit** (`tests/*Test.php`, on `PKP\tests\PKPTestCase`): the classes against the installed
+  PKP, E.164 normalization and validation, the schema property, the registration field
+  (placement, escaping, required marker), the site level without settings and the 38 translations.
+  From the OJS root:
 
   ```bash
-  php plugins/generic/whatsAppContributor/tests/run.php
   lib/pkp/lib/vendor/bin/phpunit --configuration lib/pkp/tests/phpunit.xml --no-coverage "$PWD/plugins/generic/whatsAppContributor/tests"
   ```
 
-- **Cypress** (`cypress/tests/functional/WhatsAppContributor.cy.js`): the registration field
-  following the settings (absent, required, optional), and a contributor saved through the REST
-  endpoints the contributor form uses (a malformed number refused with the format message, an
-  E.164 number stored). Captcha on login must be off for the run.
-- Verified on OJS 3.5.0.3 and 3.4.0.10: the registration form's validation and the phone saved
-  on the account, the phone carried to the author created from the user, and the Cypress spec
-  green on both.
+- **Cypress** (`cypress/tests/functional/WhatsAppContributor.cy.js`, run by
+  [pkp-github-actions](https://github.com/pkp/pkp-github-actions) on every push): enables the
+  plugin, checks the registration field following the settings (absent, required, optional), and
+  saves a contributor of a submission in progress through the REST endpoints the contributor form
+  uses (a malformed number refused with the format message, an E.164 number stored; it fails with
+  the schema hook off). Settings are put back and the contributors it creates are deleted.
+- Verified on OJS 3.5.0.3 and 3.4.0.10.
+
+Tests are kept in the repository and are not part of the release package.
 
 ## Credits & authorship
 
 - **Developed and maintained by** [OJSBR](https://ojsbr.com) — original plugin.
 - Distributed under the **GNU GPL v3**.
+
+## AI use
+
+Generative AI (Claude, by Anthropic) was used to write and run tests, improve the code and bring
+it in line with PKP standards. Every change is reviewed and tested by OJSBR, which is responsible
+for the published releases.
 
 ## Contributing
 
@@ -117,8 +125,8 @@ editoriais** — não é divulgado publicamente.
 
 | Versão do OJS | Branch | Release do plugin |
 |---------------|--------|-------------------|
-| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.2.0.0 |
-| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.2.0.0 |
+| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.2.0.1 |
+| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.2.0.1 |
 
 As duas branches têm o mesmo código; as pastas de idioma seguem cada linha do OJS (38 idiomas).
 
@@ -147,15 +155,25 @@ Nas **Configurações** do plugin: **tornar o campo obrigatório para todos os c
 
 ### Testes
 
-Suíte PHP em `tests/` (20 testes, pelo `tests/run.php` ou pelo PHPUnit do PKP) e Cypress em
-`cypress/tests/functional/`. Verificado no OJS 3.5.0.3 e 3.4.0.10: validação e gravação do
-telefone no cadastro, telefone levado ao autor criado a partir do usuário, campo seguindo as
-configurações e contribuidor gravado pela API com mensagem de formato.
+PHPUnit em `tests/` (sobre `PKP\tests\PKPTestCase`) e Cypress em `cypress/tests/functional/`
+(rodado pelo [pkp-github-actions](https://github.com/pkp/pkp-github-actions) a cada push), com os
+comandos da seção em inglês. A suíte cobre as classes contra o PKP instalado, a normalização e a
+validação E.164, a propriedade do schema, o campo do cadastro, o nível do site sem configurações e
+as 38 traduções; o Cypress confere o campo do cadastro conforme as configurações e grava um
+contribuidor pela API REST, devolvendo tudo como estava. Verificado no OJS 3.5.0.3 e 3.4.0.10.
+
+Os testes ficam no repositório e não fazem parte do pacote da release.
 
 ### Créditos e autoria
 
 - **Desenvolvido e mantido pela** [OJSBR](https://ojsbr.com) — plugin autoral.
 - Distribuído sob a **GNU GPL v3**.
+
+### Uso de IA
+
+Foi usada IA generativa (Claude, da Anthropic) para escrever e rodar testes, melhorar o código e
+alinhá-lo aos padrões da PKP. Toda mudança é revisada e testada pela OJSBR, que responde pelas
+releases publicadas.
 
 ### Licença
 
