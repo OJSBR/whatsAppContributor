@@ -125,4 +125,13 @@ class WhatsAppTest extends PKPTestCase
         $this->expectExceptionMessage('Unhandled management action!');
         $plugin->manage([], $request);
     }
+
+    public function testTheOutputFilterIsNamedSoOtherPluginsDoNotReplaceIt(): void
+    {
+        // Smarty names every closure filter "closure": an unnamed one and another plugin's replace each other.
+        $source = (string) file_get_contents(dirname(__DIR__) . '/WhatsAppContributorPlugin.php');
+        $filters = substr_count($source, "registerFilter('output'");
+        $this->assertGreaterThan(0, $filters);
+        $this->assertSame($filters, preg_match_all("/, 'whatsAppContributor\\w+'\\);/", $source));
+    }
 }
