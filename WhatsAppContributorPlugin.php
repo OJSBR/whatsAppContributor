@@ -3,51 +3,84 @@
 /**
  * @file plugins/generic/whatsAppContributor/WhatsAppContributorPlugin.php
  *
+ * Copyright (c) 2026 OJSBR (https://ojsbr.com)
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
  * @class WhatsAppContributorPlugin
  *
  * @ingroup plugins_generic_whatsAppContributor
  *
- * @brief Adiciona um campo "Telefone / WhatsApp" (formato E.164) ao
- *        formulário de cadastro de contribuidor (autor) do artigo
- *        no OJS 3.4. Opcional ou obrigatório, configurável por revista.
+ * @brief Adds a "Phone / WhatsApp" field (E.164) to the contributor form, and
+ *        optionally to the user registration form, where it fills the phone
+ *        of the account. The submitter's phone is carried to their authorship,
+ *        as the core does with the ORCID iD.
  *
- *        Persiste em author_settings com setting_name = "whatsapp".
- *        Validação: E.164 (ex.: +5511999999999).
- *        Visibilidade: somente formulário editorial.
+ *        Stored in author_settings (setting_name "whatsapp") for contributors
+ *        and in the user's own "phone" for accounts. Shown in editorial forms
+ *        only.
  */
 
 namespace APP\plugins\generic\whatsAppContributor;
 
 use APP\core\Application;
-use PKP\plugins\GenericPlugin;
-use PKP\plugins\Hook;
+use PKP\components\forms\FieldText;
 use PKP\core\JSONMessage;
+use PKP\form\Form;
+use PKP\form\validation\FormValidatorCustom;
 use PKP\linkAction\LinkAction;
 use PKP\linkAction\request\AjaxModal;
-use PKP\components\forms\FieldText;
-use PKP\config\Config;
+use PKP\plugins\GenericPlugin;
+use PKP\plugins\Hook;
+use PKP\template\PKPTemplateManager;
 
 class WhatsAppContributorPlugin extends GenericPlugin
 {
+    /** E.164: "+", a country code that does not start with 0, up to 15 digits in total. */
+    public const E164_PATTERN = '/^\+[1-9]\d{1,14}$/';
+
+    /** Settings with their defaults. */
+    public const SETTING_REQUIRED = 'whatsappRequired';
+    public const SETTING_REGISTRATION = 'showOnRegistration';
+
     /**
      * @copydoc Plugin::register()
+     *
+     * The author schema is extended on every request, whether or not the plugin
+     * is enabled in the context being served: the schema DAO drops properties
+     * that are not in the schema when an author is saved, so extending it only
+     * where the plugin is enabled would silently lose stored numbers. Every
+     * other hook checks the context itself.
+     *
+     * @param null|mixed $mainContextId
      */
     public function register($category, $path, $mainContextId = null)
     {
         $success = parent::register($category, $path, $mainContextId);
-        if (!Config::getVar('general', 'installed') || defined('RUNNING_UPGRADE')) {
+        if (!$success || Application::isUnderMaintenance()) {
             return $success;
         }
-        if ($success && $this->getEnabled($mainContextId)) {
-            // 1. Schema do autor: registra a propriedade `whatsapp`.
-            //    Persiste em author_settings (setting_name = "whatsapp")
-            //    quando o contribuidor é salvo via API.
-            Hook::add('Schema::get::author', [$this, 'addWhatsAppToSchema']);
 
-            // 2. Form de contribuidor (id = 'contributor'): injeta o campo.
-            Hook::add('Form::config::before', [$this, 'addWhatsAppToForm']);
-        }
+        Hook::add('Schema::get::author', [$this, 'addWhatsAppToSchema']);
+        Hook::add('Form::config::before', [$this, 'addWhatsAppToForm']);
+        Hook::add('Author::validate', [$this, 'explainInvalidNumber']);
+        Hook::add('Author::newAuthorFromUser', [$this, 'copyPhoneToAuthor']);
+
+        Hook::add('registrationform::Constructor', [$this, 'addRegistrationCheck']);
+        Hook::add('registrationform::readUserVars', [$this, 'readRegistrationNumber']);
+        Hook::add('registrationform::display', [$this, 'addRegistrationField']);
+        Hook::add('registrationform::execute', [$this, 'saveRegistrationNumber']);
+
         return $success;
+    }
+
+    /**
+     * @copydoc Plugin::getName()
+     *
+     * The short, stable registry name used in the plugin manager URLs.
+     */
+    public function getName()
+    {
+        return 'whatsappcontributorplugin';
     }
 
     /**
@@ -59,18 +92,6 @@ class WhatsAppContributorPlugin extends GenericPlugin
     }
 
     /**
-     * Nome estável do plugin no registry e nas URLs do gerenciador.
-     * Com namespace, o getName() padrão retorna o FQCN em lower, que
-     * não bate com o que vai pela URL. Forçamos o nome curto da classe.
-     *
-     * @copydoc Plugin::getName()
-     */
-    public function getName()
-    {
-        return 'whatsappcontributorplugin';
-    }
-
-    /**
      * @copydoc Plugin::getDescription()
      */
     public function getDescription()
@@ -79,38 +100,26 @@ class WhatsAppContributorPlugin extends GenericPlugin
     }
 
     /**
-     * Adiciona botão "Settings" na linha do plugin (configuração por revista).
-     *
      * @copydoc Plugin::getActions()
      */
-    public function getActions($request, $verb)
+    public function getActions($request, $actionArgs)
     {
-        $actions = parent::getActions($request, $verb);
+        $actions = parent::getActions($request, $actionArgs);
         if (!$this->getEnabled()) {
             return $actions;
         }
+
         $router = $request->getRouter();
-        $linkAction = new LinkAction(
+        array_unshift($actions, new LinkAction(
             'settings',
             new AjaxModal(
-                $router->url(
-                    $request,
-                    null,
-                    null,
-                    'manage',
-                    null,
-                    [
-                        'verb' => 'settings',
-                        'plugin' => $this->getName(),
-                        'category' => 'generic',
-                    ]
-                ),
+                $router->url($request, null, null, 'manage', null, ['verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic']),
                 $this->getDisplayName()
             ),
             __('manager.plugins.settings'),
             null
-        );
-        array_unshift($actions, $linkAction);
+        ));
+
         return $actions;
     }
 
@@ -128,8 +137,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
             return new JSONMessage(false);
         }
 
-        $form = new WhatsAppSettingsForm($this, $context->getId());
-
+        $form = new WhatsAppSettingsForm($this, (int) $context->getId());
         if ($request->getUserVar('save')) {
             $form->readInputData();
             if ($form->validate()) {
@@ -139,96 +147,270 @@ class WhatsAppContributorPlugin extends GenericPlugin
         } else {
             $form->initData();
         }
+
         return new JSONMessage(true, $form->fetch($request));
     }
 
     /**
+     * A number as typed, normalized to E.164 when it can be: spaces, dots,
+     * hyphens and parentheses are removed, and a leading international "00"
+     * becomes "+". Returns null for an empty value.
+     */
+    public static function normalizeNumber($raw): ?string
+    {
+        $value = trim((string) $raw);
+        if ($value === '') {
+            return null;
+        }
+        $value = preg_replace('/[\s.\-()\/]+/u', '', $value) ?? $value;
+        if (str_starts_with($value, '00')) {
+            $value = '+' . substr($value, 2);
+        }
+
+        return $value;
+    }
+
+    public static function isValidNumber(?string $value): bool
+    {
+        return $value !== null && preg_match(self::E164_PATTERN, $value) === 1;
+    }
+
+    //
+    // Contributors
+    //
+
+    /**
      * Hook: Schema::get::author
      *
-     * Adiciona a propriedade `whatsapp` ao schema do autor.
-     *
-     * @param string $hookName
-     * @param array  $args     [&$schema]
-     *
-     * @return bool
+     * @param array $args [&$schema]
      */
-    public function addWhatsAppToSchema($hookName, $args)
+    public function addWhatsAppToSchema(string $hookName, array $args): bool
     {
         $schema = &$args[0];
 
-        // - nullable: schema permite vazio. Obrigatoriedade real é
-        //   aplicada pelo FieldText (isRequired) no formulário.
-        // - regex E.164: começa com +, primeiro dígito 1-9, total 2-15 dígitos.
         $schema->properties->whatsapp = (object) [
             'type' => 'string',
+            // In the summary: the contributor list of the workflow is built from
+            // summaries, and the edit form reopens with what the list holds. Only
+            // users with access to the submission read it.
             'apiSummary' => true,
             'multilingual' => false,
             'validation' => [
                 'nullable',
-                'regex:/^\+[1-9]\d{1,14}$/',
+                'regex:' . self::E164_PATTERN,
             ],
         ];
 
-        return Hook::CONTINUE;
+        return false;
     }
 
     /**
-     * Hook: Form::config::before
-     *
-     * Adiciona o campo `whatsapp` ao formulário de contribuidor.
-     *
-     * @param string $hookName
-     * @param \PKP\components\forms\FormComponent $form
-     *
-     * @return bool
+     * Hook: Form::config::before (fired through Hook::run, so the form comes as
+     * the second argument).
      */
-    public function addWhatsAppToForm($hookName, $form)
+    public function addWhatsAppToForm(string $hookName, $form): bool
     {
-        if (!$form || $form->id !== 'contributor') {
-            return Hook::CONTINUE;
+        if (!$form || ($form->id ?? null) !== 'contributor' || !$this->isEnabledInCurrentContext()) {
+            return false;
         }
-
-        $request = Application::get()->getRequest();
-        $context = $request->getContext();
-        if (!$context) {
-            return Hook::CONTINUE;
-        }
-
-        $required = $this->isRequiredForCurrentContext();
 
         $form->addField(new FieldText('whatsapp', [
             'label' => __('plugins.generic.whatsAppContributor.field.label'),
             'description' => __('plugins.generic.whatsAppContributor.field.description'),
-            'isRequired' => $required,
+            'isRequired' => $this->isRequiredForCurrentContext(),
             'size' => 'normal',
         ]));
 
-        return Hook::CONTINUE;
+        return false;
     }
 
     /**
-     * Lê a flag de obrigatoriedade do contexto atual.
+     * Hook: Author::validate — replace the generic "invalid format" message of
+     * the schema with one that shows the expected format.
      *
-     * @return bool
+     * @param array $args [&$errors, $author, $props, ...]
      */
-    public function isRequiredForCurrentContext()
+    public function explainInvalidNumber(string $hookName, array $args): bool
     {
-        $request = Application::get()->getRequest();
-        $context = $request->getContext();
-        if (!$context) {
+        $errors = &$args[0];
+        if (!empty($errors['whatsapp'])) {
+            $errors['whatsapp'] = [__('plugins.generic.whatsAppContributor.field.invalidFormat')];
+        }
+
+        return false;
+    }
+
+    /**
+     * Hook: Author::newAuthorFromUser — the submitter becomes an author of their
+     * own submission; a valid phone on the account becomes the author's number,
+     * as the core does with the ORCID iD.
+     *
+     * @param array $args [$author, $user]
+     */
+    public function copyPhoneToAuthor(string $hookName, array $args): bool
+    {
+        [$author, $user] = $args;
+        if (!$author || !$user || !$this->isEnabledInCurrentContext() || $author->getData('whatsapp')) {
             return false;
         }
-        return (bool) $this->getSetting($context->getId(), 'whatsappRequired');
-    }
-}
 
-// Compatibilidade legacy do OJS 3.4: o registry procura a classe pelo
-// nome curto sem namespace. Quando PKP_STRICT_MODE não está ativo,
-// criamos um alias para que `WhatsAppContributorPlugin` (sem namespace)
-// resolva para a classe namespaced.
-if (!PKP_STRICT_MODE) {
-    class_alias(
-        '\APP\plugins\generic\whatsAppContributor\WhatsAppContributorPlugin',
-        '\WhatsAppContributorPlugin'
-    );
+        $number = self::normalizeNumber($user->getPhone());
+        if (self::isValidNumber($number)) {
+            $author->setData('whatsapp', $number);
+        }
+
+        return false;
+    }
+
+    //
+    // User registration
+    //
+
+    /**
+     * Whether the registration form asks for the number in the current journal.
+     */
+    public function isOnRegistrationForCurrentContext(): bool
+    {
+        $context = Application::get()->getRequest()->getContext();
+
+        return $context && $this->getEnabled($context->getId()) && (bool) $this->getSetting($context->getId(), self::SETTING_REGISTRATION);
+    }
+
+    /**
+     * Hook: registrationform::Constructor — validate the number, required when
+     * the journal requires it from contributors.
+     *
+     * @param array $args [$form, &$template]
+     */
+    public function addRegistrationCheck(string $hookName, array $args): bool
+    {
+        $form = $args[0];
+        if (!$form instanceof Form || !$this->isOnRegistrationForCurrentContext()) {
+            return false;
+        }
+
+        $form->addCheck(new FormValidatorCustom(
+            $form,
+            'whatsapp',
+            $this->isRequiredForCurrentContext() ? 'required' : 'optional',
+            'plugins.generic.whatsAppContributor.field.invalidFormat',
+            fn ($value) => self::isValidNumber(self::normalizeNumber($value))
+        ));
+
+        return false;
+    }
+
+    /**
+     * Hook: registrationform::readUserVars
+     *
+     * @param array $args [$form, &$vars]
+     */
+    public function readRegistrationNumber(string $hookName, array $args): bool
+    {
+        if ($this->isOnRegistrationForCurrentContext()) {
+            $vars = &$args[1];
+            $vars[] = 'whatsapp';
+        }
+
+        return false;
+    }
+
+    /**
+     * Hook: registrationform::display — the registration template has no hook,
+     * so the field is added to the rendered form by an output filter, inside the
+     * "identity" fieldset, after its last field.
+     *
+     * @param array $args [$form, &$output]
+     */
+    public function addRegistrationField(string $hookName, array $args): bool
+    {
+        $form = $args[0];
+        if (!$form instanceof Form || !$this->isOnRegistrationForCurrentContext()) {
+            return false;
+        }
+
+        $required = $this->isRequiredForCurrentContext();
+        $templateMgr = PKPTemplateManager::getManager(Application::get()->getRequest());
+        $templateMgr->registerFilter('output', fn (string $output): string => self::insertRegistrationField($output, self::renderRegistrationField($form, $required)));
+
+        return false;
+    }
+
+    /**
+     * The markup of the registration field, in the style of the other fields.
+     */
+    public static function renderRegistrationField(Form $form, bool $required): string
+    {
+        $e = fn ($text) => htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
+        $errors = $form->getErrorsArray();
+        $marker = $required
+            ? ' <span class="required" aria-hidden="true">*</span><span class="pkp_screen_reader">' . $e(__('common.required')) . '</span>'
+            : '';
+
+        return '<div class="whatsapp whatsAppContributor"><label><span class="label">' . $e(__('plugins.generic.whatsAppContributor.field.label')) . $marker . '</span>'
+            . '<input type="tel" name="whatsapp" id="whatsAppContributor" value="' . $e($form->getData('whatsapp')) . '" maxlength="32" autocomplete="tel"'
+            . ' aria-describedby="whatsAppContributorDescription"' . ($required ? ' required aria-required="true"' : '') . '></label>'
+            . '<div class="description" id="whatsAppContributorDescription">' . $e(__('plugins.generic.whatsAppContributor.field.description')) . '</div>'
+            . (isset($errors['whatsapp']) ? '<span class="error">' . $e($errors['whatsapp']) . '</span>' : '')
+            . '</div>';
+    }
+
+    /**
+     * Put the field at the end of the fields of fieldset.identity in
+     * form#register, once. Anything else is returned unchanged.
+     */
+    public static function insertRegistrationField(string $output, string $field): string
+    {
+        $form = strpos($output, 'id="register"');
+        if ($form === false || preg_match('/<input\b[^>]*\bname="whatsapp"/', $output)) {
+            return $output;
+        }
+        $identity = strpos($output, '<fieldset class="identity"', $form);
+        $end = $identity === false ? false : strpos($output, '</fieldset>', $identity);
+        if ($end === false) {
+            return $output;
+        }
+        $fieldsEnd = strrpos(substr($output, 0, $end), '</div>');
+
+        return $fieldsEnd === false || $fieldsEnd < $identity ? $output : substr_replace($output, $field, $fieldsEnd, 0);
+    }
+
+    /**
+     * Hook: registrationform::execute — store the number as the phone of the
+     * new account, before the core adds it.
+     *
+     * @param array $args [$form, ...]
+     */
+    public function saveRegistrationNumber(string $hookName, array $args): bool
+    {
+        $form = $args[0];
+        if (!$form instanceof Form || !isset($form->user) || !$this->isOnRegistrationForCurrentContext()) {
+            return false;
+        }
+
+        $number = self::normalizeNumber($form->getData('whatsapp'));
+        if (self::isValidNumber($number)) {
+            $form->user->setPhone($number);
+        }
+
+        return false;
+    }
+
+    //
+    // Context
+    //
+
+    public function isEnabledInCurrentContext(): bool
+    {
+        $context = Application::get()->getRequest()->getContext();
+
+        return $context && (bool) $this->getEnabled($context->getId());
+    }
+
+    public function isRequiredForCurrentContext(): bool
+    {
+        $context = Application::get()->getRequest()->getContext();
+
+        return $context && (bool) $this->getSetting($context->getId(), self::SETTING_REQUIRED);
+    }
 }

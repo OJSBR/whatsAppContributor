@@ -3,23 +3,27 @@
 /**
  * @file plugins/generic/whatsAppContributor/WhatsAppSettingsForm.php
  *
+ * Copyright (c) 2026 OJSBR (https://ojsbr.com)
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ *
  * @class WhatsAppSettingsForm
  *
  * @ingroup plugins_generic_whatsAppContributor
  *
- * @brief Formulário de configuração do plugin por revista.
+ * @brief Per-journal settings: whether the number is required, and whether the
+ *        registration form asks for it.
  */
 
 namespace APP\plugins\generic\whatsAppContributor;
 
 use APP\template\TemplateManager;
 use PKP\form\Form;
-use PKP\form\validation\FormValidatorPost;
 use PKP\form\validation\FormValidatorCSRF;
+use PKP\form\validation\FormValidatorPost;
 
 class WhatsAppSettingsForm extends Form
 {
-    /** @var int ID do contexto (revista) */
+    /** @var int Journal id */
     public $contextId;
 
     /** @var WhatsAppContributorPlugin */
@@ -29,6 +33,7 @@ class WhatsAppSettingsForm extends Form
     {
         $this->contextId = $contextId;
         $this->plugin = $plugin;
+
         parent::__construct($plugin->getTemplateResource('settings.tpl'));
 
         $this->addCheck(new FormValidatorPost($this));
@@ -40,10 +45,9 @@ class WhatsAppSettingsForm extends Form
      */
     public function initData()
     {
-        $this->setData(
-            'whatsappRequired',
-            (bool) $this->plugin->getSetting($this->contextId, 'whatsappRequired')
-        );
+        foreach ([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION] as $name) {
+            $this->setData($name, (bool) $this->plugin->getSetting($this->contextId, $name));
+        }
         parent::initData();
     }
 
@@ -52,15 +56,14 @@ class WhatsAppSettingsForm extends Form
      */
     public function readInputData()
     {
-        $this->readUserVars(['whatsappRequired']);
+        $this->readUserVars([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION]);
         parent::readInputData();
     }
 
     /**
      * @copydoc Form::fetch()
      *
-     * Disponibiliza pluginName no template para a action de salvar
-     * conseguir resolver o plugin pelo registry.
+     * @param null|mixed $template
      */
     public function fetch($request, $template = null, $display = false)
     {
@@ -74,19 +77,9 @@ class WhatsAppSettingsForm extends Form
      */
     public function execute(...$functionArgs)
     {
-        $this->plugin->updateSetting(
-            $this->contextId,
-            'whatsappRequired',
-            (bool) $this->getData('whatsappRequired'),
-            'bool'
-        );
+        foreach ([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION] as $name) {
+            $this->plugin->updateSetting($this->contextId, $name, (bool) $this->getData($name), 'bool');
+        }
         return parent::execute(...$functionArgs);
     }
-}
-
-if (!PKP_STRICT_MODE) {
-    class_alias(
-        '\APP\plugins\generic\whatsAppContributor\WhatsAppSettingsForm',
-        '\WhatsAppSettingsForm'
-    );
 }
