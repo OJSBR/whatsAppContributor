@@ -17,8 +17,6 @@ msgstr "Fügt dem Mitwirkenden-Formular (Autor) ein Telefon-/WhatsApp-Feld (E.16
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefon / WhatsApp"
 
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Internationale Telefonnummer im E.164-Format, beginnend mit + und Ländervorwahl. Beispiel: +5511999999999. Diese Nummer wird nur für die Kontaktaufnahme durch die Zeitschriftenredaktion verwendet und nicht öffentlich bekannt gegeben."
 
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
 msgstr "Verwenden Sie das E.164-Format: + gefolgt von Ländervorwahl und Nummer, ohne Leerzeichen oder Bindestriche. Beispiel: +5511999999999."
@@ -34,3 +32,9 @@ msgstr "Telefon / WhatsApp auch im Registrierungsformular abfragen. Die Nummer w
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Die Nummer beim Erfassen einer beitragenden Person abfragen"
+
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+49 151 12345678"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Internationales Format, beginnend mit + und der Landesvorwahl. Beispiel: {$example}. Wird nur für die Kontaktaufnahme durch die Redaktion verwendet und nicht veröffentlicht."

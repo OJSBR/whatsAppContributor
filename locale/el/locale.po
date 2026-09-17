@@ -20,9 +20,6 @@ msgstr "Προσθέτει πεδίο τηλεφώνου/WhatsApp (μορφή E.
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Τηλέφωνο / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Διεθνής αριθμός τηλεφώνου σε μορφή E.164, που αρχίζει με + και τον κωδικό χώρας. Παράδειγμα: +5511999999999. Ο αριθμός θα χρησιμοποιηθεί μόνο για επικοινωνία από τους επιμελητές του περιοδικού και δεν θα δημοσιοποιηθεί."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "Να ζητείται και το Τηλέφωνο / WhatsApp στη φ�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

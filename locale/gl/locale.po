@@ -17,8 +17,6 @@ msgstr "Engade un campo de teléfono/WhatsApp (formato E.164) ao formulario de c
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Teléfono / WhatsApp"
 
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Número de teléfono internacional en formato E.164, comezando por + e o código de país. Exemplo: +5511999999999. Este número só se empregará para o contacto por parte do persoal editor e non se fará público."
 
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
 msgstr "Empregue o formato E.164: + seguido do código de país e o número, sen espazos nin guións. Exemplo: +5511999999999."
@@ -34,3 +32,9 @@ msgstr "Pedir tamén o Teléfono / WhatsApp no formulario de rexistro de usuario
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Pedir o número ao rexistrar un autor ou coautor"
+
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+34 612 345 678"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Formato internacional, comezando con + e o código do país. Exemplo: {$example}. Úsase só para o contacto dos editores da revista; non se publica."

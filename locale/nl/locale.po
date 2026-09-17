@@ -17,8 +17,6 @@ msgstr "Voegt een telefoon-/WhatsApp-veld (E.164-notatie) toe aan het formulier 
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefoon / WhatsApp"
 
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Internationaal telefoonnummer in E.164-notatie, beginnend met + en de landcode. Voorbeeld: +5511999999999. Dit nummer wordt alleen gebruikt voor contact door de redactie en wordt niet openbaar gemaakt."
 
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
 msgstr "Gebruik de E.164-notatie: + gevolgd door landcode en nummer, zonder spaties of streepjes. Voorbeeld: +5511999999999."
@@ -34,3 +32,9 @@ msgstr "Vraag ook naar Telefoon / WhatsApp op het registratieformulier. Het numm
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Het nummer vragen bij het vastleggen van een auteur of co-auteur"
+
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+31 6 12345678"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Internationaal formaat, beginnend met + en het landnummer. Voorbeeld: {$example}. Alleen voor contact door de redactie; het wordt niet gepubliceerd."

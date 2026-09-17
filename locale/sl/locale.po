@@ -20,9 +20,6 @@ msgstr "Obrazcu sodelujočega (avtorja) doda polje telefon/WhatsApp (oblika E.16
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefon / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Mednarodna telefonska številka v obliki E.164, ki se začne s + in klicno številko države. Primer: +5511999999999. Številko bodo za stik uporabili samo uredniki revije in ne bo javno objavljena."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "Telefon / WhatsApp zahtevaj tudi v obrazcu za registracijo. Številka se
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

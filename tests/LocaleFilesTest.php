@@ -33,6 +33,7 @@ class LocaleFilesTest extends PKPTestCase
 
     /** Placeholders each key must keep, exactly once. */
     public const PLACEHOLDERS = [
+        'plugins.generic.whatsAppContributor.field.description' => ['{$example}'],
     ];
 
     protected function localeDir(): string
@@ -69,7 +70,7 @@ class LocaleFilesTest extends PKPTestCase
     {
         $files = $this->files();
         $master = array_keys($files[self::MASTER]->entries);
-        $this->assertCount(9, $master);
+        $this->assertCount(10, $master);
 
         foreach ($files as $locale => $file) {
             $this->assertSame($master, array_keys($file->entries), "Keys of {$locale} differ from " . self::MASTER . '.');

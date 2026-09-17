@@ -17,8 +17,6 @@ msgstr "Adds a phone/WhatsApp field (E.164 format) to the contributor (author) f
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Phone / WhatsApp"
 
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "International phone number in E.164 format, starting with + and country code. Example: +5511999999999. This number will be used only for contact by the journal editors and will not be publicly disclosed."
 
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
 msgstr "Use E.164 format: + followed by country code and number, no spaces or hyphens. Example: +5511999999999."
@@ -34,3 +32,9 @@ msgstr "Also ask for the Phone / WhatsApp on the user registration form. The num
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

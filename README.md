@@ -1,10 +1,10 @@
 # WhatsApp Contributor — OJS plugin
 
 [![OJS](https://img.shields.io/badge/OJS-3.4%20%7C%203.5-brightgreen)](https://pkp.sfu.ca/ojs/)
-[![Version](https://img.shields.io/badge/version-1.3.0.0-blue)](version.xml)
+[![Version](https://img.shields.io/badge/version-1.4.0.0-blue)](version.xml)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 
-**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.3.0.0/whatsAppContributor-1.3.0.0.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.3.0.0-ojs3.4/whatsAppContributor-1.3.0.0-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
+**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.4.0.0/whatsAppContributor-1.4.0.0.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.4.0.0-ojs3.4/whatsAppContributor-1.4.0.0-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
 
 > **This is the `stable-3_4_0` branch (OJS 3.4).** For OJS 3.5 use the
 > [`stable-3_5_0`](../../tree/stable-3_5_0) branch.
@@ -22,8 +22,8 @@ publicly.
 
 | OJS version | Branch | Plugin release |
 |-------------|--------|----------------|
-| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.3.0.0 |
-| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.3.0.0 |
+| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.4.0.0 |
+| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.4.0.0 |
 
 Both branches ship the same code; the locale folders follow each OJS line (38 languages).
 
@@ -74,8 +74,17 @@ Each place is decided on its own.
   `registrationform::Constructor`, `::readUserVars` and `::execute` validate, read and store
   the number on the new account.
 
+**How the field looks and where it lands on the registration page.** Since 1.4.0.0 the field is
+not written with markup of its own and left to the mercy of the theme's stylesheet: it is built
+from the markup of a field the theme itself wrote — the same wrapper, the same classes, the same
+shape of label — and put **right after that field**, which keeps it with the personal data
+instead of after the password and the privacy notice. Where the page gives nothing to model it
+on, the markup of the core is used and the field goes before the control that sends the form.
+It is also easier to fill in: the keyboard of a phone (`inputmode="tel"`), an example in the
+field itself, and the format checked by the browser before the form is sent.
+
 **Where the field lands on the registration page.** The page belongs to the theme, and a theme
-is free to write its own form. Since 1.3.0.0 the field is anchored on where the form **posts
+is free to write its own form. Since 1.4.0.0 the field is anchored on where the form **posts
 to** (`…/user/register`), which no theme can change, and lands with the other fields.
 
 ## Tests
@@ -143,8 +152,8 @@ editoriais** — não é divulgado publicamente.
 
 | Versão do OJS | Branch | Release do plugin |
 |---------------|--------|-------------------|
-| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.3.0.0 |
-| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.3.0.0 |
+| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.4.0.0 |
+| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.4.0.0 |
 
 As duas branches têm o mesmo código; as pastas de idioma seguem cada linha do OJS (38 idiomas).
 
@@ -177,7 +186,16 @@ Nas **Configurações** do plugin:
 
 Cada lugar é decidido separadamente.
 
-**Onde o campo entra na página de cadastro.** A página é do tema. Desde a 1.3.0.0 o campo é
+**Como o campo fica e onde entra na página de cadastro.** Desde a 1.4.0.0 o campo não é escrito
+com marcação própria à espera de que o tema o estilize: ele é montado a partir da marcação de um
+campo que o **próprio tema** escreveu — mesmo invólucro, mesmas classes, mesma forma de rótulo —
+e entra **logo depois desse campo**, o que o mantém junto dos dados pessoais em vez de depois da
+senha e do aviso de privacidade. Onde a página não oferece nada para servir de modelo, usa-se a
+marcação do núcleo e o campo vai antes do botão que envia. E ficou mais fácil de preencher:
+teclado de telefone (`inputmode="tel"`), exemplo dentro do próprio campo e formato conferido pelo
+navegador antes do envio.
+
+**Onde o campo entra na página de cadastro.** A página é do tema. Desde a 1.4.0.0 o campo é
 ancorado em **para onde o formulário posta** (`…/user/register`), que nenhum tema muda, e entra
 junto dos outros campos.
 

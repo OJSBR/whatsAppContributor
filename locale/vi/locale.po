@@ -20,9 +20,6 @@ msgstr "Thêm trường điện thoại/WhatsApp (định dạng E.164) vào bi�
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Điện thoại / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Số điện thoại quốc tế theo định dạng E.164, bắt đầu bằng dấu + và mã quốc gia. Ví dụ: +5511999999999. Số này chỉ được biên tập viên tạp chí dùng để liên hệ và sẽ không được công bố."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "Hỏi cả Điện thoại / WhatsApp trong biểu mẫu đăng ký ngư
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

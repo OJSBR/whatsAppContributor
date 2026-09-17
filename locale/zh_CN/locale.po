@@ -20,9 +20,6 @@ msgstr "在贡献者（作者）表单中添加电话/WhatsApp 字段（E.164 �
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "电话 / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "E.164 格式的国际电话号码，以 + 和国家/地区代码开头。例如：+5511999999999。该号码仅供期刊编辑联系使用，不会公开。"
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "在用户注册表单中也询问电话 / WhatsApp。该号码保存为�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."
