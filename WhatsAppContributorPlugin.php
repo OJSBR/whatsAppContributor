@@ -82,15 +82,15 @@ class WhatsAppContributorPlugin extends GenericPlugin
             return $success;
         }
 
-        Hook::add('Schema::get::author', [$this, 'addWhatsAppToSchema']);
-        Hook::add('Form::config::before', [$this, 'addWhatsAppToForm']);
-        Hook::add('Author::validate', [$this, 'explainInvalidNumber']);
-        Hook::add('Author::newAuthorFromUser', [$this, 'copyPhoneToAuthor']);
+        Hook::add('Schema::get::author', $this->addWhatsAppToSchema(...));
+        Hook::add('Form::config::before', $this->addWhatsAppToForm(...));
+        Hook::add('Author::validate', $this->explainInvalidNumber(...));
+        Hook::add('Author::newAuthorFromUser', $this->copyPhoneToAuthor(...));
 
-        Hook::add('registrationform::Constructor', [$this, 'addRegistrationCheck']);
-        Hook::add('registrationform::readUserVars', [$this, 'readRegistrationNumber']);
-        Hook::add('registrationform::display', [$this, 'addRegistrationField']);
-        Hook::add('registrationform::execute', [$this, 'saveRegistrationNumber']);
+        Hook::add('registrationform::Constructor', $this->addRegistrationCheck(...));
+        Hook::add('registrationform::readUserVars', $this->readRegistrationNumber(...));
+        Hook::add('registrationform::display', $this->addRegistrationField(...));
+        Hook::add('registrationform::execute', $this->saveRegistrationNumber(...));
 
         return $success;
     }
@@ -450,9 +450,22 @@ class WhatsAppContributorPlugin extends GenericPlugin
             }
         }
 
-        // Anything else: with the other fields, just before the control that
-        // sends the form — never after it.
-        if (preg_match_all('~<(?:button|input)\b[^>]*\btype="submit"~i', substr($output, $formStart, $formEnd - $formStart), $submits, PREG_OFFSET_CAPTURE)) {
+        // Anything else: the field belongs to the personal data, so it goes
+        // before the part where the account begins — the username or the
+        // password — and never at the end of the page.
+        $inForm = substr($output, $formStart, $formEnd - $formStart);
+        foreach (['~<input\b[^>]*\bname="username"~i', '~<input\b[^>]*\btype="password"~i'] as $pattern) {
+            if (!preg_match($pattern, $inForm, $access, PREG_OFFSET_CAPTURE)) {
+                continue;
+            }
+            $block = self::fieldBlock($output, $formStart + $access[0][1], $formEnd);
+            $at = $block ? $block[0] : $formStart + $access[0][1];
+            // Before the block that holds it, or before the field itself.
+            return substr_replace($output, $fallback, $at, 0);
+        }
+
+        // No account fields either: before the control that sends the form.
+        if (preg_match_all('~<(?:button|input)\b[^>]*\btype="submit"~i', $inForm, $submits, PREG_OFFSET_CAPTURE)) {
             $last = end($submits[0]);
 
             return substr_replace($output, $fallback, $formStart + $last[1], 0);

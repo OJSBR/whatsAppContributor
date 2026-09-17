@@ -99,16 +99,25 @@ class WhatsAppTest extends PKPTestCase
         $this->assertLessThan(strpos($output, '<button type="submit">'), strpos($output, 'name="whatsapp"'));
 
         // Where there is nothing to model it on, the markup of the core is used
-        // and the field goes before the control that sends the form.
+        // and the field goes before the part where the account begins — never
+        // after the password, and never at the end of the page.
         $noModel = '<form class="form-register" action="/index.php/j/user/register">'
-            . '<input type="password" name="password"><button type="submit">Cadastrar</button></form>';
-        $this->assertStringContainsString('<div class="whatsAppContributor"></div><button type="submit">',
-            WhatsAppContributorPlugin::insertRegistrationField($noModel, self::parts(), '<div class="whatsAppContributor"></div>'));
+            . '<div class="form-group"><label>Senha</label><input type="password" name="password"></div>'
+            . '<button type="submit">Cadastrar</button></form>';
+        $withField = WhatsAppContributorPlugin::insertRegistrationField($noModel, self::parts(), '<div class="whatsAppContributor"></div>');
+        $this->assertLessThan(strpos($withField, 'type="password"'), strpos($withField, 'whatsAppContributor'));
+        $this->assertLessThan(strpos($withField, '<button type="submit">'), strpos($withField, 'whatsAppContributor'));
 
-        // And with no control either, at the end of the form.
-        $bare = '<form class="form-register" action="/index.php/j/user/register"><input type="password" name="password"></form>';
-        $this->assertStringContainsString('<div class="whatsAppContributor"></div></form>',
-            WhatsAppContributorPlugin::insertRegistrationField($bare, self::parts(), '<div class="whatsAppContributor"></div>'));
+        // The same when the account begins with the username.
+        $byUsername = '<form class="form-register" action="/index.php/j/user/register">'
+            . '<div class="form-group"><input name="username"></div><button type="submit">ok</button></form>';
+        $output2 = WhatsAppContributorPlugin::insertRegistrationField($byUsername, self::parts(), '<div class="whatsAppContributor"></div>');
+        $this->assertLessThan(strpos($output2, 'name="username"'), strpos($output2, 'whatsAppContributor'));
+
+        // Only with no account fields and no button does it go to the end.
+        $onlyText = '<form class="form-register" action="/index.php/j/user/register"><p>Texto</p></form>';
+        $this->assertStringContainsString('<p>Texto</p><div class="whatsAppContributor"></div></form>',
+            WhatsAppContributorPlugin::insertRegistrationField($onlyText, self::parts(), '<div class="whatsAppContributor"></div>'));
 
         // A form that posts somewhere else is not the registration form.
         $login = '<form class="form-login" method="post" action="https://x/index.php/j/pt_BR/login/signIn"></form>';
