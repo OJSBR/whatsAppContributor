@@ -121,9 +121,10 @@ class PluginTest extends PKPTestCase
 
         $form = (string) file_get_contents(BASE_SYS_DIR . '/lib/pkp/classes/form/Form.php');
         // Hook::call(strtolower(end($classNameParts) . '::method')) — all lower case.
-        preg_match_all('/Hook::call\(strtolower\(end\(\$classNameParts\) \. \'::([A-Za-z]+)\'\)/', $form, $whole);
+        // (3.4 spells the same thing strtolower_codesafe().)
+        preg_match_all('/Hook::call\(strtolower(?:_codesafe)?\(end\(\$classNameParts\) \. \'::([A-Za-z]+)\'\)/', $form, $whole);
         // Hook::call(strtolower(end($classNameParts)) . '::Method') — the method keeps its case.
-        preg_match_all('/Hook::call\(strtolower\(end\(\$classNameParts\)\) \. \'::([A-Za-z]+)\'/', $form, $partial);
+        preg_match_all('/Hook::call\(strtolower(?:_codesafe)?\(end\(\$classNameParts\)\) \. \'::([A-Za-z]+)\'/', $form, $partial);
         $this->assertNotEmpty($whole[1], 'Form.php still fires hooks lowercased whole');
 
         $expected = [];
