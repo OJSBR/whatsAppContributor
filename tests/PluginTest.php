@@ -101,6 +101,50 @@ class PluginTest extends PKPTestCase
         $this->assertTrue(class_exists($class), "Without index.php the main class must be {$class}.");
     }
 
+    /**
+     * Every hook of an old-style form is registered under the name the core
+     * really fires.
+     *
+     * Form.php does not write those names the same way: the constructor and the
+     * display lowercase the class name and keep the method as it is, while
+     * readUserVars(), execute(), initData(), validate() and getLocaleFieldNames()
+     * lowercase the whole name. A name in the wrong case raises nothing at all:
+     * the hook is simply never called, and the plugin quietly does nothing. The
+     * expected spelling is read from the installation itself, so the test follows
+     * the core rather than a copy of it.
+     */
+    public function testLegacyFormHooksUseTheNameTheCoreFires(): void
+    {
+        $source = (string) file_get_contents(dirname(__DIR__) . '/WhatsAppContributorPlugin.php');
+        preg_match_all('/Hook::add\(\'([a-z]+form::[A-Za-z]+)\'/', $source, $registered);
+        $this->assertNotEmpty($registered[1], 'the plugin registers hooks of the old forms');
+
+        $form = (string) file_get_contents(BASE_SYS_DIR . '/lib/pkp/classes/form/Form.php');
+        // Hook::call(strtolower(end($classNameParts) . '::method')) — all lower case.
+        preg_match_all('/Hook::call\(strtolower\(end\(\$classNameParts\) \. \'::([A-Za-z]+)\'\)/', $form, $whole);
+        // Hook::call(strtolower(end($classNameParts)) . '::Method') — the method keeps its case.
+        preg_match_all('/Hook::call\(strtolower\(end\(\$classNameParts\)\) \. \'::([A-Za-z]+)\'/', $form, $partial);
+        $this->assertNotEmpty($whole[1], 'Form.php still fires hooks lowercased whole');
+
+        $expected = [];
+        foreach ($whole[1] as $method) {
+            $expected[strtolower($method)] = strtolower($method);
+        }
+        foreach ($partial[1] as $method) {
+            $expected[strtolower($method)] = $method;
+        }
+
+        foreach ($registered[1] as $name) {
+            [$class, $method] = explode('::', $name);
+            $this->assertArrayHasKey(strtolower($method), $expected, "Form.php fires no hook {$method}.");
+            $this->assertSame(
+                $class . '::' . $expected[strtolower($method)],
+                $name,
+                "The core fires {$class}::{$expected[strtolower($method)]}; a hook registered as {$name} never runs."
+            );
+        }
+    }
+
     public function testNoInheritedPropertyIsRedeclaredWithAType(): void
     {
         // A typed redeclaration of an untyped parent property ($pluginPath...) is fatal.

@@ -25,6 +25,8 @@ describe('WhatsApp Contributor plugin', function() {
 	let original = null;
 	// Contributors created by the contributor test, deleted in after() even when an assertion fails.
 	const created = [];
+	// Submissions created by the registration tests, deleted in after() even when an assertion fails.
+	const submissions = [];
 
 	// A valid iD, different at each call (two contributors of a publication may not share one).
 	let orcidSeed = Math.floor(Math.random() * 900000);
@@ -140,6 +142,98 @@ describe('WhatsApp Contributor plugin', function() {
 		cy.get(settingsForm).should('not.exist');
 	};
 
+	// A site with the Altcha captcha turned on for registration expects a solved
+	// proof of work along with the form. The PKP test data has it off, so this is
+	// a no-op there; solving it is what lets the very same spec run against a real
+	// installation, which is where the plugin has to work anyway.
+	const solveAltcha = (win) => {
+		const widget = win.document.querySelector('altcha-widget');
+		if (!widget) {
+			return;
+		}
+		const challenge = JSON.parse(widget.getAttribute('challengejson'));
+		const encoder = new win.TextEncoder();
+		const digest = async (number) => {
+			const buffer = await win.crypto.subtle.digest(challenge.algorithm, encoder.encode(challenge.salt + number));
+			return [...new Uint8Array(buffer)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+		};
+
+		return (async () => {
+			for (let number = 0; number <= (challenge.maxnumber || 100000); number++) {
+				if (await digest(number) === challenge.challenge) {
+					const input = win.document.createElement('input');
+					input.type = 'hidden';
+					input.name = 'altcha';
+					input.value = win.btoa(JSON.stringify({
+						algorithm: challenge.algorithm,
+						challenge: challenge.challenge,
+						number: number,
+						salt: challenge.salt,
+						signature: challenge.signature,
+						took: 1,
+					}));
+					win.document.querySelector('form[id=register]').appendChild(input);
+					// The floating widget hooks the submit event and would replace
+					// what was just put there.
+					widget.remove();
+
+					return;
+				}
+			}
+			throw new Error('the Altcha challenge could not be solved');
+		})();
+	};
+
+	// Fills the registration form with the given number and sends it. Anything a
+	// journal may also demand of a new account (an ORCID iD, for instance) is
+	// filled when the page asks for it, so the test reports on the number only.
+	const registerWith = (number, account) => {
+		registrationForm();
+		cy.get('form#register input[name="givenName"]').type('Teste', {delay: 0});
+		cy.get('form#register input[name="familyName"]').type('WhatsApp', {delay: 0});
+		cy.get('form#register input[name="affiliation"]').type('OJSBR', {delay: 0});
+		cy.get('form#register select[name="country"]').select('BR');
+		cy.get('form#register input[name="email"]').type(account.email, {delay: 0});
+		cy.get('form#register input[name="username"]').type(account.username, {delay: 0});
+		cy.get('form#register input[name="password"]').type(account.password, {delay: 0, log: false});
+		cy.get('form#register input[name="password2"]').type(account.password, {delay: 0, log: false});
+		cy.get('body').then(($body) => {
+			if ($body.find('form#register input[name="orcid"]').length) {
+				cy.get('form#register input[name="orcid"]').type(anOrcid(), {delay: 0});
+			}
+			if ($body.find('form#register input[name="privacyConsent"]').length) {
+				cy.get('form#register input[name="privacyConsent"]').check({force: true});
+			}
+		});
+		cy.get('form#register input[name="whatsapp"]').clear().type(number, {delay: 0});
+		// The browser refuses to send a field that does not match its pattern, which
+		// is exactly what a person would meet; the server side is what is under test
+		// here, so the attribute is dropped and the form is sent as typed.
+		cy.get('form#register input[name="whatsapp"]').then(($field) => $field.removeAttr('pattern'));
+		cy.window().then((win) => solveAltcha(win));
+		cy.get('form#register').submit();
+	};
+
+	// The account as the API shows it to an editor, phone included.
+	const findAccount = (username) => api(pageUrl('api/v1/users?searchPhrase=' + username + '&count=10'))
+		.then((users) => users.items.find((item) => item.userName === username || item.username === username));
+
+	// Enables an account that the journal left disabled awaiting its e-mail
+	// validation. Signs in as the editor and uses the action of the users grid.
+	const enableAccount = (username) => {
+		login(adminUser, adminPassword);
+		findAccount(username).then((user) => {
+			expect(user, 'the account was created').to.exist;
+			cy.window({log: false}).then((win) => request({
+				method: 'POST',
+				url: pageUrl('$$$call$$$/grid/settings/user/user-grid/disable-user'),
+				form: true,
+				failOnStatusCode: false,
+				body: {userId: user.id, enable: 1, disableReason: '', csrfToken: win.pkp.currentUser.csrfToken},
+			}));
+		});
+	};
+
 	const registrationForm = () => {
 		cy.clearCookies();
 		cy.visit(pageUrl('user/register') + '?reload=' + Date.now());
@@ -199,6 +293,126 @@ describe('WhatsApp Contributor plugin', function() {
 		configure(false, true);
 		registrationForm();
 		cy.get('form#register input[name="whatsapp"]').should('exist').and('not.have.attr', 'required');
+	});
+
+	// The point of asking for the number on the registration form: it has to end
+	// up on the account. A field that is shown and then thrown away is worse than
+	// no field at all, so this test registers a person the way a person does and
+	// then reads the number back from the account itself.
+	it('Saves the number typed on the registration form as the phone of the new account', function() {
+		configure(false, true);
+		const account = {
+			username: 'whatsapp' + Date.now().toString().slice(-8),
+			password: 'Ojsbr!Teste2026',
+		};
+		account.email = account.username + '@mailinator.com';
+
+		registerWith('+55 11 98888-7777', account);
+		cy.get('form#register', {timeout: 30000}).should('not.exist');
+
+		// Read back from the account itself, not from the page that was just sent.
+		login(adminUser, adminPassword);
+		findAccount(account.username).then((user) => {
+			expect(user, 'the account was created').to.exist;
+
+			// Read where an editor reads it: the account as the users grid opens it.
+			return request({
+				url: pageUrl('$$$call$$$/grid/settings/user/user-grid/edit-user') + '?rowId=' + user.id,
+				failOnStatusCode: false,
+			});
+		}).then((response) => {
+			// The grid answers with the form inside a JSON envelope.
+			const answer = typeof response.body === 'string' ? JSON.parse(response.body) : response.body;
+			const form = String(answer.content).replace(/\s+/g, ' ');
+			expect(form, 'the account form was opened').to.contain('userDetailsForm');
+			expect(form, 'the number typed became the phone of the account')
+				.to.match(/name="phone" value="\+5511988887777"/);
+		});
+	});
+
+	// And a number that is not a number has to say so, on the page, instead of
+	// being dropped without a word.
+	it('Refuses a number without a country code instead of dropping it', function() {
+		configure(false, true);
+		const account = {
+			username: 'whatsbad' + Date.now().toString().slice(-8),
+			password: 'Ojsbr!Teste2026',
+		};
+		account.email = account.username + '@mailinator.com';
+
+		registerWith('11988887777', account);
+		// Still on the form, with the reason shown.
+		cy.get('form#register', {timeout: 30000}).should('exist');
+		cy.get('form#register').invoke('text').should('match', /E\.164/);
+		// And no account was created: signing in with it fails.
+		cy.clearCookies();
+		request({url: pageUrl('login'), log: false}).then((page) => {
+			const token = /name="csrfToken" value="([^"]+)"/.exec(page.body)[1];
+			const action = /<form[^>]*id="login"[^>]*action="([^"]+)"/.exec(page.body)[1];
+			request({
+				method: 'POST',
+				url: action,
+				form: true,
+				failOnStatusCode: false,
+				body: {csrfToken: token, username: account.username, password: account.password},
+			}).then((response) => {
+				expect(response.body, 'no account was created').to.match(/form[^>]*id="login"/);
+			});
+		});
+	});
+
+	// The number of the person who submits is carried to their authorship, the
+	// way the core carries the ORCID iD: a new submission starts with an author
+	// made from the user, and that author has to have the number.
+	it('Carries the phone of the submitter to the contributor of a new submission', function() {
+		configure(false, true);
+		const account = {
+			username: 'whatsaut' + Date.now().toString().slice(-8),
+			password: 'Ojsbr!Teste2026',
+		};
+		account.email = account.username + '@mailinator.com';
+
+		registerWith('+55 11 97777-6666', account);
+		cy.get('form#register', {timeout: 30000}).should('not.exist');
+
+		// The person who has just registered starts a submission. The journal
+		// gives the author role to whoever submits without one, which is what
+		// the submission wizard relies on too.
+		// A journal that validates new accounts by e-mail leaves them disabled;
+		// the account is enabled the way an editor enables one. The section is
+		// read while the editor is still signed in: a brand new account may not
+		// read the sections of the journal.
+		const journal = {};
+		enableAccount(account.username);
+		api(pageUrl('api/v1/sections?count=1')).then((sections) => {
+			journal.sectionId = sections.items[0].id;
+		});
+
+		// A page this account may open in any case, for the session and the token:
+		// it has no role in the journal until it submits.
+		login(account.username, account.password);
+		cy.visit(pageUrl('user/profile') + '?reload=' + Date.now());
+		cy.get('#profileTabs', {timeout: 30000}).should('exist');
+		cy.window({log: false}).then((win) => {
+			const locale = win.pkp.context && win.pkp.context.primaryLocale ? win.pkp.context.primaryLocale : 'en';
+
+			return win.fetch(pageUrl('api/v1/submissions'), {
+				method: 'POST',
+				credentials: 'same-origin',
+				headers: {'Content-Type': 'application/json', 'X-Csrf-Token': win.pkp.currentUser.csrfToken},
+				body: JSON.stringify({locale: locale, sectionId: journal.sectionId}),
+			}).then((response) => response.json().then((body) => ({status: response.status, body: body})));
+		}).then((answer) => {
+			expect(answer.status, 'the submission was created: ' + JSON.stringify(answer.body)).to.be.within(200, 201);
+			submissions.push(answer.body.id);
+			const base = pageUrl('api/v1/submissions/' + answer.body.id + '/publications/' + answer.body.currentPublicationId);
+
+			return api(base + '/contributors');
+		}).then((contributors) => {
+			const author = contributors.items[0];
+			expect(author, 'the submitter became a contributor').to.exist;
+			expect(author.whatsapp, 'the phone of the submitter came along').to.eq('+5511977776666');
+		});
 	});
 
 	it('Stores an E.164 number for a contributor and explains the format when it is not', function() {
@@ -270,10 +484,12 @@ describe('WhatsApp Contributor plugin', function() {
 	});
 
 	after(function() {
-		if (created.length) {
-			login(adminUser, adminPassword);
-			created.forEach(({base, id}) => withToken('DELETE').then((options) => api(base + '/contributors/' + id, options)));
+		if (!created.length && !submissions.length) {
+			return;
 		}
+		login(adminUser, adminPassword);
+		created.forEach(({base, id}) => withToken('DELETE').then((options) => api(base + '/contributors/' + id, options)));
+		submissions.forEach((id) => withToken('DELETE').then((options) => api(pageUrl('api/v1/submissions/' + id), options)));
 	});
 
 	it('Puts the settings back', function() {

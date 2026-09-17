@@ -1,10 +1,10 @@
 # WhatsApp Contributor — OJS plugin
 
 [![OJS](https://img.shields.io/badge/OJS-3.4%20%7C%203.5-brightgreen)](https://pkp.sfu.ca/ojs/)
-[![Version](https://img.shields.io/badge/version-1.4.0.0-blue)](version.xml)
+[![Version](https://img.shields.io/badge/version-1.4.0.1-blue)](version.xml)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 
-**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.4.0.0/whatsAppContributor-1.4.0.0.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.4.0.0-ojs3.4/whatsAppContributor-1.4.0.0-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
+**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.4.0.1/whatsAppContributor-1.4.0.1.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.4.0.1-ojs3.4/whatsAppContributor-1.4.0.1-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
 
 A generic plugin for **Open Journal Systems (OJS)** that adds a **Phone / WhatsApp** field
 (E.164 format) to the contributor (author) form and, if the journal wants, to the user
@@ -19,8 +19,8 @@ publicly.
 
 | OJS version | Branch | Plugin release |
 |-------------|--------|----------------|
-| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.4.0.0 |
-| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.4.0.0 |
+| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.4.0.1 |
+| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.4.0.1 |
 
 Both branches ship the same code; the locale folders follow each OJS line (38 languages).
 
@@ -103,7 +103,10 @@ saw no field at all, and nothing said why.
 
 - **Cypress** (`cypress/tests/functional/WhatsAppContributor.cy.js`, run by
   [pkp-github-actions](https://github.com/pkp/pkp-github-actions) on every push): enables the
-  plugin, checks the registration field following the settings (absent, required, optional), and
+  plugin, checks the registration field following the settings (absent, required, optional),
+  **registers an account through the public form and reads the number back from the account
+  itself**, checks that a number without a country code is refused on the page instead of being
+  dropped, checks that the number of whoever starts a submission reaches their authorship, and
   saves a contributor of a submission in progress through the REST endpoints the contributor form
   uses (a malformed number refused with the format message, an E.164 number stored; it fails with
   the schema hook off). When another plugin of the journal holds the contributor for an iD, an
@@ -150,8 +153,8 @@ editoriais** — não é divulgado publicamente.
 
 | Versão do OJS | Branch | Release do plugin |
 |---------------|--------|-------------------|
-| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.4.0.0 |
-| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.4.0.0 |
+| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.4.0.1 |
+| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.4.0.1 |
 
 As duas branches têm o mesmo código; as pastas de idioma seguem cada linha do OJS (38 idiomas).
 
@@ -209,7 +212,9 @@ comandos da seção em inglês. A suíte cobre as classes contra o PKP instalado
 validação E.164, a propriedade do schema, o campo do cadastro, o filtro de saída registrado com nome
 próprio (o Smarty chama todo filtro closure sem nome de `closure`, e dois plugins se apagariam), o
 nível do site sem configurações e as 38 traduções; o Cypress confere o campo do cadastro conforme as
-configurações e grava um contribuidor pela API REST — quando outro plugin da revista exige iD,
+configurações, **faz um cadastro pelo formulário público e lê o número de volta na conta**, confere
+que um número sem código do país é recusado na tela em vez de sumir, confere que o número de quem
+abre uma submissão chega à autoria, e grava um contribuidor pela API REST — quando outro plugin da revista exige iD,
 afiliação ou biografia, manda só o que a recusa pede — devolvendo tudo como estava. Verificado no OJS 3.5.0.3 e 3.4.0.10.
 
 Os testes ficam no repositório e não fazem parte do pacote da release.
