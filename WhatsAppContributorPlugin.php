@@ -82,15 +82,20 @@ class WhatsAppContributorPlugin extends GenericPlugin
             return $success;
         }
 
-        Hook::add('Schema::get::author', $this->addWhatsAppToSchema(...));
-        Hook::add('Form::config::before', $this->addWhatsAppToForm(...));
-        Hook::add('Author::validate', $this->explainInvalidNumber(...));
-        Hook::add('Author::newAuthorFromUser', $this->copyPhoneToAuthor(...));
+        Hook::add('Schema::get::author', [$this, 'addWhatsAppToSchema']);
+        Hook::add('Form::config::before', [$this, 'addWhatsAppToForm']);
+        Hook::add('Author::validate', [$this, 'explainInvalidNumber']);
+        Hook::add('Author::newAuthorFromUser', [$this, 'copyPhoneToAuthor']);
 
-        Hook::add('registrationform::Constructor', $this->addRegistrationCheck(...));
-        Hook::add('registrationform::readUserVars', $this->readRegistrationNumber(...));
-        Hook::add('registrationform::display', $this->addRegistrationField(...));
-        Hook::add('registrationform::execute', $this->saveRegistrationNumber(...));
+        // The names of the hooks of the old forms are not written the same way:
+        // Form::__construct() and Form::display() lowercase the class name only,
+        // while readUserVars() and execute() lowercase the whole name. A name in
+        // the wrong case is not an error anywhere — the hook simply never runs —
+        // so these are taken from Form.php as they are fired there.
+        Hook::add('registrationform::Constructor', [$this, 'addRegistrationCheck']);
+        Hook::add('registrationform::readuservars', [$this, 'readRegistrationNumber']);
+        Hook::add('registrationform::display', [$this, 'addRegistrationField']);
+        Hook::add('registrationform::execute', [$this, 'saveRegistrationNumber']);
 
         return $success;
     }
@@ -317,7 +322,7 @@ class WhatsAppContributorPlugin extends GenericPlugin
     }
 
     /**
-     * Hook: registrationform::readUserVars
+     * Hook: registrationform::readuservars (the core lowercases the whole name)
      *
      * @param array $args [$form, &$vars]
      */
