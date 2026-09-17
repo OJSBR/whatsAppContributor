@@ -384,8 +384,18 @@ describe('WhatsApp Contributor plugin', function() {
 		// read the sections of the journal.
 		const journal = {};
 		enableAccount(account.username);
-		api(pageUrl('api/v1/sections?count=1')).then((sections) => {
-			journal.sectionId = sections.items[0].id;
+		// OJS 3.5 asks for a section; the endpoint that lists them does not exist
+		// in 3.4, where the journal picks one on its own.
+		request({url: pageUrl('api/v1/sections?count=1'), failOnStatusCode: false}).then((response) => {
+			let body = response.body;
+			if (typeof body === 'string') {
+				try {
+					body = JSON.parse(body);
+				} catch (error) {
+					body = {};
+				}
+			}
+			journal.sectionId = body && body.items && body.items.length ? body.items[0].id : null;
 		});
 
 		// A page this account may open in any case, for the session and the token:
@@ -400,7 +410,7 @@ describe('WhatsApp Contributor plugin', function() {
 				method: 'POST',
 				credentials: 'same-origin',
 				headers: {'Content-Type': 'application/json', 'X-Csrf-Token': win.pkp.currentUser.csrfToken},
-				body: JSON.stringify({locale: locale, sectionId: journal.sectionId}),
+				body: JSON.stringify(journal.sectionId ? {locale: locale, sectionId: journal.sectionId} : {locale: locale}),
 			}).then((response) => response.json().then((body) => ({status: response.status, body: body})));
 		}).then((answer) => {
 			expect(answer.status, 'the submission was created: ' + JSON.stringify(answer.body)).to.be.within(200, 201);
