@@ -45,7 +45,7 @@ class WhatsAppSettingsForm extends Form
      */
     public function initData()
     {
-        foreach ([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION] as $name) {
+        foreach ([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION, WhatsAppContributorPlugin::SETTING_CONTRIBUTOR] as $name) {
             $this->setData($name, (bool) $this->plugin->getSetting($this->contextId, $name));
         }
         parent::initData();
@@ -56,7 +56,7 @@ class WhatsAppSettingsForm extends Form
      */
     public function readInputData()
     {
-        $this->readUserVars([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION]);
+        $this->readUserVars([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION, WhatsAppContributorPlugin::SETTING_CONTRIBUTOR]);
         parent::readInputData();
     }
 
@@ -77,7 +77,7 @@ class WhatsAppSettingsForm extends Form
      */
     public function execute(...$functionArgs)
     {
-        foreach ([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION] as $name) {
+        foreach ([WhatsAppContributorPlugin::SETTING_REQUIRED, WhatsAppContributorPlugin::SETTING_REGISTRATION, WhatsAppContributorPlugin::SETTING_CONTRIBUTOR] as $name) {
             $this->plugin->updateSetting($this->contextId, $name, (bool) $this->getData($name), 'bool');
         }
         return parent::execute(...$functionArgs);

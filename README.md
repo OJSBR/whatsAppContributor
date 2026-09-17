@@ -1,10 +1,10 @@
 # WhatsApp Contributor — OJS plugin
 
 [![OJS](https://img.shields.io/badge/OJS-3.4%20%7C%203.5-brightgreen)](https://pkp.sfu.ca/ojs/)
-[![Version](https://img.shields.io/badge/version-1.2.0.3-blue)](version.xml)
+[![Version](https://img.shields.io/badge/version-1.3.0.0-blue)](version.xml)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey)](LICENSE)
 
-**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.2.0.3/whatsAppContributor-1.2.0.3.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.2.0.3-ojs3.4/whatsAppContributor-1.2.0.3-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
+**⬇️ Install package:** [OJS 3.5](https://github.com/OJSBR/whatsAppContributor/releases/download/1.3.0.0/whatsAppContributor-1.3.0.0.tar.gz) · [OJS 3.4](https://github.com/OJSBR/whatsAppContributor/releases/download/1.3.0.0-ojs3.4/whatsAppContributor-1.3.0.0-ojs3.4.tar.gz) — or browse all [Releases](../../releases).
 
 > **This is the `stable-3_4_0` branch (OJS 3.4).** For OJS 3.5 use the
 > [`stable-3_5_0`](../../tree/stable-3_5_0) branch.
@@ -22,8 +22,8 @@ publicly.
 
 | OJS version | Branch | Plugin release |
 |-------------|--------|----------------|
-| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.2.0.3 |
-| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.2.0.3 |
+| OJS 3.5.x   | [`stable-3_5_0`](../../tree/stable-3_5_0) *(default)* | 1.3.0.0 |
+| OJS 3.4.x   | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.3.0.0 |
 
 Both branches ship the same code; the locale folders follow each OJS line (38 languages).
 
@@ -56,8 +56,12 @@ numbers and numbers in every possible format.
 
 In the plugin **Settings**:
 
+- **Ask for the number when an author or co-author is recorded** (on by default — that is what
+  the plugin did before this setting existed);
 - **Make the field required for all contributors** (off by default);
 - **Also ask for it on the user registration form** (off by default).
+
+Each place is decided on its own.
 
 ## How it works (technical)
 
@@ -69,6 +73,10 @@ In the plugin **Settings**:
   that adds the field at the end of `fieldset.identity`, once;
   `registrationform::Constructor`, `::readUserVars` and `::execute` validate, read and store
   the number on the new account.
+
+**Where the field lands on the registration page.** The page belongs to the theme, and a theme
+is free to write its own form. Since 1.3.0.0 the field is anchored on where the form **posts
+to** (`…/user/register`), which no theme can change, and lands with the other fields.
 
 ## Tests
 
@@ -135,8 +143,8 @@ editoriais** — não é divulgado publicamente.
 
 | Versão do OJS | Branch | Release do plugin |
 |---------------|--------|-------------------|
-| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.2.0.3 |
-| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.2.0.3 |
+| OJS 3.5.x     | [`stable-3_5_0`](../../tree/stable-3_5_0) *(padrão)* | 1.3.0.0 |
+| OJS 3.4.x     | [`stable-3_4_0`](../../tree/stable-3_4_0) | 1.3.0.0 |
 
 As duas branches têm o mesmo código; as pastas de idioma seguem cada linha do OJS (38 idiomas).
 
@@ -160,8 +168,18 @@ ative o **WhatsApp Contributor Plugin** na lista de plugins *Genéricos*.
 
 ### Configuração
 
-Nas **Configurações** do plugin: **tornar o campo obrigatório para todos os contribuidores** e
-**pedir também no formulário de cadastro de usuário** (ambos desligados por padrão).
+Nas **Configurações** do plugin:
+
+- **pedir o número no cadastro de autor ou coautor** (ligado por padrão — é o que o plugin já
+  fazia antes de a opção existir);
+- **tornar o campo obrigatório para todos os contribuidores** (desligado por padrão);
+- **pedir também no formulário de cadastro de usuário** (desligado por padrão).
+
+Cada lugar é decidido separadamente.
+
+**Onde o campo entra na página de cadastro.** A página é do tema. Desde a 1.3.0.0 o campo é
+ancorado em **para onde o formulário posta** (`…/user/register`), que nenhum tema muda, e entra
+junto dos outros campos.
 
 ### Testes
 

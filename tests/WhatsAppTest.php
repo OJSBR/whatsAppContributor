@@ -53,7 +53,7 @@ class WhatsAppTest extends PKPTestCase
 
     public function testTheRegistrationFieldGoesAfterTheLastIdentityField(): void
     {
-        $page = '<form id="register"><fieldset class="identity"><legend>Profile</legend><div class="fields">'
+        $page = '<form id="register" action="https://x/index.php/j/user/register"><fieldset class="identity"><legend>Profile</legend><div class="fields">'
             . '<div class="given_name"><input name="givenName"></div><div class="country"><select name="country"></select></div>'
             . '</div></fieldset><fieldset class="login"></fieldset></form>';
         $output = WhatsAppContributorPlugin::insertRegistrationField($page, '<div class="whatsAppContributor"></div>');
@@ -62,6 +62,41 @@ class WhatsAppTest extends PKPTestCase
         $withField = str_replace('<div class="whatsAppContributor"></div>', '<input type="tel" name="whatsapp">', $output);
         $this->assertSame($withField, WhatsAppContributorPlugin::insertRegistrationField($withField, 'x'), 'The field is added once.');
         $this->assertSame('<div class="pkp_block"></div>', WhatsAppContributorPlugin::insertRegistrationField('<div class="pkp_block"></div>', '<b>x</b>'), 'Other output is left alone.');
+    }
+
+    public function testTheRegistrationFieldGoesIntoAFormWrittenByATheme(): void
+    {
+        // A theme may write its own registration form: no id of the core, no
+        // fieldset of the core. What it cannot change is where the form posts
+        // to, so the field still finds its way in — with the other fields.
+        $page = '<div class="page"><form class="form-register" method="post" action="https://x/index.php/j/pt_BR/user/register">'
+            . '<fieldset class="form-register"><div class="form-group"><input name="givenName"></div></fieldset>'
+            . '<button type="submit">Cadastrar</button></form></div>';
+
+        $output = WhatsAppContributorPlugin::insertRegistrationField($page, '<div class="whatsAppContributor"></div>');
+
+        $this->assertStringContainsString('<div class="whatsAppContributor"></div><button type="submit">Cadastrar</button></form>', $output);
+        $this->assertSame(1, substr_count($output, 'whatsAppContributor'), 'the field goes in once');
+
+        // And where the theme's form has no button, the end of the form is used.
+        $noButton = '<form class="form-register" action="/index.php/j/user/register"><input name="givenName"></form>';
+        $this->assertStringContainsString('<input name="givenName"><div class="whatsAppContributor"></div></form>',
+            WhatsAppContributorPlugin::insertRegistrationField($noButton, '<div class="whatsAppContributor"></div>'));
+
+        // A form that posts somewhere else is not the registration form.
+        $login = '<form class="form-login" method="post" action="https://x/index.php/j/pt_BR/login/signIn"></form>';
+        $this->assertSame($login, WhatsAppContributorPlugin::insertRegistrationField($login, '<b>x</b>'));
+    }
+
+    public function testTheContributorFormIsAskedForOnlyWhereTheJournalWantsIt(): void
+    {
+        $source = (string) file_get_contents(dirname(__DIR__) . '/WhatsAppContributorPlugin.php');
+
+        $this->assertSame('showOnContributor', WhatsAppContributorPlugin::SETTING_CONTRIBUTOR);
+        $this->assertStringContainsString('if (!$this->showsOnContributorForm()) {', $source);
+        $this->assertStringContainsString("return \$value === null || \$value === '' ? true : (bool) \$value;", $source);
+        $settings = (string) file_get_contents(dirname(__DIR__) . '/WhatsAppSettingsForm.php');
+        $this->assertSame(3, substr_count($settings, 'WhatsAppContributorPlugin::SETTING_CONTRIBUTOR'));
     }
 
     public function testTheRegistrationFieldEscapesTheValueAndMarksRequired(): void

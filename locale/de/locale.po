@@ -31,3 +31,6 @@ msgstr "Das Feld Telefon / WhatsApp für alle Mitwirkenden verpflichtend machen.
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Telefon / WhatsApp auch im Registrierungsformular abfragen. Die Nummer wird als Telefonnummer des Kontos gespeichert und automatisch übernommen, wenn die Person Autor ihrer eigenen Einreichung wird."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Die Nummer beim Erfassen einer beitragenden Person abfragen"

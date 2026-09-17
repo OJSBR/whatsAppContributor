@@ -39,3 +39,7 @@ msgstr "جعل حقل الهاتف / واتساب إلزامياً لجميع ا
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "اطلب أيضًا الهاتف / واتساب في نموذج تسجيل المستخدم. يُحفظ الرقم كهاتف الحساب ويُملأ تلقائيًا عندما يصبح المستخدم مؤلفًا لإرساله."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

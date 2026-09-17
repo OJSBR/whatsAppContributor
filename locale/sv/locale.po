@@ -39,3 +39,7 @@ msgstr "Gör fältet Telefon / WhatsApp obligatoriskt för alla bidragsgivare."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Fråga även efter Telefon / WhatsApp i registreringsformuläret. Numret sparas som kontots telefon och fylls i automatiskt när användaren blir författare till sitt eget bidrag."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

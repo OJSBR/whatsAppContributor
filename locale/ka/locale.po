@@ -39,3 +39,7 @@ msgstr "ველი ტელეფონი / WhatsApp სავალდე�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "ტელეფონი / WhatsApp მოითხოვეთ მომხმარებლის რეგისტრაციის ფორმაშიც. ნომერი ინახება ანგარიშის ტელეფონად და ავტომატურად ივსება, როცა მომხმარებელი საკუთარი წარდგენის ავტორი ხდება."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

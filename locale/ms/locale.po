@@ -39,3 +39,7 @@ msgstr "Jadikan medan Telefon / WhatsApp wajib bagi semua penyumbang."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Minta juga Telefon / WhatsApp dalam borang pendaftaran pengguna. Nombor disimpan sebagai telefon akaun dan diisi secara automatik apabila pengguna menjadi pengarang serahannya sendiri."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

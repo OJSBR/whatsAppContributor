@@ -39,3 +39,7 @@ msgstr "Fă obligatoriu câmpul Telefon / WhatsApp pentru toți contribuitorii."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Solicită și Telefonul / WhatsApp în formularul de înregistrare. Numărul este salvat ca telefon al contului și completat automat când utilizatorul devine autor al propriei trimiteri."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

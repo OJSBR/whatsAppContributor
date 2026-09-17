@@ -39,3 +39,7 @@ msgstr "Učini polje Telefon / WhatsApp obaveznim za sve saradnike."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Traži Telefon / WhatsApp i u formularu za registraciju. Broj se čuva kao telefon naloga i automatski popunjava kada korisnik postane autor sopstvenog rada."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

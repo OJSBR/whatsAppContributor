@@ -39,3 +39,7 @@ msgstr "Telefon / WhatsApp sahəsini bütün iştirakçılar üçün məcburi et
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "İstifadəçi qeydiyyatı formasında da Telefon / WhatsApp soruşulsun. Nömrə hesabın telefonu kimi saxlanılır və istifadəçi öz göndərişinin müəllifi olanda avtomatik doldurulur."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

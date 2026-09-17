@@ -39,3 +39,7 @@ msgstr "Ustaw pole Telefon / WhatsApp jako wymagane dla wszystkich współtwórc
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Pytaj o Telefon / WhatsApp także w formularzu rejestracji. Numer zapisuje się jako telefon konta i uzupełnia automatycznie, gdy użytkownik zostaje autorem własnego zgłoszenia."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

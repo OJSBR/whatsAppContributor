@@ -39,3 +39,7 @@ msgstr "将“电话 / WhatsApp”字段设为所有贡献者必填。"
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "在用户注册表单中也询问电话 / WhatsApp。该号码保存为账户电话，并在用户成为自己投稿的作者时自动填入。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

@@ -30,6 +30,11 @@
 				checked=$whatsappRequired
 				label="plugins.generic.whatsAppContributor.settings.required.label"}
 			{fbvElement type="checkbox"
+				id="showOnContributor"
+				value="1"
+				checked=$showOnContributor
+				label="plugins.generic.whatsAppContributor.settings.showOnContributor.label"}
+			{fbvElement type="checkbox"
 				id="showOnRegistration"
 				value="1"
 				checked=$showOnRegistration

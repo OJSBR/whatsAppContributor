@@ -39,3 +39,7 @@ msgstr "فیلد تلفن / واتساپ برای همهٔ مشارکت‌کنن
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "تلفن / واتس‌اپ در فرم ثبت‌نام کاربر هم خواسته شود. شماره به‌عنوان تلفن حساب ذخیره می‌شود و وقتی کاربر نویسندهٔ ارسال خود می‌شود، خودکار پر می‌شود."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"
