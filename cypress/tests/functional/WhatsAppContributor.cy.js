@@ -396,6 +396,17 @@ describe('WhatsApp Contributor plugin', function() {
 				}
 			}
 			journal.sectionId = body && body.items && body.items.length ? body.items[0].id : null;
+			if (journal.sectionId) {
+				return;
+			}
+
+			// 3.4 asks for the section but lists them nowhere: one the journal
+			// already uses is read from a submission of its own.
+			return api(pageUrl('api/v1/submissions?count=1')).then((submissions) => {
+				const item = submissions.items[0];
+				const publication = item && (item.publications || [])[0];
+				journal.sectionId = publication ? publication.sectionId : null;
+			});
 		});
 
 		// A page this account may open in any case, for the session and the token:
