@@ -20,9 +20,6 @@ msgstr "თანაავტორის (ავტორის) ფორმ�
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "ტელეფონი / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "საერთაშორისო ტელეფონის ნომერი E.164 ფორმატში, იწყება + ნიშნითა და ქვეყნის კოდით. მაგალითი: +5511999999999. ეს ნომერი გამოყენებული იქნება მხოლოდ ჟურნალის რედაქტორების კავშირისთვის და საჯაროდ არ გამოქვეყნდება."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "ტელეფონი / WhatsApp მოითხოვეთ მო�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

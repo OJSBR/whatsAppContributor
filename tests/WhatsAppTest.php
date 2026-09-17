@@ -23,6 +23,20 @@ use PKP\tests\PKPTestCase;
 #[CoversClass(WhatsAppSettingsForm::class)]
 class WhatsAppTest extends PKPTestCase
 {
+    /** The pieces of the field, as the plugin hands them over. */
+    private static function parts(bool $required = false): array
+    {
+        return [
+            'name' => 'whatsapp',
+            'label' => 'Telefone / WhatsApp',
+            'description' => 'Formato internacional. Exemplo: +55 11 99999-9999.',
+            'example' => '+55 11 99999-9999',
+            'value' => '',
+            'required' => $required,
+            'error' => null,
+        ];
+    }
+
     public function testNumbersAreNormalizedToE164(): void
     {
         $this->assertSame('+5511999999999', WhatsAppContributorPlugin::normalizeNumber(' +55 (11) 99999-9999 '));
@@ -56,12 +70,15 @@ class WhatsAppTest extends PKPTestCase
         $page = '<form id="register" action="https://x/index.php/j/user/register"><fieldset class="identity"><legend>Profile</legend><div class="fields">'
             . '<div class="given_name"><input name="givenName"></div><div class="country"><select name="country"></select></div>'
             . '</div></fieldset><fieldset class="login"></fieldset></form>';
-        $output = WhatsAppContributorPlugin::insertRegistrationField($page, '<div class="whatsAppContributor"></div>');
+        $output = WhatsAppContributorPlugin::insertRegistrationField($page, self::parts(), '<div class="whatsAppContributor"></div>');
 
-        $this->assertStringContainsString('<select name="country"></select></div><div class="whatsAppContributor"></div></div></fieldset><fieldset class="login">', $output);
+        // Dressed like the field it was modelled on and standing beside it,
+        // which on the page of the core is inside the identity block.
+        $this->assertMatchesRegularExpression('~name="givenName"></div><div class="whatsapp whatsAppContributor"><input name="whatsapp"~', $output);
+        $this->assertLessThan(strpos($output, '<fieldset class="login">'), strpos($output, 'name="whatsapp"'));
         $withField = str_replace('<div class="whatsAppContributor"></div>', '<input type="tel" name="whatsapp">', $output);
-        $this->assertSame($withField, WhatsAppContributorPlugin::insertRegistrationField($withField, 'x'), 'The field is added once.');
-        $this->assertSame('<div class="pkp_block"></div>', WhatsAppContributorPlugin::insertRegistrationField('<div class="pkp_block"></div>', '<b>x</b>'), 'Other output is left alone.');
+        $this->assertSame($withField, WhatsAppContributorPlugin::insertRegistrationField($withField, self::parts(), 'x'), 'The field is added once.');
+        $this->assertSame('<div class="pkp_block"></div>', WhatsAppContributorPlugin::insertRegistrationField('<div class="pkp_block"></div>', self::parts(), '<b>x</b>'), 'Other output is left alone.');
     }
 
     public function testTheRegistrationFieldGoesIntoAFormWrittenByATheme(): void
@@ -73,20 +90,29 @@ class WhatsAppTest extends PKPTestCase
             . '<fieldset class="form-register"><div class="form-group"><input name="givenName"></div></fieldset>'
             . '<button type="submit">Cadastrar</button></form></div>';
 
-        $output = WhatsAppContributorPlugin::insertRegistrationField($page, '<div class="whatsAppContributor"></div>');
+        $output = WhatsAppContributorPlugin::insertRegistrationField($page, self::parts(), '<div class="whatsAppContributor"></div>');
 
         // With the other fields, just before the control that sends the form.
-        $this->assertStringContainsString('<div class="whatsAppContributor"></div><button type="submit">Cadastrar</button></form>', $output);
-        $this->assertSame(1, substr_count($output, 'whatsAppContributor'), 'the field goes in once');
+        // With the markup of the theme, beside the field it copied.
+        $this->assertStringContainsString('<div class="form-group whatsAppContributor"><input name="whatsapp"', $output);
+        $this->assertSame(1, substr_count($output, 'name="whatsapp"'), 'the field goes in once');
+        $this->assertLessThan(strpos($output, '<button type="submit">'), strpos($output, 'name="whatsapp"'));
 
-        // And where the theme's form has no button, the end of the form is used.
-        $noButton = '<form class="form-register" action="/index.php/j/user/register"><input name="givenName"></form>';
-        $this->assertStringContainsString('<input name="givenName"><div class="whatsAppContributor"></div></form>',
-            WhatsAppContributorPlugin::insertRegistrationField($noButton, '<div class="whatsAppContributor"></div>'));
+        // Where there is nothing to model it on, the markup of the core is used
+        // and the field goes before the control that sends the form.
+        $noModel = '<form class="form-register" action="/index.php/j/user/register">'
+            . '<input type="password" name="password"><button type="submit">Cadastrar</button></form>';
+        $this->assertStringContainsString('<div class="whatsAppContributor"></div><button type="submit">',
+            WhatsAppContributorPlugin::insertRegistrationField($noModel, self::parts(), '<div class="whatsAppContributor"></div>'));
+
+        // And with no control either, at the end of the form.
+        $bare = '<form class="form-register" action="/index.php/j/user/register"><input type="password" name="password"></form>';
+        $this->assertStringContainsString('<div class="whatsAppContributor"></div></form>',
+            WhatsAppContributorPlugin::insertRegistrationField($bare, self::parts(), '<div class="whatsAppContributor"></div>'));
 
         // A form that posts somewhere else is not the registration form.
         $login = '<form class="form-login" method="post" action="https://x/index.php/j/pt_BR/login/signIn"></form>';
-        $this->assertSame($login, WhatsAppContributorPlugin::insertRegistrationField($login, '<b>x</b>'));
+        $this->assertSame($login, WhatsAppContributorPlugin::insertRegistrationField($login, self::parts(), '<b>x</b>'));
     }
 
     public function testTheContributorFormIsAskedForOnlyWhereTheJournalWantsIt(): void
@@ -116,13 +142,59 @@ class WhatsAppTest extends PKPTestCase
         };
         $form->setData('whatsapp', '"><script>x</script>');
 
-        $optional = WhatsAppContributorPlugin::renderRegistrationField($form, false);
-        $required = WhatsAppContributorPlugin::renderRegistrationField($form, true);
+        $optional = WhatsAppContributorPlugin::renderRegistrationField(WhatsAppContributorPlugin::registrationFieldParts($form, false));
+        $required = WhatsAppContributorPlugin::renderRegistrationField(WhatsAppContributorPlugin::registrationFieldParts($form, true));
 
         $this->assertStringNotContainsString('<script>', $optional);
         $this->assertStringContainsString('name="whatsapp"', $optional);
         $this->assertStringNotContainsString('required aria-required="true"', $optional);
         $this->assertStringContainsString('required aria-required="true"', $required);
+
+        // Easier to fill in: the keyboard of a phone, an example in the field
+        // itself and the format checked by the browser before it is sent.
+        $this->assertStringContainsString('inputmode="tel"', $optional);
+        $this->assertStringContainsString('placeholder="', $optional);
+        $this->assertStringContainsString('pattern="' . htmlspecialchars(WhatsAppContributorPlugin::E164_HTML_PATTERN, ENT_QUOTES), $optional);
+    }
+
+    public function testTheFieldIsDressedWithTheMarkupOfTheTheme(): void
+    {
+        // A field the theme wrote, with the classes of the theme.
+        $model = '<div class="form-group"><label for="affiliation">Instituição<span class="required">*</span></label>'
+            . '<input class="form-control" type="text" name="affiliation" id="affiliation" value="x" required></div>';
+
+        $dressed = WhatsAppContributorPlugin::dressLikeTheme($model, self::parts(), 'affiliation');
+
+        // The wrapper, the classes and the shape of the label are the theme's.
+        $this->assertStringContainsString('class="form-group whatsAppContributor"', $dressed);
+        $this->assertStringContainsString('class="form-control"', $dressed);
+        $this->assertStringContainsString('<label for="whatsapp">', $dressed);
+        // The text, the name and the value are ours.
+        $this->assertStringContainsString('Telefone / WhatsApp', $dressed);
+        $this->assertStringContainsString('name="whatsapp"', $dressed);
+        $this->assertStringNotContainsString('Instituição', $dressed);
+        $this->assertStringNotContainsString('value="x"', $dressed);
+        // Nothing of the model that does not apply: the field is not required
+        // here, so the mark of the theme for a required field is gone.
+        $this->assertStringNotContainsString('<span class="required">', $dressed);
+        $this->assertStringNotContainsString(' required', $dressed);
+        // And the description is there, with the example.
+        $this->assertStringContainsString('+55 11 99999-9999', $dressed);
+    }
+
+    public function testTheFieldStandsBesideTheFieldItWasModelledOn(): void
+    {
+        $page = '<form class="form-register" action="/index.php/j/pt_BR/user/register">'
+            . '<div class="form-group"><label for="affiliation">Instituição</label><input class="form-control" type="text" name="affiliation" id="affiliation"></div>'
+            . '<div class="form-group"><label for="password">Senha</label><input type="password" name="password"></div>'
+            . '<button type="submit">Cadastrar</button></form>';
+
+        $output = WhatsAppContributorPlugin::insertRegistrationField($page, self::parts());
+
+        // Right after the field it copied, and well before the password.
+        $this->assertLessThan(strpos($output, 'name="password"'), strpos($output, 'name="whatsapp"'));
+        $this->assertGreaterThan(strpos($output, 'name="affiliation"'), strpos($output, 'name="whatsapp"'));
+        $this->assertSame(1, substr_count($output, 'name="whatsapp"'));
     }
 
     /** CLI has no router; the translations ask the request for its context. */

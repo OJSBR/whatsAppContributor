@@ -20,9 +20,6 @@ msgstr "Menambah medan telefon/WhatsApp (format E.164) pada borang penyumbang (p
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefon / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Nombor telefon antarabangsa dalam format E.164, bermula dengan + dan kod negara. Contoh: +5511999999999. Nombor ini hanya akan digunakan untuk hubungan oleh editor jurnal dan tidak akan didedahkan kepada umum."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "Minta juga Telefon / WhatsApp dalam borang pendaftaran pengguna. Nombor 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

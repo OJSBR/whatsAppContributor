@@ -17,8 +17,6 @@ msgstr "Aggiunge un campo telefono/WhatsApp (formato E.164) al modulo del collab
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefono / WhatsApp"
 
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Numero di telefono internazionale in formato E.164, che inizia con + e il prefisso del paese. Esempio: +5511999999999. Questo numero sarà usato solo per il contatto da parte dei redattori della rivista e non sarà divulgato pubblicamente."
 
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
 msgstr "Usa il formato E.164: + seguito dal prefisso del paese e dal numero, senza spazi o trattini. Esempio: +5511999999999."
@@ -34,3 +32,9 @@ msgstr "Chiedere anche il Telefono / WhatsApp nel modulo di registrazione utente
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Chiedere il numero quando si registra un autore o coautore"
+
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+39 320 123 4567"
+
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "Formato internazionale, che inizia con + e il prefisso del paese. Esempio: {$example}. Usato solo per il contatto dei redattori della rivista; non viene pubblicato."

@@ -20,9 +20,6 @@ msgstr "Katkıda bulunan (yazar) formuna telefon/WhatsApp alanı (E.164 biçimi)
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefon / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "E.164 biçiminde, + işareti ve ülke koduyla başlayan uluslararası telefon numarası. Örnek: +5511999999999. Bu numara yalnızca dergi editörlerinin iletişimi için kullanılacak ve herkese açık olarak yayımlanmayacaktır."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "Kullanıcı kayıt formunda da Telefon / WhatsApp istensin. Numara hesab
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

@@ -20,9 +20,6 @@ msgstr "Telefon/WhatsApp mezőt (E.164 formátum) ad a közreműködői (szerző
 msgid "plugins.generic.whatsAppContributor.field.label"
 msgstr "Telefon / WhatsApp"
 
-#, fuzzy
-msgid "plugins.generic.whatsAppContributor.field.description"
-msgstr "Nemzetközi telefonszám E.164 formátumban, + jellel és országhívószámmal kezdve. Példa: +5511999999999. A számot kizárólag a folyóirat szerkesztői használják kapcsolatfelvételre, és nem lesz nyilvános."
 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.field.invalidFormat"
@@ -43,3 +40,11 @@ msgstr "A Telefon / WhatsApp a regisztrációs űrlapon is legyen megadható. A 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
 msgstr "Ask for the number when an author or co-author is recorded"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.example"
+msgstr "+1 555 123 4567"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.field.description"
+msgstr "International format, starting with + and the country code. Example: {$example}. Used only for contact by the journal's editors; it is never published."

@@ -25,6 +25,8 @@ namespace APP\plugins\generic\whatsAppContributor;
 use APP\core\Application;
 use PKP\components\forms\FieldText;
 use PKP\core\JSONMessage;
+use DOMDocument;
+use DOMElement;
 use PKP\form\Form;
 use PKP\form\validation\FormValidatorCustom;
 use PKP\linkAction\LinkAction;
@@ -37,6 +39,16 @@ class WhatsAppContributorPlugin extends GenericPlugin
 {
     /** E.164: "+", a country code that does not start with 0, up to 15 digits in total. */
     public const E164_PATTERN = '/^\+[1-9]\d{1,14}$/';
+
+    /** The same, as the browser wants it in the pattern attribute of the field. */
+    public const E164_HTML_PATTERN = '\+[1-9][0-9 .()\\-]{1,20}';
+
+    /**
+     * The text fields of the registration page the field is modelled on, from
+     * the last of the personal data backwards: the one that is found gives the
+     * markup of the theme and the place where the field goes.
+     */
+    public const MODEL_FIELDS = ['affiliation', 'familyName', 'givenName'];
 
     /** Settings with their defaults. */
     public const SETTING_REQUIRED = 'whatsappRequired';
@@ -217,9 +229,10 @@ class WhatsAppContributorPlugin extends GenericPlugin
             return Hook::CONTINUE;
         }
 
+        $example = __('plugins.generic.whatsAppContributor.field.example');
         $form->addField(new FieldText('whatsapp', [
             'label' => __('plugins.generic.whatsAppContributor.field.label'),
-            'description' => __('plugins.generic.whatsAppContributor.field.description'),
+            'description' => __('plugins.generic.whatsAppContributor.field.description', ['example' => $example]),
             'isRequired' => $this->isRequiredForCurrentContext(),
             'size' => 'normal',
         ]));
@@ -336,44 +349,70 @@ class WhatsAppContributorPlugin extends GenericPlugin
         $templateMgr = PKPTemplateManager::getManager(Application::get()->getRequest());
         // Named: Smarty calls every closure filter "closure", so an unnamed one would replace, or be
         // replaced by, the output filter of another plugin in the same request.
-        $templateMgr->registerFilter('output', fn (string $output): string => self::insertRegistrationField($output, self::renderRegistrationField($form, $required)), 'whatsAppContributorRegistrationField');
+        $parts = self::registrationFieldParts($form, $required);
+        $templateMgr->registerFilter('output', fn (string $output): string => self::insertRegistrationField($output, $parts), 'whatsAppContributorRegistrationField');
 
         return Hook::CONTINUE;
     }
 
     /**
-     * The markup of the registration field, in the style of the other fields.
+     * The pieces of the registration field, which are then dressed with the
+     * markup of the theme.
+     *
+     * @return array{name: string, label: string, description: string, example: string, value: string, required: bool, error: ?string}
      */
-    public static function renderRegistrationField(Form $form, bool $required): string
+    public static function registrationFieldParts(Form $form, bool $required): array
+    {
+        $errors = $form->getErrorsArray();
+
+        return [
+            'name' => 'whatsapp',
+            'label' => __('plugins.generic.whatsAppContributor.field.label'),
+            'example' => $example = __('plugins.generic.whatsAppContributor.field.example'),
+            'description' => __('plugins.generic.whatsAppContributor.field.description', ['example' => $example]),
+            'value' => (string) $form->getData('whatsapp'),
+            'required' => $required,
+            'error' => $errors['whatsapp'] ?? null,
+        ];
+    }
+
+    /**
+     * The markup of the field when the page gives nothing to model it on: the
+     * shape the pages of the core use.
+     */
+    public static function renderRegistrationField(array $parts): string
     {
         $e = fn ($text) => htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
-        $errors = $form->getErrorsArray();
-        $marker = $required
+        $marker = $parts['required']
             ? ' <span class="required" aria-hidden="true">*</span><span class="pkp_screen_reader">' . $e(__('common.required')) . '</span>'
             : '';
 
-        return '<div class="whatsapp whatsAppContributor"><label><span class="label">' . $e(__('plugins.generic.whatsAppContributor.field.label')) . $marker . '</span>'
-            . '<input type="tel" name="whatsapp" id="whatsAppContributor" value="' . $e($form->getData('whatsapp')) . '" maxlength="32" autocomplete="tel"'
-            . ' aria-describedby="whatsAppContributorDescription"' . ($required ? ' required aria-required="true"' : '') . '></label>'
-            . '<div class="description" id="whatsAppContributorDescription">' . $e(__('plugins.generic.whatsAppContributor.field.description')) . '</div>'
-            . (isset($errors['whatsapp']) ? '<span class="error">' . $e($errors['whatsapp']) . '</span>' : '')
+        return '<div class="whatsapp whatsAppContributor"><label><span class="label">' . $e($parts['label']) . $marker . '</span>'
+            . '<input type="tel" inputmode="tel" name="whatsapp" id="whatsapp" value="' . $e($parts['value']) . '" maxlength="32" autocomplete="tel"'
+            . ' placeholder="' . $e($parts['example']) . '" pattern="' . $e(self::E164_HTML_PATTERN) . '" title="' . $e($parts['description']) . '"'
+            . ' aria-describedby="whatsappDescription"' . ($parts['required'] ? ' required aria-required="true"' : '') . '></label>'
+            . '<div class="description" id="whatsappDescription">' . $e($parts['description']) . '</div>'
+            . ($parts['error'] ? '<span class="error">' . $e($parts['error']) . '</span>' : '')
             . '</div>';
     }
 
     /**
-     * Put the field at the end of the fields of fieldset.identity in
-     * form#register, once. Anything else is returned unchanged.
+     * Put the field on the registration page, once.
+     *
+     * The page belongs to the theme, so nothing of the core is taken for
+     * granted. The form is found by where it posts to, which no theme changes;
+     * the field is then built from the markup of a field the theme itself
+     * wrote — the same wrapper, the same classes, the same shape of label — and
+     * put right after it, which keeps it with the personal data instead of
+     * after the password and the privacy notice. Where there is nothing to
+     * model it on, the markup of the core is used and the field goes before the
+     * control that sends the form.
      */
-    public static function insertRegistrationField(string $output, string $field): string
+    public static function insertRegistrationField(string $output, array $parts, ?string $fallback = null): string
     {
         if (preg_match('/<input\b[^>]*\bname="whatsapp"/', $output)) {
             return $output;
         }
-
-        // The registration page belongs to the theme, and a theme is free to
-        // write its own form: the id and the classes of the core may not be
-        // there at all. What no theme can change is where the form posts to, so
-        // that is what the field is anchored on.
         if (!preg_match('~<form\b[^>]*\baction="[^"]*/user/register[^"]*"[^>]*>~i', $output, $match, PREG_OFFSET_CAPTURE)) {
             return $output;
         }
@@ -383,28 +422,217 @@ class WhatsAppContributorPlugin extends GenericPlugin
             return $output;
         }
 
-        // Where the page is the one of the core, the field joins the personal
-        // data, at the end of the fields of the identity block.
+        // Dressed like the field the theme wrote, and standing beside it.
+        foreach (self::MODEL_FIELDS as $modelName) {
+            if (!preg_match('/<input\b[^>]*\bname="' . $modelName . '"/i', substr($output, $formStart, $formEnd - $formStart), $found, PREG_OFFSET_CAPTURE)) {
+                continue;
+            }
+            $block = self::fieldBlock($output, $formStart + $found[0][1], $formEnd);
+            if (!$block) {
+                continue;
+            }
+            $dressed = self::dressLikeTheme(substr($output, $block[0], $block[1] - $block[0]), $parts, $modelName);
+            if ($dressed !== null) {
+                return substr_replace($output, $dressed, $block[1], 0);
+            }
+        }
+
+        $fallback ??= self::renderRegistrationField($parts);
+
+        // The page of the core: the field joins the personal data, at the end of
+        // the fields of the identity block.
         $identity = strpos($output, '<fieldset class="identity"', $formStart);
         if ($identity !== false && $identity < $formEnd) {
             $end = strpos($output, '</fieldset>', $identity);
             $fieldsEnd = $end === false ? false : strrpos(substr($output, 0, $end), '</div>');
             if ($fieldsEnd !== false && $fieldsEnd > $identity) {
-                return substr_replace($output, $field, $fieldsEnd, 0);
+                return substr_replace($output, $fallback, $fieldsEnd, 0);
             }
         }
 
-        // A form written by the theme: the field goes with the other fields, just
-        // before the control that sends the form — never after it.
+        // Anything else: with the other fields, just before the control that
+        // sends the form — never after it.
         if (preg_match_all('~<(?:button|input)\b[^>]*\btype="submit"~i', substr($output, $formStart, $formEnd - $formStart), $submits, PREG_OFFSET_CAPTURE)) {
             $last = end($submits[0]);
 
-            return substr_replace($output, $field, $formStart + $last[1], 0);
+            return substr_replace($output, $fallback, $formStart + $last[1], 0);
         }
 
-        // No control to send it: the end of the form is the only place left.
-        return substr_replace($output, $field, $formEnd, 0);
+        return substr_replace($output, $fallback, $formEnd, 0);
     }
+
+    /**
+     * The block of markup that holds one field: from the opening tag of the
+     * element that encloses it to its matching close.
+     *
+     * @return ?array{0: int, 1: int} where the block starts and ends
+     */
+    public static function fieldBlock(string $html, int $inputAt, int $limit): ?array
+    {
+        $openers = [];
+        foreach (['div', 'li', 'p'] as $tag) {
+            $at = strripos(substr($html, 0, $inputAt), '<' . $tag);
+            if ($at !== false) {
+                $openers[$at] = $tag;
+            }
+        }
+        if (!$openers) {
+            return null;
+        }
+        $start = max(array_keys($openers));
+        $tag = $openers[$start];
+
+        // Its matching close, counting the ones opened in between.
+        $depth = 0;
+        $at = $start;
+        while ($at < $limit) {
+            $open = stripos($html, '<' . $tag, $at + 1);
+            $close = stripos($html, '</' . $tag, $at + 1);
+            if ($close === false || $close > $limit) {
+                return null;
+            }
+            if ($open !== false && $open < $close) {
+                $depth++;
+                $at = $open;
+                continue;
+            }
+            if ($depth === 0) {
+                $end = strpos($html, '>', $close);
+
+                return $end === false ? null : [$start, $end + 1];
+            }
+            $depth--;
+            $at = $close;
+        }
+
+        return null;
+    }
+
+    /**
+     * The block of a field the theme wrote, adapted to this one: its wrapper and
+     * its classes are kept, the label takes our text, the input takes our
+     * attributes and the description is put where the theme puts one.
+     */
+    public static function dressLikeTheme(string $model, array $parts, string $modelName = ''): ?string
+    {
+        $document = new DOMDocument();
+        $previous = libxml_use_internal_errors(true);
+        $loaded = $document->loadHTML('<?xml encoding="UTF-8">' . $model, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
+        $input = $loaded ? $document->getElementsByTagName('input')->item(0) : null;
+        if (!$input || !$document->documentElement) {
+            return null;
+        }
+
+        foreach (['pattern', 'minlength', 'aria-describedby', 'aria-required', 'required', 'title', 'placeholder'] as $attribute) {
+            $input->removeAttribute($attribute);
+        }
+        $input->setAttribute('type', 'tel');
+        $input->setAttribute('inputmode', 'tel');
+        $input->setAttribute('name', $parts['name']);
+        $input->setAttribute('id', $parts['name']);
+        $input->setAttribute('value', (string) $parts['value']);
+        $input->setAttribute('maxlength', '32');
+        $input->setAttribute('autocomplete', 'tel');
+        $input->setAttribute('placeholder', $parts['example']);
+        $input->setAttribute('pattern', self::E164_HTML_PATTERN);
+        $input->setAttribute('title', $parts['description']);
+        $input->setAttribute('aria-describedby', $parts['name'] . 'Description');
+        if ($parts['required']) {
+            $input->setAttribute('required', 'required');
+            $input->setAttribute('aria-required', 'true');
+        }
+
+        // The wrapper keeps the classes that give it its layout, but a class
+        // that names the field it was copied from would lie about this one.
+        $wrapper = $document->documentElement;
+        $classes = trim($wrapper->getAttribute('class'));
+        if ($classes !== '' && $modelName !== '') {
+            $names = [$modelName, strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $modelName))];
+            $classes = implode(' ', array_map(
+                fn (string $class) => in_array(strtolower($class), $names, true) ? $parts['name'] : $class,
+                preg_split('/\s+/', $classes) ?: []
+            ));
+        }
+        $wrapper->setAttribute('class', trim($classes . ' whatsAppContributor'));
+
+        $label = $document->getElementsByTagName('label')->item(0);
+        if ($label) {
+            if ($label->hasAttribute('for')) {
+                $label->setAttribute('for', $parts['name']);
+            }
+            self::replaceLabelText($document, $label, $parts['label']);
+            if (!$parts['required']) {
+                foreach (iterator_to_array($label->getElementsByTagName('span')) as $span) {
+                    $class = strtolower($span->getAttribute('class'));
+                    if (str_contains($class, 'required') || str_contains($class, 'screen') || str_contains($class, 'hidden')) {
+                        $span->parentNode->removeChild($span);
+                    }
+                }
+            }
+        }
+
+        // The description: where the theme has one, or right after the input.
+        $description = null;
+        foreach ($document->getElementsByTagName('*') as $element) {
+            if (str_contains(strtolower($element->getAttribute('class')), 'description')) {
+                $description = $element;
+                break;
+            }
+        }
+        if (!$description) {
+            $description = $document->createElement('small');
+            $description->setAttribute('class', 'description');
+            $input->parentNode->insertBefore($description, $input->nextSibling);
+        }
+        while ($description->firstChild) {
+            $description->removeChild($description->firstChild);
+        }
+        $description->setAttribute('id', $parts['name'] . 'Description');
+        $description->appendChild($document->createTextNode($parts['description']));
+
+        if (!empty($parts['error'])) {
+            $error = $document->createElement('span');
+            $error->setAttribute('class', 'error');
+            $error->appendChild($document->createTextNode($parts['error']));
+            $wrapper->appendChild($error);
+        }
+
+        $html = $document->saveHTML($document->documentElement);
+
+        return $html === false ? null : $html;
+    }
+
+    /**
+     * The text of a label, wherever the theme keeps it: directly inside the
+     * label or inside the span the pages of the core use.
+     */
+    private static function replaceLabelText(DOMDocument $document, DOMElement $label, string $text): void
+    {
+        foreach ($label->childNodes as $node) {
+            if ($node->nodeType === XML_TEXT_NODE && trim($node->nodeValue) !== '') {
+                $node->nodeValue = $text;
+
+                return;
+            }
+        }
+        foreach ($label->getElementsByTagName('*') as $element) {
+            $class = strtolower($element->getAttribute('class'));
+            if (str_contains($class, 'required') || str_contains($class, 'screen') || str_contains($class, 'hidden')) {
+                continue;
+            }
+            foreach ($element->childNodes as $node) {
+                if ($node->nodeType === XML_TEXT_NODE && trim($node->nodeValue) !== '') {
+                    $node->nodeValue = $text;
+
+                    return;
+                }
+            }
+        }
+        $label->insertBefore($document->createTextNode($text), $label->firstChild);
+    }
+
 
     /**
      * Hook: registrationform::execute — store the number as the phone of the
