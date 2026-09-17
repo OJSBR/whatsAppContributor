@@ -39,3 +39,7 @@ msgstr "Полето Телефон / WhatsApp да биде задолжите�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Барај Телефон / WhatsApp и во формуларот за регистрација. Бројот се зачувува како телефон на сметката и автоматски се пополнува кога корисникот ќе стане автор на сопственото поднесување."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

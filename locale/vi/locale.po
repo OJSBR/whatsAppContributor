@@ -39,3 +39,7 @@ msgstr "Bắt buộc trường Điện thoại / WhatsApp cho mọi người đ�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Hỏi cả Điện thoại / WhatsApp trong biểu mẫu đăng ký người dùng. Số được lưu làm điện thoại của tài khoản và tự điền khi người dùng trở thành tác giả bài gửi của mình."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

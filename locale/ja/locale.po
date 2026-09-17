@@ -39,3 +39,7 @@ msgstr "すべての寄稿者に対して「電話 / WhatsApp」項目を必須�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "ユーザー登録フォームでも電話番号 / WhatsApp を尋ねます。番号はアカウントの電話番号として保存され、ユーザーが自分の投稿の著者になるときに自動入力されます。"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

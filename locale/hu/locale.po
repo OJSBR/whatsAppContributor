@@ -39,3 +39,7 @@ msgstr "A Telefon / WhatsApp mező kötelezővé tétele minden közreműködő 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "A Telefon / WhatsApp a regisztrációs űrlapon is legyen megadható. A szám a fiók telefonszámaként tárolódik, és automatikusan kitöltődik, amikor a felhasználó saját beküldése szerzője lesz."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

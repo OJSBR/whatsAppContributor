@@ -39,3 +39,7 @@ msgstr "Telefon / WhatsApp alanını tüm katkıda bulunanlar için zorunlu yap.
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Kullanıcı kayıt formunda da Telefon / WhatsApp istensin. Numara hesabın telefonu olarak kaydedilir ve kullanıcı kendi gönderisinin yazarı olduğunda otomatik doldurulur."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

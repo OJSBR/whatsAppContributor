@@ -43,6 +43,14 @@ class WhatsAppContributorPlugin extends GenericPlugin
     public const SETTING_REGISTRATION = 'showOnRegistration';
 
     /**
+     * Whether the field is offered when an author or co-author is recorded. It
+     * is on where nothing was ever saved: that is what the plugin did before
+     * the setting existed, and a journal that never opened the settings keeps
+     * the field it already had.
+     */
+    public const SETTING_CONTRIBUTOR = 'showOnContributor';
+
+    /**
      * Register the plugin and its hooks.
      *
      * The author schema is extended on every request, whether or not the plugin
@@ -205,6 +213,9 @@ class WhatsAppContributorPlugin extends GenericPlugin
         if (!$form || ($form->id ?? null) !== 'contributor' || !$this->isEnabledInCurrentContext()) {
             return Hook::CONTINUE;
         }
+        if (!$this->showsOnContributorForm()) {
+            return Hook::CONTINUE;
+        }
 
         $form->addField(new FieldText('whatsapp', [
             'label' => __('plugins.generic.whatsAppContributor.field.label'),
@@ -355,18 +366,44 @@ class WhatsAppContributorPlugin extends GenericPlugin
      */
     public static function insertRegistrationField(string $output, string $field): string
     {
-        $form = strpos($output, 'id="register"');
-        if ($form === false || preg_match('/<input\b[^>]*\bname="whatsapp"/', $output)) {
+        if (preg_match('/<input\b[^>]*\bname="whatsapp"/', $output)) {
             return $output;
         }
-        $identity = strpos($output, '<fieldset class="identity"', $form);
-        $end = $identity === false ? false : strpos($output, '</fieldset>', $identity);
-        if ($end === false) {
-            return $output;
-        }
-        $fieldsEnd = strrpos(substr($output, 0, $end), '</div>');
 
-        return $fieldsEnd === false || $fieldsEnd < $identity ? $output : substr_replace($output, $field, $fieldsEnd, 0);
+        // The registration page belongs to the theme, and a theme is free to
+        // write its own form: the id and the classes of the core may not be
+        // there at all. What no theme can change is where the form posts to, so
+        // that is what the field is anchored on.
+        if (!preg_match('~<form\b[^>]*\baction="[^"]*/user/register[^"]*"[^>]*>~i', $output, $match, PREG_OFFSET_CAPTURE)) {
+            return $output;
+        }
+        $formStart = $match[0][1];
+        $formEnd = strpos($output, '</form>', $formStart);
+        if ($formEnd === false) {
+            return $output;
+        }
+
+        // Where the page is the one of the core, the field joins the personal
+        // data, at the end of the fields of the identity block.
+        $identity = strpos($output, '<fieldset class="identity"', $formStart);
+        if ($identity !== false && $identity < $formEnd) {
+            $end = strpos($output, '</fieldset>', $identity);
+            $fieldsEnd = $end === false ? false : strrpos(substr($output, 0, $end), '</div>');
+            if ($fieldsEnd !== false && $fieldsEnd > $identity) {
+                return substr_replace($output, $field, $fieldsEnd, 0);
+            }
+        }
+
+        // A form written by the theme: the field goes with the other fields, just
+        // before the control that sends the form — never after it.
+        if (preg_match_all('~<(?:button|input)\b[^>]*\btype="submit"~i', substr($output, $formStart, $formEnd - $formStart), $submits, PREG_OFFSET_CAPTURE)) {
+            $last = end($submits[0]);
+
+            return substr_replace($output, $field, $formStart + $last[1], 0);
+        }
+
+        // No control to send it: the end of the form is the only place left.
+        return substr_replace($output, $field, $formEnd, 0);
     }
 
     /**
@@ -407,6 +444,22 @@ class WhatsAppContributorPlugin extends GenericPlugin
     /**
      * Whether the journal of the request requires the number.
      */
+    /**
+     * Whether the journal asks for the number when a contributor is recorded.
+     * A journal that never saved the setting keeps the field, which is how the
+     * plugin behaved before the setting existed.
+     */
+    public function showsOnContributorForm(): bool
+    {
+        $context = Application::get()->getRequest()->getContext();
+        if (!$context) {
+            return false;
+        }
+        $value = $this->getSetting($context->getId(), self::SETTING_CONTRIBUTOR);
+
+        return $value === null || $value === '' ? true : (bool) $value;
+    }
+
     public function isRequiredForCurrentContext(): bool
     {
         $context = Application::get()->getRequest()->getContext();

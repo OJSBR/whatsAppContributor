@@ -39,3 +39,7 @@ msgstr "Полето Телефон / WhatsApp да е задължително 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Искане на Телефон / WhatsApp и във формуляра за регистрация. Номерът се записва като телефон на профила и се попълва автоматично, когато потребителят стане автор на собственото си подаване."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

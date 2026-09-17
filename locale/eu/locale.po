@@ -39,3 +39,7 @@ msgstr "Egin Telefonoa / WhatsApp eremua nahitaezko laguntzaile guztientzat."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Eskatu Telefonoa / WhatsApp erabiltzailearen erregistro-inprimakian ere. Zenbakia kontuaren telefono gisa gordetzen da eta automatikoki betetzen da erabiltzailea bere bidalketaren egile bihurtzen denean."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

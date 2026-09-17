@@ -31,3 +31,6 @@ msgstr "Make the Phone / WhatsApp field required for all contributors."
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Also ask for the Phone / WhatsApp on the user registration form. The number is saved as the phone of the account and filled in automatically when the user becomes an author of their own submission."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

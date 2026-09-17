@@ -39,3 +39,7 @@ msgstr "Դարձնել Հեռախոս / WhatsApp դաշտը պարտադիր բ�
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Հեռախոս / WhatsApp-ը պահանջել նաև օգտատիրոջ գրանցման ձևում։ Համարը պահվում է որպես հաշվի հեռախոս և ինքնաշխատ լրացվում է, երբ օգտատերը դառնում է իր ներկայացման հեղինակ։"
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

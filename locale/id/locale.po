@@ -39,3 +39,7 @@ msgstr "Jadikan bidang Telepon / WhatsApp wajib untuk semua kontributor."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Minta juga Telepon / WhatsApp di formulir pendaftaran pengguna. Nomor disimpan sebagai telepon akun dan diisi otomatis saat pengguna menjadi penulis naskahnya sendiri."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

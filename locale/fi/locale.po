@@ -39,3 +39,7 @@ msgstr "Tee Puhelin / WhatsApp -kentästä pakollinen kaikille tekijöille."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Kysy puhelin / WhatsApp myös rekisteröitymislomakkeella. Numero tallennetaan tilin puhelinnumeroksi ja täytetään automaattisesti, kun käyttäjästä tulee oman käsikirjoituksensa kirjoittaja."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

@@ -39,3 +39,7 @@ msgstr "Polje Telefon / WhatsApp naj bo obvezno za vse sodelujoče."
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Telefon / WhatsApp zahtevaj tudi v obrazcu za registracijo. Številka se shrani kot telefon računa in se samodejno izpolni, ko uporabnik postane avtor lastnega prispevka."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

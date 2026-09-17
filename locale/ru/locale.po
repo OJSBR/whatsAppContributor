@@ -39,3 +39,7 @@ msgstr "Сделать поле «Телефон / WhatsApp» обязатель
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Запрашивать Телефон / WhatsApp и в форме регистрации. Номер сохраняется как телефон учётной записи и заполняется автоматически, когда пользователь становится автором собственной рукописи."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

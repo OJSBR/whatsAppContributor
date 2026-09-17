@@ -31,3 +31,6 @@ msgstr "Fes que el camp Telèfon / WhatsApp sigui obligatori per a tots els col�
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Demanar també el Telèfon / WhatsApp al formulari de registre d'usuari. El número es desa com a telèfon del compte i s'omple automàticament quan l'usuari passa a ser autor del seu propi enviament."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Demanar el número en registrar un autor o coautor"

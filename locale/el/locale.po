@@ -39,3 +39,7 @@ msgstr "Να είναι υποχρεωτικό το πεδίο Τηλέφωνο 
 #, fuzzy
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Να ζητείται και το Τηλέφωνο / WhatsApp στη φόρμα εγγραφής. Ο αριθμός αποθηκεύεται ως τηλέφωνο του λογαριασμού και συμπληρώνεται αυτόματα όταν ο χρήστης γίνει συγγραφέας της δικής του υποβολής."
+
+#, fuzzy
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Ask for the number when an author or co-author is recorded"

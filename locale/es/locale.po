@@ -31,3 +31,6 @@ msgstr "Hacer obligatorio el campo Teléfono / WhatsApp para todos los contribuy
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Solicitar también el Teléfono / WhatsApp en el formulario de registro de usuario. El número se guarda como teléfono de la cuenta y se completa automáticamente cuando el usuario pasa a ser autor de su propio envío."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Pedir el número al registrar un autor o coautor"

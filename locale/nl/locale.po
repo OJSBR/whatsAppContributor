@@ -31,3 +31,6 @@ msgstr "Maak het veld Telefoon / WhatsApp verplicht voor alle bijdragers."
 
 msgid "plugins.generic.whatsAppContributor.settings.showOnRegistration.label"
 msgstr "Vraag ook naar Telefoon / WhatsApp op het registratieformulier. Het nummer wordt opgeslagen als telefoonnummer van het account en automatisch ingevuld wanneer de gebruiker auteur wordt van de eigen inzending."
+
+msgid "plugins.generic.whatsAppContributor.settings.showOnContributor.label"
+msgstr "Het nummer vragen bij het vastleggen van een auteur of co-auteur"
