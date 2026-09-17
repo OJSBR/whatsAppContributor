@@ -173,8 +173,26 @@ describe('WhatsApp Contributor plugin', function() {
 	it('Asks for the number on the registration form, required when required', function() {
 		configure(true, true);
 		registrationForm();
-		cy.get('form#register fieldset.identity input[type="tel"][name="whatsapp"]').should('have.attr', 'required');
-		cy.get('form#register #whatsAppContributorDescription').invoke('text').should('match', /\S/).and('not.contain', '##');
+		// The field is built from the markup of a field the page already had, so
+		// it is looked for by what it is, not by the classes of any one theme.
+		cy.get('form#register input[type="tel"][name="whatsapp"]').should('have.attr', 'required');
+		cy.get('form#register input[name="whatsapp"]').should('have.attr', 'placeholder').and('match', /\+/);
+		cy.get('form#register #whatsappDescription').invoke('text').should('match', /\S/).and('not.contain', '##');
+
+		// And it stands with the personal data: after the affiliation and well
+		// before the account fields.
+		cy.get('form#register input[name="affiliation"], form#register input[name="givenName"]').then(($model) => {
+			cy.get('form#register input[name="whatsapp"]').then(($field) => {
+				const order = (a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING;
+				expect(order($model.last()[0], $field[0]), 'the field comes after the personal data').to.be.ok;
+			});
+			cy.get('form#register input[name="username"], form#register input[type="password"]').then(($account) => {
+				cy.get('form#register input[name="whatsapp"]').then(($field) => {
+					const order = (a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING;
+					expect(order($field[0], $account.first()[0]), 'and before the account fields').to.be.ok;
+				});
+			});
+		});
 	});
 
 	it('Makes the registration number optional when it is not required', function() {
