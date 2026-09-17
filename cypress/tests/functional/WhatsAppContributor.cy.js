@@ -26,6 +26,19 @@ describe('WhatsApp Contributor plugin', function() {
 	// Contributors created by the contributor test, deleted in after() even when an assertion fails.
 	const created = [];
 
+	// A valid iD, different at each call (two contributors of a publication may not share one).
+	let orcidSeed = Math.floor(Math.random() * 900000);
+	const anOrcid = () => {
+		const digits = ('000000021' + String(orcidSeed++).padStart(6, '0')).slice(0, 15);
+		let total = 0;
+		for (const digit of digits) {
+			total = (total + Number(digit)) * 2;
+		}
+		const result = (12 - (total % 11)) % 11;
+
+		return 'https://orcid.org/' + (digits + (result === 10 ? 'X' : String(result))).replace(/(.{4})(.{4})(.{4})(.{4})/, '$1-$2-$3-$4');
+	};
+
 	// ---- OJSBR spec helpers (padrão v2): work on OJS/OMP 3.3, 3.4 and 3.5 and in PKP's CI ----
 
 	const pageUrl = (path) => '/index.php/' + contextPath + (path ? '/' + path : '');
@@ -189,10 +202,13 @@ describe('WhatsApp Contributor plugin', function() {
 					whatsapp,
 				});
 
+				const post = (payload) => withToken('POST', payload).then((options) => cy.window({log: false}).then((win) => cy.wrap(
+					win.fetch(base + '/contributors', Object.assign({credentials: 'same-origin'}, options)).then((response) => response.json().then((body) => ({status: response.status, body}))),
+					{log: false, timeout: 30000}
+				)));
+
 				// An invalid number is refused with the expected format in the message.
-				withToken('POST', contributor('Invalid', '11 99999-9999')).then((options) => cy.window({log: false}).then((win) => cy.wrap(
-					win.fetch(base + '/contributors', Object.assign({credentials: 'same-origin'}, options)).then((response) => response.json().then((body) => ({status: response.status, body})))
-				))).then((invalid) => {
+				post(contributor('Invalid', '11 99999-9999')).then((invalid) => {
 					if (invalid.body && invalid.body.id) {
 						created.push({base, id: invalid.body.id});
 					}
@@ -200,9 +216,36 @@ describe('WhatsApp Contributor plugin', function() {
 					expect(invalid.body.whatsapp[0]).to.contain('+5511999999999');
 				});
 
-				withToken('POST', contributor('Valid', '+5511999999999')).then((options) => api(base + '/contributors', options)).then((valid) => {
-					created.push({base, id: valid.id});
-					api(base + '/contributors/' + valid.id).then((stored) => expect(stored.whatsapp).to.eq('+5511999999999'));
+				// Other plugins of the journal may hold a contributor for an iD, an affiliation or a
+				// biography. Those are only sent when the refusal asks for them: a typed iD is refused
+				// where OJSBR's orcidManualEntry is not installed, and the affiliation has a
+				// different shape in 3.4 and 3.5.
+				const valid = contributor('Valid', '+5511999999999');
+				post(valid).then((first) => {
+					if (first.status !== 400) {
+						return cy.wrap(first, {log: false});
+					}
+					expect(first.body, 'refused for something else than the number: ' + JSON.stringify(first.body)).to.not.have.property('whatsapp');
+					const completed = Object.assign({}, valid);
+					if (first.body.orcid) {
+						completed.orcid = anOrcid();
+					}
+					if (first.body.affiliations) {
+						completed.affiliations = [{name: {[submission.locale]: 'Universidade Federal do Cypress'}}];
+					}
+					if (first.body.affiliation) {
+						completed.affiliation = {[submission.locale]: 'Universidade Federal do Cypress'};
+					}
+					if (first.body.biography) {
+						completed.biography = {[submission.locale]: '<p>Cypress.</p>'};
+					}
+					return post(completed);
+				}).then((saved) => {
+					if (saved.body && saved.body.id) {
+						created.push({base, id: saved.body.id});
+					}
+					expect(saved.status, JSON.stringify(saved.body)).to.eq(200);
+					api(base + '/contributors/' + saved.body.id).then((stored) => expect(stored.whatsapp).to.eq('+5511999999999'));
 				});
 			});
 		});
